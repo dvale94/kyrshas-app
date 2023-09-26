@@ -7,13 +7,13 @@ import { TextContainer } from './TextContainer';
 export function ContentContainer (props) {
   return (
     <View style={style.contentContainer}>
-      <Text style={style.title}>JOKE</Text>
-      <View style={style.imageContainer}>
-        <Image
+      <Text style={style.title}>{props.title.toUpperCase()}</Text>
+      <View style={props.image ? style.imageContainer : style.imageContainerAlt}>
+        {props.image && <Image
           containerStyle={style.image}
           src={`data:image/jpeg;base64,${props.image}`}
-        />
-        <TextContainer style={style.textContainer} text={props.text}/>
+        />}
+        <TextContainer style={props.image ? style.textContainer : style.textContainerAlt} text={props.text}/>
       </View>
     </View>
   );
@@ -22,6 +22,7 @@ export function ContentContainer (props) {
 ContentContainer.propTypes = {
   image: PropTypes.string,
   text: PropTypes.string,
+  title: PropTypes.string
 };
 
 const style = StyleSheet.create({
@@ -37,6 +38,9 @@ const style = StyleSheet.create({
     height: 400,
     width: '100%'
   },
+  imageContainerAlt: {
+    width: '100%',
+  },
   image: {
     aspectRatio: 1,
     borderRadius: 16,
@@ -47,6 +51,10 @@ const style = StyleSheet.create({
     left: '5%',
     position: 'absolute',
     right: '5%',
+  },
+  textContainerAlt: {
+    backgroundColor: '#38761d',
+    marginBottom: 16,
   },
   title: {
     color: '#38761d',
