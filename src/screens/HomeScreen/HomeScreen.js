@@ -11,13 +11,12 @@ import { useHomeScreen } from './useHomescreen';
 import { ContentContainer } from '../../components/ContentContainer';
 
 const Item = ({image, text, title}) => (
-  <View>
+  <View style={style.itemView}>
     <ContentContainer
       image={image}
       text={text}
       title={title}
     />
-    <Divider color='#38761d' width={2}/>
   </View>
 );
 
@@ -25,9 +24,10 @@ export default function HomeScreen () {
   const {data} = useHomeScreen();
 
   return (
-    <SafeAreaView style={style.view}>
+    <SafeAreaView style={style.safeAreaView}>
       <FlatList
         data={data}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => <Item image={item.image} text={item.text} title={item.title} />}
         keyExtractor={item => item.id}
       />
@@ -36,8 +36,13 @@ export default function HomeScreen () {
 }
 
 const style = StyleSheet.create({
-    view: {
-      backgroundColor: '#eff3f4',
-      margin: 10,
-    }
+  itemView: {
+    borderBottomColor: '#38761d',
+    borderBottomWidth: 2,
+    paddingBottom: 20
+  },
+  safeAreaView: {
+    backgroundColor: '#eff3f4',
+    margin: 10,
+  }
 });

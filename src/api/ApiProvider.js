@@ -1,10 +1,11 @@
 import api from './axiosConfigs';
 
 export const ApiProvider = {
-  getBackgroundImage: async function () {
+  getBackgroundImage: async function (category) {
+    console.log(category)
     const response = 
       await api.request({
-        url: `/randomimage?width=750&height=1334`,
+        url: `/randomimage?category=${category}&width=375&height=667`,
         method: "GET",
       })
     
@@ -23,13 +24,16 @@ export const ApiProvider = {
     )
   },
   getQuoteData: async function () {
+    const categories = ['courage', 'dreams', 'happiness', 'inspirational', 'life', 'love'];
+    const random = Math.floor(Math.random() * categories.length);
+
     const quoteResponse =
       await api.request({
-        url: `/quotes?category=happiness`,
+        url: `/quotes?category=${categories[random]}`,
         method: "GET",
       });
 
-    const imageResponse = await this.getBackgroundImage();
+    const imageResponse = await this.getBackgroundImage('nature');
 
     return (
       {
@@ -73,7 +77,7 @@ export const ApiProvider = {
   },
   getFactData: async function () {
     const factResponse = await api.request({url: `/facts`, method: "GET"});
-    const imageResponse = await this.getBackgroundImage();
+    const imageResponse = await this.getBackgroundImage('abstract');
 
     return (
       {
@@ -103,7 +107,7 @@ export const ApiProvider = {
         method: "GET",
       });
 
-    const imageResponse = await this.getBackgroundImage();
+    const imageResponse = await this.getBackgroundImage('abstract');
 
     return (
       {

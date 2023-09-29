@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "kyrshas-app",
+    "name": "kyrsha's App",
     "slug": "kyrshas-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dvale1994.kyrshasapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +25,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png.png"
     },
     "extra": {
       "eas": {
