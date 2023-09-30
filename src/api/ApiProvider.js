@@ -39,7 +39,7 @@ export const ApiProvider = {
       {
         id: Math.random().toString(36).substring(2, 9),
         image: imageResponse,
-        text: JSON.parse(JSON.stringify(quoteResponse.data[0])).quote,
+        text: `"${JSON.parse(JSON.stringify(quoteResponse.data[0])).quote}"`,
         author: JSON.parse(JSON.stringify(quoteResponse.data[0])).author,
         title: 'quote'
       }

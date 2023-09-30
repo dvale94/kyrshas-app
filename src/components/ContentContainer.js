@@ -13,7 +13,12 @@ export function ContentContainer (props) {
           containerStyle={style.image}
           src={`data:image/jpeg;base64,${props.image}`}
         />}
-        <TextContainer style={props.image ? style.textContainer : style.textContainerAlt} text={props.text}/>
+        <TextContainer
+          author={props.author}
+          answer={props.answer}
+          style={props.image ? style.textContainer : style.textContainerAlt}
+          text={props.text}
+        />
       </View>
     </View>
   );

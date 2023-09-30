@@ -11,9 +11,11 @@ import { useHomeScreen } from './useHomescreen';
 
 import { ContentContainer } from '../../components/ContentContainer';
 
-const Item = ({image, text, title, answer}) => (
+const Item = ({image, text, title, author, answer}) => (
   <View style={style.itemView}>
     <ContentContainer
+      author={author}
+      answer={answer}
       image={image}
       text={text}
       title={title}
@@ -40,7 +42,7 @@ export default function HomeScreen () {
       <FlatList
         data={data}
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <Item image={item.image} text={item.text} title={item.title} />}
+        renderItem={({item}) => <Item image={item.image} text={item.text} title={item.title} author={item?.author} answer={item?.answer}/>}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
