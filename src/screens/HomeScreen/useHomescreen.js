@@ -8,18 +8,18 @@ export function useHomeScreen () {
   useEffect(() => {
     const jokeContent = ApiProvider.getJokeData();
     const quoteContent = ApiProvider.getQuoteData();
-    const wordContent = ApiProvider.getWordData();
+    const triviaContent = ApiProvider.getTriviaData();
     const factContent = ApiProvider.getFactData();
     const dadJokeContent = ApiProvider.getDadJokeData();
-    const historicContent = ApiProvider.getHistoricData();
+    const bucketListContent = ApiProvider.getBucketListData();
 
     Promise.all([ 
-      jokeContent, 
       quoteContent,
-      wordContent,
+      jokeContent,
       factContent,
       dadJokeContent,
-      historicContent
+      bucketListContent,
+      triviaContent
     ]).then((responses) => {
       setData(responses);
     });

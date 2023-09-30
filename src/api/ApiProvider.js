@@ -2,7 +2,7 @@ import api from './axiosConfigs';
 
 export const ApiProvider = {
   getBackgroundImage: async function (category) {
-    console.log(category)
+    
     const response = 
       await api.request({
         url: `/randomimage?category=${category}&width=375&height=667`,
@@ -40,39 +40,27 @@ export const ApiProvider = {
         id: Math.random().toString(36).substring(2, 9),
         image: imageResponse,
         text: JSON.parse(JSON.stringify(quoteResponse.data[0])).quote,
+        author: JSON.parse(JSON.stringify(quoteResponse.data[0])).author,
         title: 'quote'
       }
     );
   },
-  getWordData: async function () {
-    const wordResponse = await api.request({url: `/randomword`, method: "GET"});
-    const word = JSON.parse(JSON.stringify(wordResponse.data)).word;
+  getTriviaData: async function () {
+    const categories = ['entertainment', 'general', 'historyholidays', 'fooddrink'];
+    const random = Math.floor(Math.random() * categories.length);
 
-    let validResponse = false;
-    let attempts = 0;
-    let definitionResponse = undefined;
-     
-    while (validResponse == false && attempts < 3) {
-      definitionResponse =
+    const triviaResponse =
       await api.request({
-        url: `/dictionary?word=${word}`,
+        url: `trivia?category=${categories[random]}`,
         method: "GET",
       });
-
-      console.log('fetched word!!')
-      console.log(attempts)
-
-      if (JSON.parse(JSON.stringify(definitionResponse.data)).valid == true) validResponse = true;
-      attempts += 1;
-    }
-
-    const definition = JSON.parse(JSON.stringify(definitionResponse.data)).definition;
 
     return {
       id: Math.random().toString(36).substring(2, 9),
       image: '',
-      text: `${word}: ${definition}`,
-      title: 'word'
+      text: JSON.parse(JSON.stringify(triviaResponse.data[0])).question,
+      answer: JSON.parse(JSON.stringify(triviaResponse.data[0])).answer,
+      title: 'trivia'
     }
   },
   getFactData: async function () {
@@ -100,10 +88,10 @@ export const ApiProvider = {
       }
     )
   },
-  getHistoricData: async function () {
-    const historicResponse =
+  getBucketListData: async function () {
+    const bucketListResponse =
       await api.request({
-        url: `/historicalevents?text=potter&offset=1`,
+        url: `/bucketlist`,
         method: "GET",
       });
 
@@ -113,8 +101,8 @@ export const ApiProvider = {
       {
         id: Math.random().toString(36).substring(2, 9),
         image: imageResponse,
-        text: JSON.parse(JSON.stringify(historicResponse.data[0])).event,
-        title: 'historic event'
+        text: JSON.parse(JSON.stringify(bucketListResponse.data)).item,
+        title: 'bucket list item'
       }
     );
   },

@@ -36,6 +36,7 @@ const style = StyleSheet.create({
   },
   imageContainer: {
     height: 400,
+    marginBottom: 20,
     width: '100%'
   },
   imageContainerAlt: {
@@ -54,7 +55,7 @@ const style = StyleSheet.create({
   },
   textContainerAlt: {
     backgroundColor: '#38761d',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   title: {
     color: '#38761d',

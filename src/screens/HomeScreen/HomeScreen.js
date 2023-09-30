@@ -1,16 +1,17 @@
+import { useEffect } from 'react';
 import {
   FlatList,
   StyleSheet,
   SafeAreaView,
   View,
 } from 'react-native';
-import { Divider } from '@rneui/themed';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { useHomeScreen } from './useHomescreen';
 
 import { ContentContainer } from '../../components/ContentContainer';
 
-const Item = ({image, text, title}) => (
+const Item = ({image, text, title, answer}) => (
   <View style={style.itemView}>
     <ContentContainer
       image={image}
@@ -20,8 +21,19 @@ const Item = ({image, text, title}) => (
   </View>
 );
 
+SplashScreen.preventAutoHideAsync();
+
 export default function HomeScreen () {
-  const {data} = useHomeScreen();
+  const { data } = useHomeScreen();
+
+  useEffect(() => {
+    async function handleSplashScreen() {
+      if (data.length) {
+        await SplashScreen.hideAsync();
+      }
+    }
+    handleSplashScreen();
+  }, [data]);
 
   return (
     <SafeAreaView style={style.safeAreaView}>
