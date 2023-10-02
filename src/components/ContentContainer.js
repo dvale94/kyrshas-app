@@ -1,13 +1,35 @@
-import { Image } from '@rneui/themed';
+import { useCallback, useState } from 'react';
+import { Image, Icon } from '@rneui/themed';
 import { PropTypes } from "prop-types";
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { TextContainer } from './TextContainer';
 
 export function ContentContainer (props) {
+  const [isrefreshing, setIsRefreshing]= useState(false);
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await props.onRefresh()
+    setIsRefreshing(false);
+  },[]);
+
   return (
     <View style={style.contentContainer}>
-      <Text style={style.title}>{props.title.toUpperCase()}</Text>
+      <View style={style.titleContainer}>
+        <Text style={style.title}>{props.title.toUpperCase()}</Text>
+        <Pressable style={style.pressContainer} onPress={handleRefresh}>
+          {!isrefreshing ? (
+            <Icon
+              name='refresh'
+              type='font-awesome'
+              color='#38761d'
+            />
+          ):(
+            <ActivityIndicator color='#38761d'/>
+          )}
+        </Pressable>
+      </View>
       <View style={props.image ? style.imageContainer : style.imageContainerAlt}>
         {props.image && <Image
           containerStyle={style.image}
@@ -66,5 +88,16 @@ const style = StyleSheet.create({
     color: '#38761d',
     fontWeight: 'bold',
     fontSize: 24,
+  },
+  titleContainer: {
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    position: 'relative',
+  },
+  pressContainer: {
+    position: 'absolute',
+    right: 0
   }
 });

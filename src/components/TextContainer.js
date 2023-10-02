@@ -23,7 +23,7 @@ export function TextContainer (props) {
               {showAnswer ? `- ${props.answer} -` : ''}
             </Text>
             <Pressable style={style.triviaButton} onPress={toggleSwitch}>
-              <Text style={style.text}>Show Answer:</Text>
+              <Text style={style.text}>{showAnswer ? 'Hide Answer' : 'Show Answer'}:</Text>
             </Pressable>
           </View>
         }
