@@ -5,4 +5,5 @@ third party API to retrieve the random content.
 
 ## Preview
 https://github.com/dvale94/kyrshas-app/assets/42619593/d20cb172-8187-4a29-9dd5-cc07be7c4d63
+
 https://github.com/dvale94/kyrshas-app/assets/42619593/4f39a8b7-b20b-4873-8b74-21c1a4c29ee5
