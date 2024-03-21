@@ -1,36 +1,49 @@
-import { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, useMemo } from 'react';
 
 import { ApiProvider } from '../../api/ApiProvider';
+import { getBirthdayData } from './birthdayData/data';
 
 export function useHomeScreen () {
   const [data, setData] = useState({});
+  const date = useMemo(() => new Date());
 
   useEffect(() => {
     async function fetchData() {
-      const storedData = await AsyncStorage.getItem('homeData');
+      const month = date.getMonth();
+      const day = date.getDate();
+      const apiCalls = [];
+      const order = [];
+      const responses = {};
 
-      if (!storedData) {
-        const responses = {
-          quoteContent: await ApiProvider.getQuoteData(setData),
-          triviaContent: await ApiProvider.getTriviaData(setData),
-          factContent: await ApiProvider.getFactData(setData),
-          dadJokeContent: await ApiProvider.getDadJokeData(setData),
-          bucketListContent: await ApiProvider.getBucketListData(setData)
-        }
+      if (month === 9 && day === 3) {
+        order.push('birthdayContent');
+        apiCalls.push(getBirthdayData(setData));
+      }
 
-        const stringValue = JSON.stringify(responses);
-        AsyncStorage.setItem('homeData', stringValue).catch(console.error);
-        setData(responses);
+      const apiFunctions = [
+        { name: 'quoteContent', func: ApiProvider.getQuoteData },
+        { name: 'triviaContent', func: ApiProvider.getTriviaData },
+        { name: 'factContent', func: ApiProvider.getFactData },
+        { name: 'dadJokeContent', func: ApiProvider.getDadJokeData },
+        { name: 'bucketListContent', func: ApiProvider.getBucketListData }
+      ];
+
+      for (const { name, func } of apiFunctions) {
+        order.push(name);
+        apiCalls.push(func(setData));
       }
-      else {
-        const jsonValue = JSON.parse(storedData);
-        setData(jsonValue);
+
+      const results = await Promise.all(apiCalls);
+
+      for (let i = 0; i < order.length; i++) {
+        responses[order[i]] = results[i];
       }
+
+      setData(responses);
+      
     };
 
-    fetchData()
-      .catch(console.error)
+    fetchData().catch(console.error)
   },[])
 
   return {

@@ -33,7 +33,14 @@ export function ContentContainer (props) {
       <View style={props.image ? style.imageContainer : style.imageContainerAlt}>
         {props.image && <Image
           containerStyle={style.image}
-          src={`data:image/jpeg;base64,${props.image}`}
+          {...(
+            props.title === 'happy birthday!!!' ? {
+              source: props.image
+            } : {
+              src: `data:image/jpeg;base64,${props.image}`
+            }
+          )}
+          // src={`data:image/jpeg;base64,${props.image}`}
         />}
         <TextContainer
           author={props.author}
@@ -73,6 +80,7 @@ const style = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 16,
     objectFit: 'contain',
+    
   },
   textContainer: {
     bottom: '50%',

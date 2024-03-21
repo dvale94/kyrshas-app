@@ -9,7 +9,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { useHomeScreen } from './useHomescreen';
 
-import { ContentContainer } from '../../components/ContentContainer';
+import { ContentContainer } from './components/ContentContainer';
 
 const Item = ({image, text, title, onRefresh, author, answer}) => (
   <View style={style.itemView}>
