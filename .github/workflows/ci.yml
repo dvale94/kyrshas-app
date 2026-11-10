@@ -1,0 +1,26 @@
+
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  harness:
+    name: Validate agentic harness
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate starter structure
+        run: python3 scripts/doctor.py
+
+      - name: Check Python script syntax
+        run: python3 -m py_compile scripts/doctor.py
