@@ -1,0 +1,48 @@
+name: Expo next baseline
+
+on:
+  pull_request:
+    paths:
+      - 'modernization/expo-next/**'
+      - 'assets/icon.png'
+      - 'assets/splash.png'
+      - '.github/workflows/expo-next.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'modernization/expo-next/**'
+      - 'assets/icon.png'
+      - 'assets/splash.png'
+      - '.github/workflows/expo-next.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify isolated iPhone scaffold
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: modernization/expo-next
+    env:
+      CI: '1'
+      EXPO_NO_DOTENV: '1'
+      EXPO_NO_TELEMETRY: '1'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Select pinned Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: modernization/expo-next/.nvmrc
+          cache: npm
+          cache-dependency-path: modernization/expo-next/package-lock.json
+      - name: Verify package manager
+        run: test "$(npm --version)" = "10.9.9"
+      - name: Install isolated locked dependencies
+        run: npm ci
+      - name: Test and check supported Expo baseline
+        run: npm run verify
