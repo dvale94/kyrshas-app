@@ -13,7 +13,7 @@
 ## 3. Integrated delivery review
 
 - [x] 3.1 Validate OpenSpec strictly, rerun available repository harness and isolated app checks, perform changed-file/secret-shape review and compare ignored native fingerprint; record exact PASS/FAIL/NOT RUN/BLOCKED outcomes, native confidence, risks and next slices in the baseline and issue report; update handoff while preserving prior reports.
-- [ ] 3.2 Review acceptance coverage and final diff, commit and push the dedicated branch, and open a PR against main linked to issue #5; record PR and human-intervention evidence without merging, deploying, publishing or archiving.
+- [x] 3.2 Review acceptance coverage and final diff, commit and push the dedicated branch, and open a PR against main linked to issue #5; record PR and human-intervention evidence without merging, deploying, publishing or archiving.
 
 ## Workflow follow-up
 

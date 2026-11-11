@@ -2,7 +2,7 @@
 
 Date: November 10, 2026 (America/New_York). Issue: https://github.com/dvale94/kyrshas-app/issues/5. Branch: `pilot/02b-expo-scaffold-baseline`; base: fetched main `7283632c4a7d7f415c9a5c7e6b1927aa7902e44e` (PR #4 included). Initial worktree was clean.
 
-Implementation verification: **PASS for the bounded scaffold**. PR delivery is recorded below once created; native/device/release acceptance is not implied.
+Implementation and delivery verification: **PASS for the bounded scaffold**. [PR #6](https://github.com/dvale94/kyrshas-app/pull/6) is open against main; native/device/release acceptance is not implied.
 
 ## Delivered scope
 
@@ -76,7 +76,7 @@ Ignored native fingerprint **PASS**: all **20,437** path/type/file-content/link-
 
 `verify-delivery` acceptance review **PASS** for this bounded scaffold: inspected actual component/test/config/workflow against both requirement deltas and issue acceptance; clean-install verification and compilation evidence support the claims. No material acceptance mismatch or out-of-scope implementation was found. Future device/native/release gates remain explicitly unverified.
 
-PR delivery: pending commit/push and PR creation against main; no merge/deploy/publish/archive.
+PR delivery **PASS**: implementation commit `773a62dcfd22efe756cbeca445a5801951c9e6c0` pushed on the dedicated branch; [PR #6](https://github.com/dvale94/kyrshas-app/pull/6) opened against `main`, linked to issue #5. Hosted [Expo workflow](https://github.com/dvale94/kyrshas-app/actions/runs/42955343766) and [existing harness CI](https://github.com/dvale94/kyrshas-app/actions/runs/42955343646) both completed successfully on that implementation commit. OpenSpec apply reports **6/6 tasks complete**, state `all_done`; strict validation remains valid with zero findings. A documentation-only follow-up commit records these outcomes and completed tracking. No merge/deploy/publish/archive.
 
 ## Risks and next work
 
