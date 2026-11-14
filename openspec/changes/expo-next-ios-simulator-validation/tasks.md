@@ -15,7 +15,7 @@
 
 ## 4. Authorized Expo patch-drift repair
 
-- [ ] 4.1 Update only the isolated Expo/splash/status-bar patch baseline and generated npm lock, run clean `npm ci` and unchanged `npm run verify`, inspect lock scope and native-tree preservation, then record recovery in documentation/handoff and PR #8. Verify online package validation and Doctor pass; native simulator blockers remain explicit.
+- [x] 4.1 Update only the isolated Expo/splash/status-bar patch baseline and generated npm lock, run clean `npm ci` and unchanged `npm run verify`, inspect lock scope and native-tree preservation, then record recovery in documentation/handoff and PR #8. Verify online package validation and Doctor pass; native simulator blockers remain explicit.
 
 ## Workflow follow-up
 
