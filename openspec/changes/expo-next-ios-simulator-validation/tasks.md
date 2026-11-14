@@ -13,6 +13,10 @@
 
 - [x] 3.1 Deliver ordered proposal-only feature slices, issue-7 report and handoff with risks/intervention counts; verify acceptance mapping, rerun strict spec/harness/diff checks, compare original native fingerprints and review changed-path allowlist, then open a scoped PR against main and distinguish local from hosted CI evidence.
 
+## 4. Authorized Expo patch-drift repair
+
+- [ ] 4.1 Update only the isolated Expo/splash/status-bar patch baseline and generated npm lock, run clean `npm ci` and unchanged `npm run verify`, inspect lock scope and native-tree preservation, then record recovery in documentation/handoff and PR #8. Verify online package validation and Doctor pass; native simulator blockers remain explicit.
+
 ## Workflow follow-up
 
 - Owner separately resolves toolchain/runtime provisioning, production metadata/artwork, credential remediation, feature specifications and future migration/release gates.

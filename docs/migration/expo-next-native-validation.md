@@ -2,7 +2,7 @@
 
 November 14, 2026 (America/New_York). [Issue #7](https://github.com/dvale94/kyrshas-app/issues/7), following merged [PR #6](https://github.com/dvale94/kyrshas-app/pull/6). Specification: [`expo-next-ios-simulator-validation`](../../openspec/changes/expo-next-ios-simulator-validation/proposal.md). Detailed command/preservation/pilot evidence: [issue report](../../.agentic/reports/issue-7-ios-simulator.md).
 
-**Generated native source validation PASS; native build and simulator smoke BLOCKED.** This is the synthetic scaffold, not a migrated app or release. No simulator binary, built plist, runtime interaction or visual acceptance is claimed. Existing typecheck/component/config checks pass; current online Expo compatibility diagnostics fail on three newly recommended patch versions. The dependency baseline and tests were not relaxed.
+**Generated native source validation PASS; native build and simulator smoke BLOCKED.** This is the synthetic scaffold, not a migrated app or release. No simulator binary, built plist, runtime interaction or visual acceptance is claimed. After the authorized patch follow-up, clean isolated verification passes, including online compatibility and Doctor20/20. Expo58.0.25/splash58.0.14/status-bar58.0.5 and their generated npm lock replace the earlier patch baseline; React/RN/test tooling and security defaults are unchanged. Initial failure evidence below remains historical. Both native trees were left unregenerated: all36 scaffold entries match, while one original Xcode UI-state file changed with an unestablished writer (all20,436 other original entries match); see the report.
 
 ## Tested environment and blockers
 
@@ -35,7 +35,7 @@ npm ci
 CI=1 npm run verify
 ```
 
-The November14 online `verify` result is FAIL at `check:expo`; typecheck, one interaction test and config introspection passed first. Doctor run separately passes19/20 and reports the same patch drift: Expo expected`~58.0.25`, splash`~58.0.14`, status bar`~58.0.5`; found58.0.23/58.0.13/58.0.4. No dependency exclusion, offline fallback, test weakening or upgrade was applied. Review those patches as a deliberate separate dependency change; these failures do not establish a native crash or app-test failure.
+The November14 online `verify` result is FAIL at `check:expo`; typecheck, one interaction test and config introspection passed first. Doctor run separately passes19/20 and reports the same patch drift: Expo expected`~58.0.25`, splash`~58.0.14`, status bar`~58.0.5`; found58.0.23/58.0.13/58.0.4. No dependency exclusion, offline fallback, test weakening or upgrade was applied. The subsequent owner-authorized patch fix resolves this drift; these initial failures did not establish a native crash or app-test failure. The original native comparison below describes pre-patch generated sources; the unchanged-tree checker still passes, but a native build/Pods resolution against the updated packages remains unverified.
 
 Run generation only if `ios/` is absent, including no dangling symlink. Existing generated native trees are protected; inspect them instead of rerunning this command. This Python guard is the portable equivalent of the executed machine-path guard:
 

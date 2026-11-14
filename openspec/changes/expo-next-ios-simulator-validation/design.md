@@ -8,7 +8,7 @@ See proposal.md for motivation. Main at `ed7039b1806908e1ff23a87970a865e2e621399
 
 **Goals:** Produce independent generated-native evidence, preserve source/state, execute simulator smoke if compatible, and document precise blocked outcomes otherwise.
 
-**Non-Goals:** App migration, production acceptance, system upgrades/runtime installation, native signing, transport-policy changes, or selecting final name/version/artwork. No changes to existing CI or dependencies are planned.
+**Non-Goals:** App migration, production acceptance, system upgrades/runtime installation, native signing, transport-policy changes, or selecting final name/version/artwork. Existing CI remains unchanged. Follow-up authorization on November 14, 2026 permits the three SDK58 patch corrections detected by online verification: Expo58.0.25, splash58.0.14 and status-bar58.0.5, with a reproducible isolated lock/install and unchanged tests/security defaults. No other dependency modernization or native regeneration is included.
 
 ## Decisions
 

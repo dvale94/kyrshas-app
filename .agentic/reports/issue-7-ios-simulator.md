@@ -2,7 +2,7 @@
 
 November 14, 2026 (America/New_York). [Issue #7](https://github.com/dvale94/kyrshas-app/issues/7) fetched directly using the GitHub connector, including its empty comments collection. [PR #6](https://github.com/dvale94/kyrshas-app/pull/6) independently confirmed merged. Dedicated branch: `pilot/02c-native-iphone-validation`, from freshly fetched main `ed7039b1806908e1ff23a87970a865e2e621399c`. Initial worktree clean.
 
-**Generated-native source verification PASS. Native build/install/launch/smoke BLOCKED. Current online Expo compatibility diagnostics FAIL.** The issue explicitly permits safe static preparation and PR delivery with precise environment blockers. No native/runtime acceptance is implied by completed tracking.
+**Current result after the authorized patch fix: isolated verification PASS (Doctor20/20); native build/install/launch/smoke BLOCKED.** The original drift failure and initial delivery evidence below are retained as history; see “Expo patch-drift recovery” for current dependency verification. The issue explicitly permits safe static preparation and PR delivery with precise environment blockers. No native/runtime acceptance is implied by completed tracking.
 
 ## Delivered work and acceptance
 
@@ -71,6 +71,18 @@ All20,437 original ignored iOS relative path/type/file-content/link-target entri
 Protected-path diff versus origin/main passed for root App.js/src/package.json/yarn.lock/app.json/eas.json/.gitignore, existing harness/scaffold CI and isolated package/config/lock files. New native sources are ignored and not staged. No Pods, build products, credentials, environment files, personal content or backup data belong in this PR. A boolean-only common secret-shape scan of added diff passed without reading the compromised credential; this is not an exhaustive secret audit.
 
 `verify-delivery` review distinguishes generated checks from native acceptance and current metadata-diagnostic failures. The authorized blocked-environment delivery path is satisfied by precise limitations and reviewable preparation; supported native execution remains outstanding.
+
+## Expo patch-drift recovery
+
+Follow-up request on November14,2026 explicitly authorized fixing the three recommended SDK58 patches. Reproducer: online `npm run check:expo` still exited1 before the edit, recommending Expo58.0.25, splash58.0.14 and status-bar58.0.5. Updated only those isolated direct declarations and their npm-generated lock resolution; React19.3.0, RN0.88.1 and test/typecheck/Doctor tooling versions remain unchanged. The amended design/task tracking strictly validated before dependency work. No compatibility exclusions or security changes.
+
+`npm install --package-lock-only --ignore-scripts --cache /private/tmp/kyrshas-issue7-npm-cache` **PASS**, exit0; clean `npm ci` **PASS**, exit0 (990 packages); unchanged `CI=1 npm run verify` **PASS**, exit0: strict TypeScript,1 interaction test, config introspection, online dependencies up to date and Doctor20/20. `npm ls --depth=0` **PASS**, exit0. Existing generated-native checker **PASS**, exit0; no native generation/build/Pods/simulator action was performed. npm deprecation warnings remain upstream observations, not a failed test or security-audit result.
+
+Lock audit:59 changed entries including the root declaration, transitive version/metadata changes and removal of getenv. Expo58.0.25's official npm dependency metadata requires newer modules/autolinking~58.1.0, modules-cli~0.5.0 and matching CLI/config/assets packages; remaining Babel/build-tool changes are generated compatible resolutions. No new application dependency, SDK major, RN/React change, override or manual integrity edit. Preservation comparison: all36 generated scaffold entries match. In the original tree,20,436 of20,437 entries match; one pre-existing Xcode workspace user-interface state file (`project.xcworkspace/xcuserdata/.../UserInterfaceState.xcuserstate`) changed during the follow-up. Its writer/provenance was not established; no intentional native write or Xcode command was performed, and current user state was left untouched. All other original source/project/Pods/signing-related fingerprints match. Full original-tree equality is therefore **FAIL for this follow-up**, with this isolated UI-state exception disclosed instead of hidden or restored. Protected tracked root application/config/lock and CI paths remain unchanged; backup untouched.
+
+Current status: dependency drift **RESOLVED** locally. Original hosted failure links below remain historical; subsequent hosted recovery evidence is recorded after the patch push. Native runtime and new native dependency resolution/build acceptance remain **BLOCKED/NOT RUN** under the original environment gates. The preserved generated project is the pre-patch generation; its source checks do not certify a native build against updated packages. A clean checkout must generate with its installed dependencies; do not overwrite the existing local trees to refresh that evidence.
+
+This follow-up adds no owner decision beyond the explicit patch-fix request and no task-specific clarification. Initial pilot intervention counts below are historical; this repair uses ordinary contained npm/network/Git permissions and no Xcode/system initialization.
 
 ## Delivery and workflow metrics
 
