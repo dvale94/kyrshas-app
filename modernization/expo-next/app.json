@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "kyrsha's App",
+    "slug": "kyrshas-app",
+    "version": "1.0.0",
+    "platforms": ["ios"],
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "../../assets/icon.png",
+    "scheme": "com.dvale1994.kyrshasapp",
+    "ios": {
+      "bundleIdentifier": "com.dvale1994.kyrshasapp",
+      "buildNumber": "1",
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSAllowsLocalNetworking": false
+        },
+        "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"]
+      }
+    },
+    "plugins": [
+      ["expo-splash-screen", {
+        "image": "../../assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#38761d"
+      }]
+    ],
+    "updates": {
+      "enabled": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1eedc0a6-a315-467a-a326-ce48cba82b2c"
+      }
+    }
+  }
+}
