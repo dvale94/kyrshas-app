@@ -11,7 +11,7 @@
 
 ## 3. Delivery review
 
-- [ ] 3.1 Deliver ordered proposal-only feature slices, issue-7 report and handoff with risks/intervention counts; verify acceptance mapping, rerun strict spec/harness/diff checks, compare original native fingerprints and review changed-path allowlist, then open a scoped PR against main and distinguish local from hosted CI evidence.
+- [x] 3.1 Deliver ordered proposal-only feature slices, issue-7 report and handoff with risks/intervention counts; verify acceptance mapping, rerun strict spec/harness/diff checks, compare original native fingerprints and review changed-path allowlist, then open a scoped PR against main and distinguish local from hosted CI evidence.
 
 ## Workflow follow-up
 
