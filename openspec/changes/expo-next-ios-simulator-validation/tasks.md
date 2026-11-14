@@ -22,7 +22,7 @@
 - [x] 5.1 Re-fetch issue #7 and existing PR #8, preserve pre-existing local changes and fresh native fingerprints, inspect the historical workspace UI-state exception without altering it, and validate supported Xcode/runtime/Node/Ruby/CocoaPods plus strict OpenSpec before Pods installation.
 - [x] 5.2 Install Pods only in the existing isolated modern native project, build without production signing, and install/launch on a fresh disposable iPhone simulator without cleaning or regenerating either native tree. Diagnose routine failures and rerun affected checks.
 - [x] 5.3 Execute and record actual rendering, answer show/hide, portrait rotation, relaunch, built/installed identity and icon/splash observations; distinguish PASS, FAIL, BLOCKED and NOT RUN from static checks.
-- [ ] 5.4 Run the full existing verification suite and native/preservation review; update native-validation documentation, issue-7 report, handoff, issue #7 and PR #8 with evidence, human decisions, permission escalations and debugging iterations; push scoped updates without merging or archiving.
+- [x] 5.4 Run the full existing verification suite and native/preservation review; update native-validation documentation, issue-7 report, handoff, issue #7 and PR #8 with evidence, human decisions, permission escalations and debugging iterations; push scoped updates without merging or archiving.
 
 ## Workflow follow-up
 
