@@ -2,7 +2,70 @@
 
 November 14, 2026 (America/New_York). [Issue #7](https://github.com/dvale94/kyrshas-app/issues/7) fetched directly using the GitHub connector, including its empty comments collection. [PR #6](https://github.com/dvale94/kyrshas-app/pull/6) independently confirmed merged. Dedicated branch: `pilot/02c-native-iphone-validation`, from freshly fetched main `ed7039b1806908e1ff23a87970a865e2e621399c`. Initial worktree clean.
 
-**Current result after the authorized patch fix: isolated verification PASS (Doctor20/20); native build/install/launch/smoke BLOCKED.** The original drift failure and initial delivery evidence below are retained as history; see “Expo patch-drift recovery” for current dependency verification. The issue explicitly permits safe static preparation and PR delivery with precise environment blockers. No native/runtime acceptance is implied by completed tracking.
+**Current resumed result: native Debug build/install/launch and iPhone rendering/interaction/orientation/relaunch smoke PASS; unchanged isolated verification PASS (Doctor20/20).** This supersedes the environment blockers below. Production artwork/signing, installed-upgrade continuity and general HTTP Metro development remain outside the accepted native result.
+
+## Resumed native execution after owner environment repair
+
+November14,2026, approximately16:50–17:10 America/New_York. Directly retrieved issue#7 and existing draft PR#8, including empty PR discussion; local/remote branch head matched `d619f8735c67e1b2c0474a3d1bcb835a3c38bdbd`. Continued `pilot/02c-native-iphone-validation`; no checkout/reset of owner changes. Used deliver-feature, openspec-apply-change and verify-delivery. Re-read approved planning artifacts, native report/comparison, repository instructions and verification context. Strict OpenSpec validation passed before Pods; historical5/5 tracking was extended with four explicit authorized resumption tasks.
+
+### Actual environment and executable results
+
+- macOS27.2.1/build26B131 arm64; Xcode27.2/build27B52 at `/Applications/Xcode.app/Contents/Developer`, first-launch check PASS. Simulator SDK27.2/build24B8118. Approximately732GiB free. CLT receipt remains16.4; active compiler/SDK comes from full Xcode, not that old receipt.
+- Existing Node22.23.4/npm10.9.9 explicitly selected, rather than shell20.18.0. CocoaPods1.17.0 at `/opt/homebrew/bin/pod` uses Homebrew Ruby4.0.9/RubyGems4.0.23; version/env checks PASS without ffi warning. No toolchain/runtime/system installation or startup-file change in this resumption.
+- New disposable iPhone17: `2579B852-10AA-47D1-A556-736E20487A0F`, iOS27.2/build24B8117. Boot/status PASS; target bundle absent before first install. No existing app/data was overwritten, no existing simulator erased.
+- Isolated `npm ci --no-audit` PASS, exit0/990 packages. Unchanged `CI=1 npm run verify` PASS: TypeScript,1 Jest test, config introspection, online package check and Doctor20/20. `npm ls --depth=0` PASS. No package/version/lock/config/test-policy edits.
+- `pod install --project-directory=ios` PASS, exit0,169s:100 dependencies/99 Pods. Script phases inspected before build; generated notices include an internal Expo CoreModule autolinking warning and per-build script-phase notes. No force flags, prebuild/clean/native regeneration or system gem repair.
+- Existing `ios/kyrshasApp.xcworkspace` Debug simulator build PASS, underlying xcodebuild exit0, signing disabled. Effective build-settings retrieval now PASS, exit0. DerivedData stays external. Debug dylib UUID `0C8FE3A1-BE6F-30B7-9CEB-839CD0426278` arm64.
+- Built and installed plist PASS: bundle `com.dvale1994.kyrshasapp`, display `kyrsha's App`, version1.0.0/build1, family[1], portrait/Light, minimum16.4, no arbitrary/local-network ATS exemptions, updates false. Effective marketing setting remains1.0, distinct from plist1.0.0. Native source checker PASS before and after build, including empty source entitlements/no capabilities. Production/signed entitlement/account evidence NOT RUN.
+
+### Runtime diagnosis and final smoke evidence
+
+The first native app install/launch exited0 but rendered a red missing-script-URL error. App-only logs established ATS error-1022 for `http://localhost:8081/status`; host Metro itself was healthy. **Initial runtime FAIL and first UI test FAIL/exit65**, not a rendering pass. No ATS relaxation, localhost exception, signing or app-identity change was made.
+
+Used design decision5's authorized local bundle alternative: stopped the isolated Metro process; ran `expo export:embed --entry-file index.ts --platform ios --dev true --bundle-output <external-built-app>/main.jsbundle --assets-dest <external-built-app>`. **PASS**, exit0,724 modules/5 assets. The existing Debug delegate's fallback loads this embedded bundle without a native-source edit. Reinstalled only our disposable synthetic app; built/installed ATS remains strict. Embedded-bundle SHA256 `e03dc4252fe6a39a60914bcd674702b379b113bcc18c415683d765de4c14dfc3`. This is temporary simulator Debug packaging, not a signed/release artifact or a permanent change to ordinary Metro development.
+
+Added isolated verification tooling only: `scripts/ios-smoke/SmokeTests.swift` and `create-runner.rb`. Existing CocoaPods xcodeproj gem generates a new standalone UI-test project outside the repository; it never adds a target to either native app project. No new app/test dependency. Two intermediate bundled UI runs failed during rotation: immediate hittability check, then an ambiguous React Native hierarchy with nested same-label StaticText nodes. A bounded accessibility-settling wait and `.firstMatch` selectors repair the test harness while retaining its hittability/portrait and actual-tap assertions. No synthetic App.tsx/native-delegate changes.
+
+**Final xcodebuild XCTest PASS**, exit0 at17:06:42-05:00:1 native UI test/0 failures,18.252s. Six retained screenshot attachments show rendered initially hidden answer, answer shown, hidden again, portrait after landscape-left request, relaunched hidden state, and Home transition. A separate settled Home screenshot confirms icon/label. Cold-launch video was also captured separately after the passing test.
+
+| Actual device checklist | Outcome |
+|---|---|
+| Fresh simulator / native build / install / launch | PASS; explicit UUID/runtime/build and absent-app check above |
+| Synthetic caption and triangle question rendered | PASS, XCTest plus inspected simulator screenshot |
+| Initial answer hidden; Show Answer reveals Three sides.; Hide Answer hides | PASS, actual device taps and screenshots |
+| Landscape-left request retains portrait app window / visible question; return to portrait | PASS, native UI test, retained assertions and screenshot |
+| Terminate/relaunch resets answer; running foreground / no native crash in smoke | PASS, observed native execution; not a long-duration stability claim |
+| Installed identity / provisional metadata | PASS against selected built/installed fields and Home label; production authority unresolved |
+| Icon appearance | OBSERVED: two green hearts on white; source/production parity not approved |
+| Splash appearance | OBSERVED: sampled final bundled Debug video black at1.0–2.0s, synthetic content by2.5s; configured green artwork not visible. Production appearance UNRESOLVED |
+| HTTP Metro under current strict ATS | BLOCKED by policy; embedded Debug validation PASS without any exception |
+| iPad compatibility, URL handling, legacy native-hook parity, installed upgrade, signing/accounts/release | NOT RUN / outside pilot |
+
+[Native-validation documentation](../../docs/migration/expo-next-native-validation.md) contains exact passing reproduction commands and the current MATCH/INTENTIONAL DIFFERENCE/UNRESOLVED comparison. [Expo documents development splash limitations](https://docs.expo.dev/versions/v58.0.0/sdk/splash-screen/); no production appearance is inferred from this Debug run. Nonfatal Debug warning overlays with Metro stopped remain visible and were not suppressed.
+
+### Preservation investigation and scope review
+
+Fresh before/after legacy snapshots: **PASS, all20,437 entries match** including UI state; protected root application/config and owner-modified package.json/yarn.lock/tsconfig.json hashes match. Backup never accessed. Existing36 modern entries all remain; project.pbxproj and Info.plist changed through contained integration/Debug tooling (RCTMetroPort8081 present), other34 match. Pods/workspace/codegen outputs were added under the ignored modern tree; none were staged. This is expected integration, not full modern-tree equality or native regeneration.
+
+Historical UI-state exception investigated read-only: `ios/kyrshasApp.xcodeproj/project.xcworkspace/xcuserdata/.../UserInterfaceState.xcuserstate` is a binary NSKeyedArchiver archive with441 objects and editor/navigation-history classes. SHA256 `39928894add5668d3f227cee949d5fe93812eb1f8a8f1ee90e24e7631828346c`; mtime/ctime14:36:13-05:00, before resumed execution. No current open handle found by lsof; earlier temporary snapshots not available. The prior writer cannot be established or inferred from that absence. Current file was not altered/restored; the earlier mismatch remains disclosed, while today's before/after equality passes.
+
+Root package.json/yarn.lock modifications and untracked tsconfig.json were present at kickoff. Additional untracked historical `spec 2.md` files in the earlier baseline change appeared in later status; they were preserved and excluded without assuming their provenance. Scope review/staging uses an explicit allowlist for only current report/handoff/native-validation/tasks and the two new smoke-tool files. No legacy source, root config, existing CI, credentials, signing or native generated file belongs in the commit.
+
+Evidence directory: `/private/tmp/kyrshas-issue7-resume-20261114/`. Logs include `verify.log`, `pods.log`, `native-build.log`; actual failed/successful native tests remain in `smoke.xcresult`, `smoke-bundled.xcresult`, `smoke-synced.xcresult`, `smoke-final.xcresult` and matching logs. Final screenshots are exported under `attachments-final/`; `home-icon-settled.png`, `bundled-cold-launch.mov`, sampled frames, selected effective/built/installed metadata and preservation JSON are external. Artifacts are local/temporary and may expire; no build/Pods/private data or backup uploaded. Reports and reproducible tests are the committed evidence, not independent hosted native validation.
+
+### Resumed workflow metrics and delivery
+
+Owner resumption authorization:1 explicit request, after separately owner-managed system/runtime provisioning and approved Homebrew repair. **Additional scope decisions/clarification prompts:0; automatic approval-review rejections:0; sub-agents:0.** Through native evidence capture,25 sandbox escalation requests covered network install/checks, CoreSimulator/build/test/cache access and process diagnostics; final Git delivery totals are recorded below. They are sandbox tool permission requests, not extra human design decisions.
+
+Native build attempts:1, PASS. Pods install attempts:1, PASS. Native UI smoke attempts:4 (three retained FAIL, final PASS). Two substantive autonomous diagnosis categories: ATS/runtime bundle fallback and React Native/XCTest rotation selectors. Supporting tool repairs: simctl OpenStep output required plutil rather than Python plistlib; early result export waited for xcodebuild finalization and then needed local TestReport-cache access; video decoding needed unsandboxed VideoToolbox. Gortex path/schema corrections and one vendor-regex hook false positive were navigation/tool issues, not product changes. No task clarification, policy weakening, version churn, system installation or native regeneration was used to obtain the pass.
+
+Full unchanged JS verification, native source checker, repository harness/Python syntax and strict OpenSpec passed. Final scoped diff/graph review, commit/push and independent hosted CI evidence are appended after delivery. Historical hosted results below remain tied to their original commits and do not certify this native run.
+
+## Historical blocked-environment delivery and patch repair
+
+The original results below remain historical. They must not be read as the current native outcome.
+
+**Historical result after the authorized patch fix: isolated verification PASS (Doctor20/20); native build/install/launch/smoke BLOCKED.** The original drift failure and initial delivery evidence below are retained as history; see “Expo patch-drift recovery” for current dependency verification. The issue explicitly permits safe static preparation and PR delivery with precise environment blockers. No native/runtime acceptance is implied by completed tracking.
 
 ## Delivered work and acceptance
 
