@@ -1,6 +1,14 @@
 # Agent handoff
 
-## Current task — issue #5, pilot 02B
+## Current task — issue #7, pilot 02C
+
+[Issue #7 report](reports/issue-7-ios-simulator.md) contains command outcomes, blockers, preservation and intervention evidence. [Native validation and device checklist](../docs/migration/expo-next-native-validation.md); [validated OpenSpec change](../openspec/changes/expo-next-ios-simulator-validation/proposal.md). Branch: `pilot/02c-native-iphone-validation`, from merged main `ed7039b`. PR delivery/hosted CI links are recorded in the report after submission.
+
+**PASS:** isolated clean install, existing TypeScript/component/config checks, contained generation of a new ignored iOS tree, generated-native target/plist/security/resource checker, strict OpenSpec and repository harness. **FAIL:** full verify and separate Doctor (19/20) because online Expo metadata now recommends three newer patches; no exclusions or dependency changes. **BLOCKED:** native build/install/launch/smoke: Xcode26.3 is below SDK58's documented26.4 minimum and no runtime/available iPhone exists. Effective Xcode settings read failed with no destination; every device/visual case is NOT RUN. Provide an owner-managed compatible toolchain/runtime and healthy Pods environment before resuming native execution.
+
+Original ignored iOS fingerprint remains identical (20,437 entries); backup untouched. Legacy source/config/dependencies, isolated config/lock and existing CI unchanged. No credential/live API, signing/account, production identity/artwork decision, installed upgrade, merge/deploy/release/archive. Read-only unsandboxed simctl queries unexpectedly triggered Xcode package initialization; effects/component identity unverified and explicitly reported. Extra human task decisions/prompts: **0**. See report for autonomous retries, permission requests, local vs hosted evidence and remaining gates. PR remains draft for these blockers.
+
+## Previous task — issue #5, pilot 02B
 
 [Issue #5 delivery report](reports/issue-5-expo-scaffold.md) records the isolated Expo scaffold, validated [OpenSpec change](../openspec/changes/expo-modern-scaffold-baseline/proposal.md), exact check outcomes and PR evidence. [Baseline/native comparison](../docs/migration/expo-next-baseline.md). Branch: `pilot/02b-expo-scaffold-baseline`, [PR #6](https://github.com/dvale94/kyrshas-app/pull/6) targets `main`; hosted Expo and harness CI passed.
 
