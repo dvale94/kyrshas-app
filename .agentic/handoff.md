@@ -1,6 +1,16 @@
 # Agent handoff
 
-## Current task — issue #7, pilot 02C
+## Current task — issue #9, pilot 03A
+
+[Issue9 report](reports/issue-9-dev-loop.md) and [development-loop diagnosis/proposal](../docs/migration/expo-next-development-loop.md) record actual native versus hosted/static evidence. Branch pilot/03a-local-ios-development-loop from freshly fetched main08406d6 (PR8 merged). New OpenSpec ios-local-development-loop strictly validated before implementation; prior changes remain unarchived.
+
+**BLOCKED: live Metro edit/refresh under strict native ATS. PASS: embedded Debug fallback and existing verification.** Metro serves the edited synthetic marker, while actual native localhost/IPv4 status requests fail -1022; marker XCTest exits65 and screenshot remains embedded baseline. Tested native binary unchanged during probe; temporary source restored, Metro stopped. Both unsigned simulator Debug/Release builds and actual processed strict-policy checks PASS, using an external copy so native originals remain intact. Fallback export helper and unchanged native smoke PASS1 test/0 failures16.675s; full verify PASS TypeScript/1 Jest/config/compatibility/Doctor20/20 plus14 new policy fixtures.
+
+**Owner security approval required before application:** docs contain only an inert dedicated Debug localhost-domain exception preview, committed-vs-generated source-of-truth plan, strict Release proof and rollback. ATS cannot limit the domain exception to8081; Debug would allow other localhost ports too. No policy/plugin/native plist/security synchronizer was applied; no broad arbitrary/local networking, trust, identity, signing or regeneration. Live Fast Refresh is not a pass.
+
+Preservation PASS: all20,437 legacy and30,192 modern native entries match, backup untouched, owner five file contents/staged identities retained, scaffold App/config/lock unchanged. Modern package changes only append policy tests to verify. Gortex lower-bound contract warning remains disclosed; executable tests/evidence are independent. PR delivery/hosted CI and intervention counts are finalized in the report; no merge/deploy/archive.
+
+## Previous task — issue #7, pilot 02C
 
 **Resumed native validation PASS (November14,2026).** Existing PR#8 branch retained; owner supplied macOS27.2.1/Xcode27.2/iOS27.2 runtime and healthy Homebrew CocoaPods1.17.0/Ruby4.0.9. Existing generated modern iOS project reused; no clean/regeneration. Node22.23.4/npm10.9.9 locked install and full unchanged verify PASS (Doctor20/20),99 Pods installed, unsigned Debug simulator build/install/launch PASS. Fresh disposable iPhone17 UUID `2579B852-10AA-47D1-A556-736E20487A0F`; final native XCTest1 test/0 failures checks real rendering/show/hide/portrait/relaunch. New standalone smoke runner is generated outside the app project with existing tooling.
 
