@@ -15,7 +15,7 @@
     "check:expo": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo install --check",
     "check:config": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 node scripts/check-config.cjs",
     "doctor": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo-doctor",
-    "verify": "npm run typecheck && npm test && npm run check:config && npm run check:expo && npm run doctor",
+    "verify": "npm run typecheck && npm test && npm run check:config && npm run check:expo && npm run doctor && node --test scripts/check-development-policy.test.cjs",
     "export:ios": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo export --platform ios --output-dir dist"
   },
   "dependencies": {

@@ -21,6 +21,7 @@
       }
     },
     "plugins": [
+      "./plugins/with-debug-localhost.cjs",
       ["expo-splash-screen", {
         "image": "../../assets/splash.png",
         "resizeMode": "contain",
