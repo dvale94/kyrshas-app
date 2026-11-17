@@ -1,6 +1,18 @@
 # Agent handoff
 
-## Current task — issue #9, pilot 03A
+## Current task — issue #9, pilot 03A: approved Metro continuation
+
+**PASS: actual native Metro edit/refresh after the owner's narrow Debug localhost approval. Release/default ATS remain strictly unchanged.** [Current report](reports/issue-9-dev-loop.md#current-approved-continuation--november162026) and [development-loop instructions](../docs/migration/expo-next-development-loop.md) distinguish real device evidence, static checks and historical failures. Continue on existing draft [PR10](https://github.com/dvale94/kyrshas-app/pull/10), branch pilot/03a-local-ios-development-loop; main remains08406d6.
+
+Committed shared policy/config plugin, receipt-based synchronizer and exact-policy tests reproduce the existing modern native application without prebuild. Only ignored Info.Debug.plist and one app Debug reference changed; base/default/Release strict false/false remain intact. Debug adds only localhost insecure HTTP with subdomains false; arbitrary/local networking remain false. No broader transport, trust/signing, identity, dependency/version, native regeneration or production change.
+
+Independent actual Debug/Release simulator builds and processed plists PASS. Installed Debug has no embedded main.jsbundle; baseline comes through localhost Metro. Source-only caption edit plus Metro r passed attached XCTest1/0,20.697s with unchanged PID15613/container/binary/plist hashes and UUID0263107C-3E07-3DAF-8481-99F4DDA930F4. No app rebuild/reinstall/relaunch during acceptance. Caption restored, native show/hide/portrait/relaunch smoke PASS1/0,16.771s. Icon observed; cold-launch black interval/green Metro loading remains a production visual-validation limitation. Full verification PASS TypeScript/1 Jest/config/online compatibility/Doctor20/20 plus38 policy/sync fixtures; fresh external locked install/full suite also passed before final CLI-output hardening. Hosted CI/delivery links are recorded in the report when available.
+
+Preservation PASS: all20,437 legacy entries and all modern entries except the exact approved two-path delta; modern count30,193. Legacy UI-state unchanged/unrestored, historical writer unknown; backup untouched; owner five staged contents/blob identities retained; App.tsx restored. Outputs external under /private/tmp/kyrshas-issue9-approved-20261116. Gortex contract WARN/high lower-bound is disclosed alongside actual executable/native tests. One kickoff approval received, zero additional scope/clarification decisions or auto-review rejections; two fixture-repair iterations, no native build/transport retry. Active OpenSpec validation PASS; repository-wide strict validation FAILS on the owner's two pre-existing staged spec 2.md files, preserved/excluded. Metro stopped after verification; restart the documented localhost server before the next app relaunch. No merge, release, deploy or archive.
+
+## Historical issue #9 run — before owner approval
+
+The blocked result and pending-approval text below describe the earlier unchanged-policy run and are superseded by the approved continuation above.
 
 [Issue9 report](reports/issue-9-dev-loop.md) and [development-loop diagnosis/proposal](../docs/migration/expo-next-development-loop.md) record actual native versus hosted/static evidence. Branch pilot/03a-local-ios-development-loop from freshly fetched main08406d6 (PR8 merged). New OpenSpec ios-local-development-loop strictly validated before implementation; prior changes remain unarchived.
 

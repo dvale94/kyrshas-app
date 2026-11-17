@@ -16,6 +16,7 @@ final class SmokeTests: XCTestCase {
 
   func testSyntheticIPhoneSmoke() throws {
     let app = XCUIApplication(bundleIdentifier: "com.dvale1994.kyrshasapp")
+    app.launchArguments = ["-RCT_jsLocation", "localhost:8081"]
     let device = XCUIDevice.shared
     device.orientation = .portrait
     app.launch()

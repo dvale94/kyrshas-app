@@ -12,6 +12,10 @@ Issue #9 follows merged pilot02C: the synthetic iPhone app builds and runs with 
 - If live reload requires a policy change, deliver BLOCKED evidence, a reproducible embedded fallback and a concrete unapplied Debug-only proposal with Release proof and rollback, then request approval before applying it.
 - Deliver development-loop documentation, issue9 report/handoff and a scoped PR against current main. Preserve previous pilot reports and unarchived changes.
 
+## Approved continuation — 2026-11-16
+
+The owner now authorizes implementing only the previously previewed Debug localhost exception. Add a committed shared policy, Expo config plugin and drift-checked explicit synchronizer for the existing native tree, without prebuild or regeneration. Derive `Info.Debug.plist` from the unchanged strict base and select it only for the application Debug configuration. Debug adds exactly `NSExceptionDomains.localhost` with `NSExceptionAllowsInsecureHTTPLoads: true` and `NSIncludesSubdomains: false`; both global allowances stay false. Release/default retain the original strict policy. Independently inspect actual Debug/Release build outputs and prove a live JavaScript edit through Metro without subsequent native rebuild/reinstall. Stop if this exact permission does not solve transport. No additional policy, trust or signing approval is implied.
+
 ## Capabilities
 
 ### New Capabilities

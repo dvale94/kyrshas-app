@@ -1,5 +1,60 @@
 # Issue #9 — secure local iPhone development-loop diagnosis
 
+## Current approved continuation — November16,2026
+
+**PASS: native Metro source edit/refresh with the exact owner-approved Debug localhost exception. Release/default remain strictly unchanged.** This section supersedes the historical blocked result and pending approval below. Existing [PR10](https://github.com/dvale94/kyrshas-app/pull/10), branch `pilot/03a-local-ios-development-loop`, was resumed at9df5ebc; direct GitHub fetch confirmed issue9, open draft PR10 and main08406d6. Owner's explicit continuation approves only the previously documented localhost dictionary, committed shared plugin/tooling, contained application and independent Debug/Release/live-native proof. No broader policy was needed or applied.
+
+### Exact changes and authority
+
+- Added shared `scripts/ios-debug-policy.cjs`, committed Expo `plugins/with-debug-localhost.cjs` registration and explicit receipt-based `scripts/sync-ios-debug-policy.cjs`. Existing dependencies only; no package/lock/version changes in this continuation. Config introspection remains read-only and exactly strict.
+- Existing ignored modern native tree received only new `kyrshasApp/Info.Debug.plist` and a one-line app Debug `INFOPLIST_FILE` change. Non-ATS fields are derived unchanged from the strict base; Release still references that base. Its SHA256 remains4766f63a63f99b718a7395f0dde4c134b405aa6cc10a1cf134bd47bd7efd067e. No prebuild, clean, regeneration or Pods reinstall.
+- Debug retains both global allowances false and adds exactly `NSExceptionDomains.localhost = { NSExceptionAllowsInsecureHTTPLoads:true, NSIncludesSubdomains:false }`. No LAN/IP/additional-domain or trust/signing change. Domain scope includes all localhost ports;8081 is the tested port.
+- Updated processed/default/native policy checks, added meaningful synchronizer fixtures and existing verification integration. Thirty-eight Node fixtures reject broad/Release/default drift, extra domains/subdomains, missing values, identity/platform drift, stale/tampered receipts, unknown Debug content, symlink escapes and repository output paths; preview is non-mutating and apply idempotent.
+- Strengthened MetroProbeTests to attach to an already-running baseline without launch/activation, signal readiness, then assert the edited caption. SmokeTests selects localhost explicitly for real native Metro smoke. App.tsx probe was exactly restored; no permanent UI change.
+- Extended existing OpenSpec proposal/design/scenarios/tasks with the recorded approval before implementation; no prior change archived. Development-loop docs provide commands, authority, receipt review, build separation, live acceptance and guarded rollback guidance.
+
+### Executed outcomes — native and static kept distinct
+
+| Command/check | Actual outcome and limit |
+|---|---|
+| Xcode / simulator / selected Node / pod version+env | PASS: Xcode27.2/27B52 full developer directory; existing booted iPhone17/iOS27.2; Node22.23.4/npm10.9.9; CocoaPods1.17.0/Ruby4.0.9 with no ffi warning. No Ruby/package installation changes |
+| `openspec validate ios-local-development-loop --strict` | PASS before implementation and after revised approval artifacts |
+| `openspec validate --all --strict` | **FAIL exit1:**2 changes pass; older expo-modern-scaffold-baseline fails solely on the owner's pre-existing staged isolated-expo-baseline/spec 2.md and offline-demo/spec 2.md. Preserved/excluded from commits; active issue9 change passes. This is not a Metro/native blocker |
+| `node --test scripts/check-development-policy.test.cjs` | PASS: initial37 after fixture repairs; final38 including CLI external-output guard, zero failures |
+| `node scripts/check-config.cjs` | PASS: strict default introspected policy, identity/resources/updates unchanged; not build/runtime evidence |
+| `sync-ios-debug-policy.cjs --plan ...` / receipt review / `--apply ...` / `--check` | PASS: reviewed exactly two paths and one reference-line diff; input hashes rechecked before writes; source state idempotent |
+| `node scripts/check-native-ios.cjs` | PASS: applied source drift, Debug/Release reference separation, metadata/resources/portrait/schemes/empty entitlements; source evidence only |
+| Independent unsigned Debug / Release `xcodebuild ... build` | PASS: both exit0 in an external copy of existing generated tree; original native trees are not build targets. No app build retries or signing |
+| Actual distinct processed-plist pair checker | PASS: Debug exact approved localhost policy; Release exact original false/false; simulator/iPhone/public metadata match. Debug has no main.jsbundle |
+| Native initial Debug install + `simctl launch ... -RCT_jsLocation localhost:8081` | PASS: one approved application replacement before live interval, baseline rendered from Metro in the known synthetic app, not Expo Go |
+| Existing-app source edit + Metro `r` / `test-without-building` | **PASS native:**1 XCTest/0 failures,20.697s; actual screenshot changes baseline caption to `Offline demo · Metro probe 03A`. Runner was separately built externally; it neither rebuilds nor installs the application |
+| Same application during live interval | PASS: PID15613, installed container, launcher/dylib/plist SHA256 identical; native UUID0263107C-3E07-3DAF-8481-99F4DDA930F4. No app rebuild, reinstall, relaunch or activation between baseline/readiness and edited marker |
+| Restore caption / Metro refresh | PASS: App.tsx hash equals HEAD; source restored before smoke/delivery. Acceptance proves edit/refresh, not React-state preservation through Fast Refresh |
+| Native smoke via localhost | **PASS native:**1 XCTest/0 failures,16.771s; rendering, show/hide answer, portrait after landscape request, hidden state after relaunch, foreground. Same installed app, no reinstall |
+| Icon / cold-launch recording | OBSERVED: preserved two-heart icon; black interval followed by green/Metro download/loading before content. Intended production splash/artwork fidelity remains UNVALIDATED, as in prior pilot; no cosmetic redesign claim |
+| App-scoped ATS log query | PASS for observed ten-minute window: no ATS/-1022 messages; not a global network audit |
+| External `npm ci --no-audit` / full verify | PASS:990 locked packages, full TypeScript/1 Jest/config/online compatibility/Doctor20/20 and37 policy fixtures. After the CLI receipt guard was added, final full local verify passes38 fixtures. Upstream dependency deprecation warnings retained; no vulnerability-audit claim |
+| `npm ls --depth=0`, root harness/Python syntax, whitespace | PASS; harness does not establish application behavior |
+| Release launch/device/EAS/production signing or release | NOT RUN; independent local Release simulator build verifies policy only |
+
+### Preservation and review
+
+Fresh snapshot comparison **PASS**: all20,437 legacy entries match exactly; modern tree30,193 entries differs only by the approved Debug plist addition and one-line reference. Strict base/default/Release settings, all other native files, root app/config and owner five worktree/index blob/mode identities match. Legacy UI-state hash39928894add5668d3f227cee949d5fe93812eb1f8a8f1ee90e24e7631828346c remains unchanged; historical writer remains unknown, no restore. Backup not accessed. Existing generated project retained, never deleted/cleaned/regenerated. No credentials, identity, signing/trust, unrelated feature work or production configuration changes. Path-limited Git commits exclude the five staged owner files.
+
+Gortex impact/detect/tests/guards/contract ran. Graph detects both native test methods, but does not infer Node fixture coverage; actual execution provides that evidence. No configured guards. Contract remains WARN/high lower-bound for the shared policy/test fanout; reviewed dependents are the isolated plugin/synchronizer/checks/tests, with no signature changes or new dependency. No unrelated refactor was introduced to silence a graph risk score. Actual JS parsing/fixtures and compiled Swift/native executions pass; this warning is disclosed, not represented as cleared or an independent security audit.
+
+Evidence is external under `/private/tmp/kyrshas-issue9-approved-20261116/`: fresh owner/native snapshots, reviewed policy-plan.json, original-preserving build-input and derived outputs, Debug/Release build logs, processed-policy.json, metro-before/after.json, actual baseline/edited screenshots, passing metro-probe.xcresult and native-smoke.xcresult/attachments, cold-launch.mov/extracted frames, app-scoped logs, locked-install/full-verification logs and preservation-result.json. Outputs may expire and are not uploaded; committed tooling/docs permit reproduction. The applied native project remains ignored; the committed plugin/shared tool is its reproducible authority.
+
+### Workflow decisions and delivery tracking
+
+Human security decisions: **one explicit owner approval received in the kickoff**, restricted exactly as above; additional clarification/scope decisions:0. No new permission expansion was requested. Automatic approval-review rejections:0; no sub-agents. Two autonomous test-repair iterations: normalize plist dictionary prototypes and canonicalize macOS temporary fixture paths; then add required pbxproj fixture section markers. Neither weakened policy assertions. A Gortex note argument was corrected from content to body; broad explore output was replaced by a bounded MCP source batch. Native Debug/Release builds each passed first attempt; live acceptance and smoke each passed first attempt. No transport-policy retry or broader allowance.
+
+Delivery and hosted CI results are added below after pushing. Sandbox escalation requests through final native verification:16 (environment; Debug build; initial verify; Release build; Metro; external locked install/verify; initial install/identity; baseline screenshot; external Metro runner/test; edited screenshot; binary/process proof; smoke; cold-launch recording/extraction; attachment/app-log export; remote refresh/intent staging/final verify; final installed identity/processed-input proof/screenshot). Metro was stopped after restored-source native verification; start the documented localhost server before a subsequent development-app relaunch. Final installed app still matches the accepted fingerprints. Historical16 requests from the earlier blocked run below are separate. No merge, deploy, release or OpenSpec archive.
+
+## Historical pre-approval run — retained evidence
+
+The following report records the earlier blocked, unchanged-policy execution. Its pending approval/unapplied-tooling statements describe that earlier run, not the approved result above.
+
 November16,2026 (America/New_York). [Issue9](https://github.com/dvale94/kyrshas-app/issues/9) fetched directly through GitHub; confirmed PR8 merged as main08406d6837a1add0bd33527b5dd6bb09a2bfb55b. Branch: pilot/03a-local-ios-development-loop, created from freshly fetched main. Used deliver-feature, OpenSpec proposal/apply and verify-delivery. The explicit issue/user implementation authorization supersedes the proposal skill's generic planning-only pause within the non-security scope; the separate security gate is preserved.
 
 **Result: native Metro edit/refresh BLOCKED by existing ATS; embedded Debug fallback PASS.** No policy change applied. The issue explicitly accepts a scoped diagnosis/proposal PR with a concrete approval request and reproducible fallback; this is not a Fast Refresh pass.

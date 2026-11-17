@@ -2,9 +2,94 @@
 
 November 16, 2026 (America/New_York). [Issue #9](https://github.com/dvale94/kyrshas-app/issues/9), following merged PR #8/main08406d6. Specification: [ios-local-development-loop](../../openspec/changes/ios-local-development-loop/proposal.md). Detailed command/intervention evidence: [issue report](../../.agentic/reports/issue-9-dev-loop.md).
 
-**Live Metro feedback: BLOCKED by existing native ATS; security approval required. Embedded Debug fallback: PASS.** No native security permission, app identity, signing, trust store or generated native project was changed. A host-served bundle is not a simulator refresh pass.
+**Current result after explicit owner approval: native Metro edit/refresh PASS. Release/default ATS remain unchanged and strict.** The approval covers only the previously previewed Debug localhost exception; it does not permit broad networking, IP/LAN exemptions, trust/signing changes, native regeneration or release actions. The earlier blocked diagnosis and proposal are retained below as history.
 
-## Observed diagnosis
+## Approved implementation and source of truth
+
+The owner approved this continuation on November16,2026. `scripts/ios-debug-policy.cjs` is the shared authority used by the committed `plugins/with-debug-localhost.cjs`, explicit `scripts/sync-ios-debug-policy.cjs`, source checks and processed-plist checks. No dependencies or versions changed. The Expo plugin registers an iOS dangerous mod; config introspection skips it and verifies the strict default without writing native files. Registration is reproducible tooling, not permission to run prebuild against the protected tree. The existing project was updated explicitly using a reviewed hash receipt, without invoking prebuild.
+
+Only these ignored modern-native paths changed:
+
+- New `ios/kyrshasApp/Info.Debug.plist`, derived from the existing base with every non-ATS value preserved.
+- One `INFOPLIST_FILE` line in the application Debug configuration of `ios/kyrshasApp.xcodeproj/project.pbxproj`.
+
+Release still references `kyrshasApp/Info.plist`. That base file is byte-for-byte unchanged, SHA256 `4766f63a63f99b718a7395f0dde4c134b405aa6cc10a1cf134bd47bd7efd067e`. Default app.json ATS remains the same two false keys. The exact Debug dictionary is:
+
+```json
+{
+  "NSAllowsArbitraryLoads": false,
+  "NSAllowsLocalNetworking": false,
+  "NSExceptionDomains": {
+    "localhost": {
+      "NSExceptionAllowsInsecureHTTPLoads": true,
+      "NSIncludesSubdomains": false
+    }
+  }
+}
+```
+
+ATS domain exceptions cover all localhost ports, not only8081. No numeric IP, LAN domain, subdomains, global allowance or additional ATS key is accepted. Release/default checks require exactly the original false/false dictionary. Tests reject every unapproved variation rather than normalizing policy drift.
+
+## Reproduce contained application and checks
+
+Use existing Node22.23.4/npm10.9.9 in the isolated scaffold. Receipts must be outside the entire repository; choose a fresh filename. Inspect the receipt before explicit application. The synchronizer checks input hashes again immediately before writing, rejects unknown existing Debug contents, unexpected targets/configurations/settings, symlink/hardlink inputs and conditional/ATS overrides, and changes only the two fixed paths above. Repeated check/application is idempotent. On drift, stop and inspect; never overwrite owner changes or regenerate a tree.
+
+```sh
+cd modernization/expo-next
+nvm use
+node scripts/sync-ios-debug-policy.cjs --plan /private/tmp/kyrsha-debug-policy-unique.json
+# Review the receipt's two paths, input/output hashes and exact Debug-only diff.
+node scripts/sync-ios-debug-policy.cjs --apply /private/tmp/kyrsha-debug-policy-unique.json
+node scripts/sync-ios-debug-policy.cjs --check
+node scripts/check-native-ios.cjs
+CI=1 npm run verify
+```
+
+Current applied receipts report no changes on another plan. The original application receipt is retained externally as evidence. Rollback, if requested, must first verify the applied receipt hashes, restore only the one Debug reference to the strict base and remove only its derived Debug plist, then remove the plugin registration/tooling in a scoped source change. Preserve all other native bytes; stop on drift. No rollback, native clean or regeneration was performed.
+
+Build a disposable copy of the existing modern native tree with the matching scaffold/assets/node_modules, excluding dotenv and legacy configuration. The actual commands used both configurations independently, with signing disabled and build outputs outside Git:
+
+```sh
+xcodebuild -workspace "$task_copy/ios/kyrshasApp.xcworkspace" -scheme kyrshasApp \
+  -configuration Debug -sdk iphonesimulator -destination "id=$task_simulator_id" \
+  -derivedDataPath "$task_output/derived" -jobs 4 \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build
+# Repeat separately with -configuration Release; this is a local simulator build.
+node scripts/check-development-policy.cjs \
+  "$task_output/derived/Build/Products/Debug-iphonesimulator/kyrshasApp.app/Info.plist" \
+  "$task_output/derived/Build/Products/Release-iphonesimulator/kyrshasApp.app/Info.plist"
+```
+
+Build environment selected Node22 and set `EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 CI=1 RCT_NO_LAUNCH_PACKAGER=1`. Both builds exited0. Actual separate processed Debug/Release plists pass the exact policies, expected simulator platform, family and public identity. Source checks alone do not certify processed outputs.
+
+## Actual native Metro acceptance
+
+Start interactive Metro with **CI unset**, dotenv/telemetry disabled, `--localhost --port 8081`; retain real terminal input for `r`. Launch the verified synthetic app, not Expo Go. The CLI's Expo Go label does not identify the independently launched binary:
+
+```sh
+env -u CI EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 npm start -- --localhost --port 8081
+# Initial approved Debug installation happens once, before the acceptance interval.
+xcrun simctl launch "$task_simulator_id" com.dvale1994.kyrshasapp \
+  -RCT_jsLocation localhost:8081
+```
+
+The built/installed Debug app has **no main.jsbundle**. It rendered `Offline demo · synthetic content` through native localhost Metro. Build the standalone external UI runner using `scripts/ios-smoke/create-runner.rb`, copy `MetroProbeTests.swift` over its generated `SmokeTests.swift`, then run `build-for-testing` followed by `test-without-building` with that runner's scheme/destination/DerivedData. The runner is separate from the app project and never builds or installs the tested application. The probe attaches to the already-running foreground app without launching/activating it. After its `READY_FOR_METRO_EDIT` log, change only the caption in App.tsx to `Offline demo · Metro probe 03A` and refresh Metro with `r`.
+
+**Actual PASS:** the edited marker appeared on the native screenshot and XCTest passed1 test/0 failures,20.697s. No application native build, reinstall or relaunch occurred between baseline and edited marker. PID15613, installed container, native UUID `0263107C-3E07-3DAF-8481-99F4DDA930F4`, launcher/dylib SHA256 and processed Info.plist SHA256 remained identical. Host bundling and the CLI's `Reloading apps` message are supporting evidence; the native screenshot/assertion is the acceptance evidence. This proves edit/Metro refresh, not React-state retention across Fast Refresh.
+
+The caption was restored exactly and Metro refreshed again. Existing native smoke then passed1 test/0 failures,16.771s through localhost: rendering, answer show/hide, portrait after a landscape request, relaunch hidden state and foreground state. Installed metadata remains com.dvale1994.kyrshasapp / kyrsha's App /1.0.0/build1, iPhone only, unchanged schemes/empty entitlements. The two-heart icon was observed. A short cold-launch recording showed a black interval then green/Metro loading before content; intended production splash/icon appearance remains unvalidated, as previously reported. No visual redesign or artwork approval is implied. App-scoped logs for the observed ten-minute window contained no ATS/-1022 messages.
+
+## Verification and preservation
+
+PASS: fresh external locked npm ci (990 packages), full TypeScript/Jest/config/introspection/online compatibility/Doctor20/20 verification, final38 policy/synchronizer fixtures, npm ls, generated-native drift/resource/identity checks, root harness/Python syntax, strict OpenSpec and whitespace. Hosted CI is recorded separately in the issue report/PR after pushing; it does not run native tests. Repository-wide `openspec validate --all --strict` **FAILS/exit1** because the owner's two pre-existing staged `spec 2.md` files in expo-modern-scaffold-baseline are invalid delta filenames. The active issue9 change passes strict validation; those owner files are preserved and excluded from this PR. Metro was stopped after verification; start it again before relaunching the installed development app.
+
+Preservation PASS: all20,437 legacy entries match; all modern entries match except the approved Debug plist addition/reference, now30,193 entries. Strict base, Release reference, root config/application, owner five file contents/staged blobs and restored App.tsx match. Backup was not accessed. Historical legacy workspace UI-state hash remains unchanged and its earlier writer remains unestablished; no restore was attempted. No Pods reinstall, native clean/regeneration, dependency/version, credentials, identity, signing/trust, merge/deploy/release or OpenSpec archive. Temporary receipts/builds/recordings/XCTest/logs remain outside Git under `/private/tmp/kyrshas-issue9-approved-20261116/` and may expire.
+
+## Historical pre-approval diagnosis and proposal
+
+Everything below records the earlier unchanged-policy attempt and its then-unapplied preview. The explicit approved implementation and current outcomes above supersede historical statements that approval is pending or that no Debug policy/plugin exists.
+
+## Observed diagnosis (before approval)
 
 | Layer | Actual result |
 |---|---|

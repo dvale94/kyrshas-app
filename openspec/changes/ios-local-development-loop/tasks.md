@@ -13,7 +13,14 @@
 
 - [x] 3.1 Run clean isolated npm ci/full verify, source/native/harness/strict-spec checks and preservation/allowlist review; complete issue9 report/handoff and open a scoped PR against main with independent hosted CI evidence or honest failures. Verify owner index/content is preserved and no generated outputs/security changes are committed; record interventions and approval request without merging or archiving.
 
+## 4. Owner-approved Debug localhost continuation (2026-11-16)
+
+- [x] 4.1 Record the exact approval, fresh preservation evidence and revised specification; strictly validate before implementing.
+- [x] 4.2 Implement committed shared policy/config plugin and drift-checked synchronizer; test exact Debug allowance and strict default/Release rejection, then apply only the dedicated Debug plist and Debug reference to the existing native tree.
+- [x] 4.3 Independently build and inspect processed Debug and Release simulator plists. Install the approved Debug build once, then prove an actual harmless JavaScript edit reaches the existing app through Metro refresh without further native build/reinstall. Stop if broader transport policy is needed.
+- [ ] 4.4 Restore probe source, rerun full verification/native smoke, compare preservation evidence, update documentation/report/handoff and push PR10 with actual outcomes and workflow interventions. Do not claim unavailable checks pass.
+
 ## Workflow follow-up
 
-- Owner approval is required before applying any proposed ATS/native security policy or trust change. Live-loop completion after such a decision is a separate authorized continuation.
+- The owner has approved exactly a Debug-only localhost insecure-HTTP domain exception with subdomains disabled. Release/default remain strict. Any broader ATS/native policy or trust change still requires a separate decision.
 - Do not merge, deploy, publish, release or archive this or earlier changes.

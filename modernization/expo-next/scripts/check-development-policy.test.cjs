@@ -1,46 +1,65 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { checkPair } = require('./check-development-policy.cjs');
-
-function fixture() {
+const { strictPolicy, debugPolicy, assertPolicy, deriveDebug } = require('./ios-debug-policy.cjs');
+function fixture(configuration) {
   return { CFBundleIdentifier: 'com.dvale1994.kyrshasapp', CFBundleDisplayName: "kyrsha's App",
     CFBundleShortVersionString: '1.0.0', CFBundleVersion: '1',
     CFBundleSupportedPlatforms: ['iPhoneSimulator'], UIDeviceFamily: [1],
-    NSAppTransportSecurity: { NSAllowsArbitraryLoads: false, NSAllowsLocalNetworking: false } };
+    NSAppTransportSecurity: configuration === 'Debug' ? debugPolicy() : strictPolicy() };
 }
-
-test('accepts separate strict Debug and Release processed inputs without mutating them', () => {
-  const debug = fixture(), release = fixture();
-  const before = JSON.stringify([debug, release]);
-  assert.equal(checkPair(debug, release).status, 'PASS');
-  assert.equal(JSON.stringify([debug, release]), before);
+test('accepts only exact approved Debug and separate strict Release without mutation', () => {
+  const inputs = [fixture('Debug'), fixture('Release')];
+  const before = JSON.stringify(inputs);
+  assert.equal(checkPair(...inputs).status, 'PASS');
+  assert.equal(JSON.stringify(inputs), before);
 });
-
 for (const configuration of ['Debug', 'Release']) {
-  for (const change of ['arbitrary', 'local', 'exception', 'web', 'missing']) {
+  for (const change of ['arbitrary', 'local', 'web', 'missing', 'IP', 'LAN', 'subdomains', 'extra-domain', 'missing-subdomains', 'false-exception']) {
     test(`rejects ${configuration} ${change} policy drift`, () => {
-      const inputs = [fixture(), fixture()];
+      const inputs = [fixture('Debug'), fixture('Release')];
       const value = inputs[configuration === 'Debug' ? 0 : 1];
-      if (change === 'arbitrary') value.NSAppTransportSecurity.NSAllowsArbitraryLoads = true;
-      if (change === 'local') value.NSAppTransportSecurity.NSAllowsLocalNetworking = true;
-      if (change === 'exception') value.NSAppTransportSecurity.NSExceptionDomains = { localhost: { NSExceptionAllowsInsecureHTTPLoads: true } };
-      if (change === 'web') value.NSAppTransportSecurity.NSAllowsArbitraryLoadsInWebContent = true;
+      const ats = value.NSAppTransportSecurity;
+      if (change === 'arbitrary') ats.NSAllowsArbitraryLoads = true;
+      if (change === 'local') ats.NSAllowsLocalNetworking = true;
+      if (change === 'web') ats.NSAllowsArbitraryLoadsInWebContent = true;
       if (change === 'missing') delete value.NSAppTransportSecurity;
-      assert.throws(() => checkPair(...inputs), /strict baseline/);
+      if (['IP', 'LAN', 'subdomains', 'extra-domain', 'missing-subdomains', 'false-exception'].includes(change)) {
+        ats.NSExceptionDomains = debugPolicy().NSExceptionDomains;
+        if (change === 'IP' || change === 'LAN') {
+          ats.NSExceptionDomains[change === 'IP' ? '127.0.0.1' : 'example.local'] = ats.NSExceptionDomains.localhost;
+          delete ats.NSExceptionDomains.localhost;
+        }
+        if (change === 'extra-domain') ats.NSExceptionDomains['example.com'] = ats.NSExceptionDomains.localhost;
+        if (change === 'subdomains') ats.NSExceptionDomains.localhost.NSIncludesSubdomains = true;
+        if (change === 'missing-subdomains') delete ats.NSExceptionDomains.localhost.NSIncludesSubdomains;
+        if (change === 'false-exception') ats.NSExceptionDomains.localhost.NSExceptionAllowsInsecureHTTPLoads = false;
+      }
+      assert.throws(() => checkPair(...inputs), /exact approved ATS/);
     });
   }
 }
-
-test('rejects accidentally reused input instead of certifying a Release that was not inspected', () => {
-  const debug = fixture();
-  assert.throws(() => checkPair(debug, debug), /Separate processed inputs/);
+test('Release/default reject even the approved Debug exception; Debug requires its explicit policy', () => {
+  for (const configuration of ['Release', 'Default']) assert.throws(() => assertPolicy(debugPolicy(), configuration));
+  assert.throws(() => assertPolicy(strictPolicy(), 'Debug'));
+  assert.throws(() => assertPolicy(strictPolicy(), 'Profile'), /Unknown/);
 });
-test('rejects a physical-device artifact', () => {
-  const release = fixture(); release.CFBundleSupportedPlatforms = ['iPhoneOS'];
-  assert.throws(() => checkPair(fixture(), release), /simulator only/);
+test('derivation preserves every non-ATS base value and never mutates it', () => {
+  const base = { CFBundleIdentifier: '$(PRODUCT_BUNDLE_IDENTIFIER)', NSAppTransportSecurity: strictPolicy(), untouched: { value: 1 } };
+  const before = JSON.stringify(base), derived = deriveDebug(base);
+  assert.deepEqual(derived, { ...base, NSAppTransportSecurity: debugPolicy() });
+  assert.equal(JSON.stringify(base), before);
+  assert.throws(() => deriveDebug({ ...base, NSAppTransportSecurity: debugPolicy() }));
 });
-test('rejects identity changes and malformed input', () => {
-  const release = fixture(); release.CFBundleIdentifier = 'example.other';
-  assert.throws(() => checkPair(fixture(), release), /synthetic identity/);
-  assert.throws(() => checkPair(fixture(), null), /plist required/);
+test('rejects accidentally reused input instead of certifying uninspected Release', () => {
+  const debug = fixture('Debug'); assert.throws(() => checkPair(debug, debug), /Separate processed inputs/);
 });
+test('rejects physical-device artifacts, identity changes and malformed input', () => {
+  const release = fixture('Release'); release.CFBundleSupportedPlatforms = ['iPhoneOS'];
+  assert.throws(() => checkPair(fixture('Debug'), release), /simulator only/);
+  release.CFBundleSupportedPlatforms = ['iPhoneSimulator']; release.CFBundleIdentifier = 'example.other';
+  assert.throws(() => checkPair(fixture('Debug'), release), /synthetic identity/);
+  assert.throws(() => checkPair(fixture('Debug'), null), /plist required/);
+});
+// Included in the existing cross-platform node:test verification entry point.
+require('./ios-debug-policy.test.cjs');

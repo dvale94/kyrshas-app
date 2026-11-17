@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+const { BASE, DEBUG, assertPolicy, createPlan } = require('./ios-debug-policy.cjs');
 
 const root = path.resolve(__dirname, '..');
 const ios = path.join(root, 'ios');
@@ -24,6 +25,8 @@ function json(relative) {
 }
 function main() {
   assert.equal(fs.realpathSync(ios), ios, 'Refuse a symlinked native root');
+  assert.equal(createPlan(root).changes.length, 0, 'Approved native policy must match committed tooling');
+  assertPolicy(plist(BASE).NSAppTransportSecurity, 'Default');
   const projects = fs.readdirSync(ios).filter((name) => name.endsWith('.xcodeproj'));
   assert.equal(projects.length, 1, 'Expected exactly one isolated Xcode project');
   const project = plist(`${projects[0]}/project.pbxproj`);
@@ -48,6 +51,8 @@ function main() {
     assert.ok(!settings.INFOPLIST_KEY_CFBundleDisplayName || settings.INFOPLIST_KEY_CFBundleDisplayName === "kyrsha's App", 'Unexpected display-name override');
     assert.ok(!Object.keys(settings).some((key) => key.startsWith('INFOPLIST_KEY_NSAppTransportSecurity')), 'Unexpected ATS build override');
     const infoPath = settings.INFOPLIST_FILE;
+    assert.ok(['Debug', 'Release'].includes(config.name), 'Only approved configurations');
+    assert.equal(infoPath, config.name === 'Debug' ? DEBUG : BASE, 'Debug/Release plist separation');
     const info = plist(infoPath);
     assert.equal(info.CFBundleIdentifier, '$(PRODUCT_BUNDLE_IDENTIFIER)');
     assert.equal(info.CFBundleDisplayName, "kyrsha's App");
@@ -57,9 +62,7 @@ function main() {
     assert.equal(info.UIUserInterfaceStyle, 'Light');
     assert.ok(info.CFBundleURLTypes.some((entry) => entry.CFBundleURLSchemes.includes('com.dvale1994.kyrshasapp')));
     const ats = info.NSAppTransportSecurity;
-    assert.equal(ats.NSAllowsArbitraryLoads, false);
-    assert.equal(ats.NSAllowsLocalNetworking, false);
-    assert.ok(!ats.NSExceptionDomains, 'No ATS exceptions');
+    assertPolicy(ats, config.name);
     const appDirectory = path.dirname(infoPath);
     assert.equal(plist(`${appDirectory}/Supporting/Expo.plist`).EXUpdatesEnabled, false);
     const entitlements = plist(settings.CODE_SIGN_ENTITLEMENTS);

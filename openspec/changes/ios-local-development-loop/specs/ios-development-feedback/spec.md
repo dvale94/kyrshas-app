@@ -35,6 +35,20 @@ Any ATS exception, transport permission, trust/signing/capability, identity or m
 - **THEN** a concrete unapplied preview identifies Debug-only scope, committed/generated authority, strict Release verification and rollback
 - **AND** the owner is asked before application, with no blanket arbitrary-loads exception
 
+### Requirement: Contain the approved Debug policy
+The implementation SHALL add only a localhost insecure-HTTP domain exception to Debug, with subdomains disabled and arbitrary loads/local networking false. Default and Release SHALL remain exactly strict. Committed shared plugin/tooling SHALL support drift-checked application to the existing native tree without cleaning or regeneration.
+
+#### Scenario: Apply the owner's narrow approval
+- **WHEN** the recorded owner approval is implemented
+- **THEN** the dedicated Debug plist is derived from the unchanged base and only the Debug reference changes
+- **AND** input drift, unknown policy or symlink escapes are rejected before mutation
+- **AND** fixture checks reject every unapproved exception and actual independent Debug/Release processed plists demonstrate separation
+
+#### Scenario: Exact exception is insufficient
+- **WHEN** native Metro transport still requires broader permission after applying the approved localhost exception
+- **THEN** the agent stops and reports actual failure without broadening policy
+- **AND** no unavailable live-refresh or smoke outcome is reported as passing
+
 ### Requirement: Preserve work and deliver evidence
 The workflow SHALL preserve legacy/native/backup state, credentials, signing and owner changes; existing checks, outcome limits and interventions SHALL be recorded in a scoped PR without merge or archive.
 

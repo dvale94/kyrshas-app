@@ -26,6 +26,12 @@ See proposal.md for motivation. Main08406d6 includes merged pilot02C, its passin
 - [Numeric host or TLS changes appear to bypass the symptom] → Require observed native transport and unchanged policy; never disable security verification.
 - [A future Debug exception leaks into Release] → Dedicated source/build-setting separation plus built Release negative assertions, reviewed before policy application.
 
+## Approved implementation — 2026-11-16
+
+The separate owner decision authorizes only the proposal's exact localhost Debug dictionary, superseding the historical no-policy-change non-goal for that allowance alone. A shared CommonJS module supplies strict/default and approved Debug policies plus fail-closed native transformation. An Expo dangerous mod calls the same explicit synchronizer used by the CLI; introspection must leave the default Info.plist strict and perform no disk mutation. The synchronizer checks the single synthetic app target, exact Debug/Release configurations, paths, strict base, absence of ATS overrides, and expected existing Debug state. It produces a receipt of input/output hashes before an explicit apply; changed input, unknown Debug contents or symlink traversal is rejected. Only the Debug plist and Debug INFOPLIST_FILE reference may change. Repeated application is idempotent; no native prebuild is invoked.
+
+Checks distinguish approved Debug from strict Release/default and reject any extra policy keys/domains, subdomains, broad allowances or missing values. Independent actual simulator configuration builds provide processed-plist proof before an initial approved Debug installation. Metro acceptance then requires baseline rendering, a harmless source edit and native refresh in the same installed app, with binary fingerprints and no intervening build/install. Restore the probe source and run native smoke afterward. Exact-policy failure is a stopping condition, never a reason to widen transport permission.
+
 ## Migration Plan
 
 No deployment occurs. Restore temporary synthetic source probes by exact-match guarded edits. Retain the existing embedded bundle baseline. A future approved Debug policy change must include a narrow patch preview, strict Release proof, no native regeneration, and rollback by removing only its dedicated source/config files and reference; do not overwrite owner edits or restore native trees wholesale.

@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+const { assertPolicy } = require('./ios-debug-policy.cjs');
 
 function checkPlist(plist, configuration) {
   assert.ok(plist && typeof plist === 'object' && !Array.isArray(plist), `${configuration}: plist required`);
@@ -12,10 +13,8 @@ function checkPlist(plist, configuration) {
   assert.equal(String(plist.CFBundleVersion), '1');
   assert.deepEqual(plist.CFBundleSupportedPlatforms, ['iPhoneSimulator'], `${configuration}: simulator only`);
   assert.deepEqual(plist.UIDeviceFamily, [1], `${configuration}: iPhone only`);
-  assert.deepEqual(plist.NSAppTransportSecurity, {
-    NSAllowsArbitraryLoads: false,
-    NSAllowsLocalNetworking: false,
-  }, `${configuration}: strict baseline; any new ATS key/exception requires review`);
+  assert.ok(['Debug', 'Release'].includes(configuration), 'Processed Debug or Release required');
+  assertPolicy(plist.NSAppTransportSecurity, configuration);
   return {
     configuration, bundleIdentifier: plist.CFBundleIdentifier,
     version: plist.CFBundleShortVersionString, build: String(plist.CFBundleVersion),
