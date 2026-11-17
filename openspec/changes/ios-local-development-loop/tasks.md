@@ -11,7 +11,7 @@
 
 ## 3. Integration and delivery
 
-- [ ] 3.1 Run clean isolated npm ci/full verify, source/native/harness/strict-spec checks and preservation/allowlist review; complete issue9 report/handoff and open a scoped PR against main with independent hosted CI evidence or honest failures. Verify owner index/content is preserved and no generated outputs/security changes are committed; record interventions and approval request without merging or archiving.
+- [x] 3.1 Run clean isolated npm ci/full verify, source/native/harness/strict-spec checks and preservation/allowlist review; complete issue9 report/handoff and open a scoped PR against main with independent hosted CI evidence or honest failures. Verify owner index/content is preserved and no generated outputs/security changes are committed; record interventions and approval request without merging or archiving.
 
 ## Workflow follow-up
 

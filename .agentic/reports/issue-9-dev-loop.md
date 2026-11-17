@@ -69,4 +69,12 @@ Extra clarification prompts/scope decisions before delivery:0. Security decision
 
 Autonomous retries/tool repairs:1 OpenSpec instructions call corrected to include --change;1 terminal-control adjustment from redirected Metro logging to a real PTY. Native builds:2 successful configurations, no build repair/retry. Native acceptance:1 failed marker test retained;1 passing embedded smoke. No policy/identity/trust/version change used to obtain a pass. Issue-number handoff supplied bounded scope; it cannot authorize the separately gated security decision.
 
-Final PR URL, commit, independent hosted outcomes, final escalation count and completion tracking are appended after delivery. Do not merge, deploy, publish, release or archive this or prior changes.
+## Delivered PR and independent CI
+
+[Draft PR #10](https://github.com/dvale94/kyrshas-app/pull/10) targets main from pilot/03a-local-ios-development-loop. Implementation commit `abad575c273c738476e103020097ea38d00cb707` is pushed: exactly13 scoped paths, with the five owner index entries/content verified unchanged after a path-limited commit. No root/native/config/lock or old-spec change was committed. Additional report/task evidence is a separate scoped follow-up commit.
+
+Independent hosted **PASS** on that implementation commit: [Expo workflow44006411336](https://github.com/dvale94/kyrshas-app/actions/runs/44006411336), job133782741925, locked install and full verification steps successful; [harness workflow44006411215](https://github.com/dvale94/kyrshas-app/actions/runs/44006411215), job133782741863, structure/Python checks successful. These workflows do not execute Xcode or native refresh. Local failed marker and passing native fallback evidence above remain independent observations.
+
+All four OpenSpec tasks complete through issue9's explicit BLOCKED-with-proposal alternative; strict validation passes. **This does not mark Fast Refresh or the unapproved security implementation complete.** The owner approval request is the next step, with no permission presumed. PR remains draft/unmerged and all OpenSpec changes remain unarchived.
+
+Final sandbox escalation requests:14 through validation +1 implementation Git stage/path-limited commit/push +1 final evidence Git operation =16 on successful delivery. Extra clarification/scope decisions:0; one security decision pending, not granted; automatic approval-review rejections:0. Native build attempts2 successful configurations;1 negative live test and1 positive fallback test; the two tool/terminal corrections are retained above. Final owner index/content and native preservation review passed. Do not merge, deploy, publish, release or archive this or prior changes.
