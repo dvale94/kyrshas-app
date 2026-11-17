@@ -18,7 +18,7 @@
 - [x] 4.1 Record the exact approval, fresh preservation evidence and revised specification; strictly validate before implementing.
 - [x] 4.2 Implement committed shared policy/config plugin and drift-checked synchronizer; test exact Debug allowance and strict default/Release rejection, then apply only the dedicated Debug plist and Debug reference to the existing native tree.
 - [x] 4.3 Independently build and inspect processed Debug and Release simulator plists. Install the approved Debug build once, then prove an actual harmless JavaScript edit reaches the existing app through Metro refresh without further native build/reinstall. Stop if broader transport policy is needed.
-- [ ] 4.4 Restore probe source, rerun full verification/native smoke, compare preservation evidence, update documentation/report/handoff and push PR10 with actual outcomes and workflow interventions. Do not claim unavailable checks pass.
+- [x] 4.4 Restore probe source, rerun full verification/native smoke, compare preservation evidence, update documentation/report/handoff and push PR10 with actual outcomes and workflow interventions. Do not claim unavailable checks pass.
 
 ## Workflow follow-up
 
