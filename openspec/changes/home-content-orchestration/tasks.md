@@ -13,7 +13,7 @@
 
 - [x] 3.1 Run clean external npm ci and full unchanged verify, policy/synchronizer/native-source, harness, scoped diff and strict OpenSpec checks; record actual outcomes and correction metrics without weakening guards.
 - [x] 3.2 Extend and execute disposable iPhone native smoke for async startup, spinner, refresh, controlled failure/retry, trivia, scroll, portrait and relaunch; retain external evidence and exact binary/policy provenance, and compare both native fingerprints and owner changes.
-- [ ] 3.3 Independently verify acceptance against diff/tests/evidence, update migration guide, issue report and handoff, push scoped commits and create one draft PR against main; record actual hosted Expo/harness outcomes and final workflow metrics.
+- [x] 3.3 Independently verify acceptance against diff/tests/evidence, update migration guide, issue report and handoff, push scoped commits and create one draft PR against main; record actual hosted Expo/harness outcomes and final workflow metrics.
 
 ## Workflow follow-up
 
