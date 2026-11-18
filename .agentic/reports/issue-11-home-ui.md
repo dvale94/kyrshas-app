@@ -83,12 +83,12 @@ Independent verify-delivery phase compares scenario coverage, actual final sourc
 
 ## Delivery and workflow metrics
 
-Draft PR/hosted evidence pending the scoped source commit and push; this section will be finalized without changing product code.
+Delivered one [draft PR#12](https://github.com/dvale94/kyrshas-app/pull/12) against main, unmerged. Implementation commit `8a44902484ba8dcb25ea4e6d0a0cbd592268e009`,16 scoped files. Independent hosted [harness CI PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44209702799) and [Expo CI FAIL](https://github.com/dvale94/kyrshas-app/actions/runs/44209702879) are tied to this code commit (GitHub tested its synthetic PR merge d03501a). Expo job134484625131 installed994 packages on Linux, passed TypeScript17/17 Jest/config, then exited1 at the same two online compatibility recommendations. Hosted Doctor/policy tail were NOT RUN because verify short-circuited; their local standalone outcomes are reported separately. No hosted native run is claimed. Final follow-up changes only docs/task evidence; source/tests/config remain identical to this verified implementation. Final-head hosted status is also recorded in the PR when available.
 
 - Direct issue-number retrieval: yes; PR10 merged-state and duplicate-PR lookup also direct from GitHub.
 - OpenSpec gate: strict PASS before product edits;6 tracked tasks, completion evidence updated as executed, unarchived.
 - Follow-up human scope decisions / clarification prompts:0 /0. No new owner approval required within issue11 scope.
-- Automatic approval-review rejections:0. Sandbox permission escalations are environment requests, not product decisions; final total will include delivery Git operations.
+- Environment permission escalations:35 total, all automatically approved,0 automatic review rejections. Counts are require_escalated invocations, including the final evidence commit/push: Git8 (fetch, branch, staging2, scoped commits2, pushes2); simulator5 (inventory, create, boot, install, diagnostic screenshot); toolchain/build7 (Xcode version, app Debug1/Release3, runner builds2); native smoke4; online verification/install/Metro/process retry8; screenshot export3. Three initial sandbox refusals (fetch, process inventory, attachment export) were recovered; those are not automatic approval-review rejections.
 - Autonomous correction iterations:4 (XHR sentinel; attribution query/safe-area warning; sticky-title placement; Metro/build interference retry). No known-bug port or weakened guard.
 - Native smoke attempts:4,2 failed/2 passed, final25.004s. App Debug build1, Release builds3 (initial and final-source refreshes); UI runner builds2. Clean-install retry1 after restricted-network stall; screenshot-export permission retry1.
 - Additional human handholding: none. No subagents, paid services, provider calls, merges, deployments, releases or OpenSpec archive.

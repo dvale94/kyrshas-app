@@ -16,7 +16,7 @@
 
 ## 4. Delivery evidence
 
-- [ ] 4.1 Independently assess acceptance and scoped diff, update migration guide/report/handoff with PASS/FAIL/BLOCKED/NOT RUN, actual local/native/hosted evidence, preservation and intervention/debugging metrics; open one draft PR against main referencing issue #11 and record hosted CI outcomes.
+- [x] 4.1 Independently assess acceptance and scoped diff, update migration guide/report/handoff with PASS/FAIL/BLOCKED/NOT RUN, actual local/native/hosted evidence, preservation and intervention/debugging metrics; open one draft PR against main referencing issue #11 and record hosted CI outcomes.
 
 ## Workflow follow-up
 
