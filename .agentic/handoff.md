@@ -1,6 +1,18 @@
 # Agent handoff
 
-## Current task — issue #9, pilot 03A: approved Metro continuation
+## Current task — issue #11, pilot 03B: synthetic home/card UI
+
+**Functional/native PASS; aggregate verification FAIL on newly recommended existing SDK patches.** [Issue11 report](reports/issue-11-home-ui.md), [comparison and checks](../docs/migration/expo-next-home-ui.md), [OpenSpec](../openspec/changes/home-card-ui-migration/tasks.md). Branch `pilot/03b-home-card-ui` starts at fetched main/merged PR10 `abcf6692e3e984b0ec45f6d286586533565f99b1`. Direct issue retrieval and clean kickoff index/worktree confirmed.
+
+Five deterministic synthetic cards retain normal-day order/legacy IDs, image/text/attribution variants, accessible trivia Show/Hide and independent error-safe refresh. No provider/private birthday content, navigation/native dependency, identity/security/config/lock change. Growing text and48px controls avoid legacy clipping; title scrolls with feed using automatic safe-area insets. Birthday remains deferred to03E.
+
+PASS: clean external npm ci990 packages, TypeScript17 Jest tests, config/introspection,38 separately executed policy/sync fixtures, source/native drift checks, unsigned Debug/Release builds and exact actual processed Debug/Release policies. FAIL: full verify stops at expo58.0.25→~58.0.26 and jest-expo58.0.14→~58.0.15 recommendations; independent Doctor19/20 fails the same check. No guard weakened or dependency change hidden. Strict active and repository-wide OpenSpec PASS4/4 changes; no archive.
+
+Actual disposable iPhone17/iOS27.2 native Metro smoke PASS1/0,25.004s: first/final cards, scrolling, quote/trivia refresh, answers, portrait and relaunch. Four attempts retained: two failures/two passes; final acceptance ran after build activity stopped. Debug has no embedded JS; same installed native app used for UI corrections. Screenshots/xcresult/builds/fingerprints stay locally under `/private/tmp/kyrshas-issue11-20261117/`; Metro stopped after validation. Production visual/pixel/launch parity, physical devices and installed-upgrade behavior are not established.
+
+Preservation PASS: all20,437 legacy and30,193 modern native entries unchanged; both trees remain ignored, backup neither accessed nor written, all unrelated existing tracked bytes retained. No reset/stash/native generation/Pods/signing/credential/deploy/release/merge. Zero follow-up human scope decisions or clarification prompts; four autonomous correction iterations. Draft PR/hosted results and final environment escalation count will be finalized in the report.
+
+## Previous task — issue #9, pilot 03A: approved Metro continuation
 
 **PASS: actual native Metro edit/refresh after the owner's narrow Debug localhost approval. Release/default ATS remain strictly unchanged.** [Current report](reports/issue-9-dev-loop.md#current-approved-continuation--november162026) and [development-loop instructions](../docs/migration/expo-next-development-loop.md) distinguish real device evidence, static checks and historical failures. Continue on existing draft [PR10](https://github.com/dvale94/kyrshas-app/pull/10), branch pilot/03a-local-ios-development-loop; main remains08406d6.
 
