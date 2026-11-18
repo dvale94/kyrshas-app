@@ -17,7 +17,7 @@ Only 03F-A research/documentation is authorized. Runtime requirements are prospe
 ## 3. Integration evidence and handoff
 
 - [x] 3.1 Run applicable root/documentation checks, final strict validation, scope/link/synthetic-example checks and native metadata comparison; report exact PASS/FAIL/BLOCKED/NOT RUN with limitations.
-- [ ] 3.2 Update report/handoff and open exactly one draft PR against main; verify documentation-only diff and hosted status, leave approval gate pending and OpenSpec unarchived.
+- [x] 3.2 Update report/handoff and open exactly one draft PR against main; verify documentation-only diff and hosted status, leave approval gate pending and OpenSpec unarchived.
 
 ## Workflow follow-up
 
