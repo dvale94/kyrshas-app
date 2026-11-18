@@ -1,8 +1,10 @@
 import { act, render, screen, userEvent, within } from '@testing-library/react-native';
 import App from '../App';
+import { HomeScreen } from '../src/home/HomeScreen';
 import { ContentCard } from '../src/home/ContentCard';
 import { CardText } from '../src/home/CardText';
-import { HOME_CARDS, type CardFixture } from '../src/home/fixtures';
+import { HOME_CARDS } from '../src/home/fixtures';
+import { createMockContentProvider, normalizeContent, type CardId, type ContentProvider } from '../src/home/content';
 
 let network: jest.SpyInstance;
 let xhr: jest.Mock;
@@ -12,7 +14,6 @@ beforeEach(() => {
   network = jest.spyOn(globalThis, 'fetch').mockImplementation(() => {
     throw new Error('Synthetic cards must never request network content');
   });
-  // jest-expo does not install XHR; explicitly forbid construction as well as fetch.
   xhr = jest.fn(() => { throw new Error('Synthetic cards must never request network content'); });
   Object.defineProperty(globalThis, 'XMLHttpRequest', { configurable: true, writable: true, value: xhr });
 });
@@ -37,21 +38,29 @@ function deferred() {
 }
 const cardIds = () => screen.getAllByTestId(/^card-/).map((node) => node.props.testID);
 const expectedIds = ['card-quote', 'card-trivia', 'card-fact', 'card-dad joke', 'card-bucket list item'];
+const settleDemo = () => act(async () => { jest.advanceTimersByTime(650); });
+async function renderLoaded() {
+  await render(<App />);
+  await settleDemo();
+}
+function refreshingProvider(complete: (id: CardId) => Promise<void>): ContentProvider {
+  const mock = createMockContentProvider({ delayMs: 0 });
+  return { async load(id, context) {
+    if (context.revision > 0) await complete(id);
+    return mock.load(id, context);
+  } };
+}
 
 test('renders the branded normal-day feed in exact legacy order with conditional images and author', async () => {
-  await render(<App />);
+  await renderLoaded();
   expect(screen.getByRole('header', { name: "Kyrsha's App" })).toBeTruthy();
   expect(screen.getByText('Offline demo · synthetic content')).toBeTruthy();
   expect(cardIds()).toEqual(expectedIds);
   expect(screen.getAllByRole('header').map((node) => node.props.children)).toEqual([
     "Kyrsha's App", 'QUOTE', 'TRIVIA', 'FACT', 'DAD JOKE', 'BUCKET LIST ITEM',
   ]);
-  for (const id of ['quote', 'fact', 'bucket list item']) {
-    expect(within(screen.getByTestId(`card-${id}`)).getByRole('image')).toBeTruthy();
-  }
-  for (const id of ['trivia', 'dad joke']) {
-    expect(within(screen.getByTestId(`card-${id}`)).queryByRole('image')).toBeNull();
-  }
+  for (const id of ['quote', 'fact', 'bucket list item']) expect(within(screen.getByTestId(`card-${id}`)).getByRole('image')).toBeTruthy();
+  for (const id of ['trivia', 'dad joke']) expect(within(screen.getByTestId(`card-${id}`)).queryByRole('image')).toBeNull();
   expect(screen.getAllByRole('image')).toHaveLength(3);
   expect(screen.getAllByText('- Demo Author')).toHaveLength(1);
   expect(screen.getAllByRole('button', { name: /^Refresh / })).toHaveLength(5);
@@ -60,7 +69,7 @@ test('renders the branded normal-day feed in exact legacy order with conditional
 });
 
 test('retains baseline offline trivia: initially hidden, reveals and hides with accessible state', async () => {
-  await render(<App />);
+  await renderLoaded();
   expect(screen.getByText('How many sides does a triangle have?')).toBeTruthy();
   expect(screen.queryByText('Three sides.')).toBeNull();
   const user = userEvent.setup();
@@ -72,7 +81,7 @@ test('retains baseline offline trivia: initially hidden, reveals and hides with 
 });
 
 test('quote refresh shows busy/disabled state, rotates deterministically and preserves other cards and IDs', async () => {
-  await render(<App />);
+  await renderLoaded();
   const user = userEvent.setup();
   await user.press(screen.getByRole('button', { name: 'Show Answer' }));
   const otherContents = HOME_CARDS.slice(1).map((card) => card.variants[0].text);
@@ -80,8 +89,9 @@ test('quote refresh shows busy/disabled state, rotates deterministically and pre
   expect(screen.getByRole('button', { name: 'Refresh quote', busy: true, disabled: true })).toBeTruthy();
   expect(screen.getByTestId('busy-quote')).toBeTruthy();
   expect(screen.queryByTestId('busy-trivia')).toBeNull();
+  expect(screen.getByText('Refreshing quote…').props.accessibilityLiveRegion).toBe('polite');
   expect(screen.getByText(HOME_CARDS[0].variants[0].text)).toBeTruthy();
-  await act(async () => { jest.advanceTimersByTime(650); });
+  await settleDemo();
   expect(screen.getByRole('button', { name: 'Refresh quote', busy: false, disabled: false })).toBeTruthy();
   expect(screen.queryByTestId('busy-quote')).toBeNull();
   expect(screen.getByText(HOME_CARDS[0].variants[1].text)).toBeTruthy();
@@ -89,16 +99,16 @@ test('quote refresh shows busy/disabled state, rotates deterministically and pre
   expect(screen.getByText('Three sides.')).toBeTruthy();
   expect(cardIds()).toEqual(expectedIds);
   await user.press(screen.getByRole('button', { name: 'Refresh quote' }));
-  await act(async () => { jest.advanceTimersByTime(650); });
+  await settleDemo();
   expect(screen.getByText(HOME_CARDS[0].variants[0].text)).toBeTruthy();
 });
 
 test('refreshing trivia hides the previous answer and exposes the new matching answer', async () => {
-  await render(<App />);
+  await renderLoaded();
   const user = userEvent.setup();
   await user.press(screen.getByRole('button', { name: 'Show Answer' }));
   await user.press(screen.getByRole('button', { name: 'Refresh trivia' }));
-  await act(async () => { jest.advanceTimersByTime(650); });
+  await settleDemo();
   expect(screen.getByText('How many corners does a square have?')).toBeTruthy();
   expect(screen.queryByText('Three sides.')).toBeNull();
   expect(screen.queryByText('Four corners.')).toBeNull();
@@ -110,16 +120,12 @@ test('refreshing trivia hides the previous answer and exposes the new matching a
 test('prevents duplicate in-flight refresh and retains scoped busy state for overlapping cards', async () => {
   const quote = deferred();
   const fact = deferred();
-  const completeQuote = jest.fn(() => quote.promise);
-  const completeFact = jest.fn(() => fact.promise);
-  await render(<>
-    <ContentCard card={HOME_CARDS[0]} completeRefresh={completeQuote} />
-    <ContentCard card={HOME_CARDS[2]} completeRefresh={completeFact} />
-  </>);
+  const complete = jest.fn((id: CardId) => id === 'quote' ? quote.promise : fact.promise);
+  await render(<HomeScreen provider={refreshingProvider(complete)} />);
   const user = userEvent.setup();
   await user.press(screen.getByRole('button', { name: 'Refresh quote' }));
   await user.press(screen.getByRole('button', { name: 'Refresh quote' }));
-  expect(completeQuote).toHaveBeenCalledTimes(1);
+  expect(complete).toHaveBeenCalledTimes(1);
   await user.press(screen.getByRole('button', { name: 'Refresh fact' }));
   expect(screen.getAllByRole('button', { busy: true, disabled: true })).toHaveLength(2);
   await act(async () => { quote.resolve(); });
@@ -131,20 +137,20 @@ test('prevents duplicate in-flight refresh and retains scoped busy state for ove
   expect(screen.queryAllByRole('button', { busy: true })).toHaveLength(0);
 });
 
-test('rejection retains content and answer, clears busy in finally, hides error payload and permits retry', async () => {
+test('rejection retains content and answer, clears busy, hides error payload and permits retry', async () => {
   const attempt = deferred();
   const complete = jest.fn().mockImplementationOnce(() => attempt.promise).mockResolvedValue(undefined);
-  await render(<ContentCard card={HOME_CARDS[1]} completeRefresh={complete} />);
+  await render(<HomeScreen provider={refreshingProvider(complete)} />);
   const user = userEvent.setup();
   await user.press(screen.getByRole('button', { name: 'Show Answer' }));
   await user.press(screen.getByRole('button', { name: 'Refresh trivia' }));
   await act(async () => { attempt.reject(new Error('synthetic-internal-detail')); });
-  expect(screen.getByRole('alert')).toHaveTextContent('Could not refresh this example. Try again.');
+  expect(screen.getByRole('alert')).toHaveTextContent('Could not refresh this example. Use Retry trivia to try again.');
   expect(screen.queryByText('synthetic-internal-detail')).toBeNull();
   expect(screen.getByText('Three sides.')).toBeTruthy();
-  expect(screen.getByRole('button', { name: 'Refresh trivia', busy: false, disabled: false })).toBeTruthy();
+  expect(screen.getByRole('button', { name: 'Retry trivia', busy: false, disabled: false })).toBeTruthy();
   expect(screen.queryByTestId('busy-trivia')).toBeNull();
-  await user.press(screen.getByRole('button', { name: 'Refresh trivia' }));
+  await user.press(screen.getByRole('button', { name: 'Retry trivia' }));
   expect(complete).toHaveBeenCalledTimes(2);
   expect(screen.queryByRole('alert')).toBeNull();
   expect(screen.getByText('How many corners does a square have?')).toBeTruthy();
@@ -152,30 +158,29 @@ test('rejection retains content and answer, clears busy in finally, hides error 
 });
 
 test('a synchronous refresh failure also leaves the card usable', async () => {
-  await render(<ContentCard card={HOME_CARDS[0]} completeRefresh={() => { throw new Error('demo failure'); }} />);
+  await render(<HomeScreen provider={refreshingProvider(() => { throw new Error('demo failure'); })} />);
   await userEvent.setup().press(screen.getByRole('button', { name: 'Refresh quote' }));
   expect(screen.getByRole('alert')).toBeTruthy();
   expect(screen.getByText(HOME_CARDS[0].variants[0].text)).toBeTruthy();
-  expect(screen.getByRole('button', { name: 'Refresh quote', busy: false, disabled: false })).toBeTruthy();
+  expect(screen.getByRole('button', { name: 'Retry quote', busy: false, disabled: false })).toBeTruthy();
 });
 
 test.each([0, 1, 2, 3, 4])('card %i rotates through local examples with its identity and presentation intact', async (index) => {
   const card = HOME_CARDS[index]!;
-  await render(<ContentCard card={card} />);
+  await renderLoaded();
   await userEvent.setup().press(screen.getByRole('button', { name: `Refresh ${card.title}` }));
-  await act(async () => { jest.advanceTimersByTime(650); });
-  expect(screen.getByText(card.variants[1].text)).toBeTruthy();
-  expect(screen.getByTestId(`card-${card.id}`)).toBeTruthy();
-  expect(screen.queryAllByRole('image')).toHaveLength('image' in card.variants[1] ? 1 : 0);
+  await settleDemo();
+  const slot = within(screen.getByTestId(`card-${card.id}`));
+  expect(slot.getByText(card.variants[1].text)).toBeTruthy();
+  expect(slot.queryAllByRole('image')).toHaveLength('image' in card.variants[1] ? 1 : 0);
 });
 
 test('long body and attribution are complete, grow naturally and have no line truncation', async () => {
-  const longText = 'A synthetic example can span many lines without losing its meaning. '.repeat(35);
+  const longText = 'A synthetic example can span many lines without losing its meaning. '.repeat(35).trim();
   const author = 'A fictional author with a deliberately long attribution for layout checks';
-  const card: CardFixture = { id: 'quote', title: 'quote', variants: [
-    { text: longText, author, image: HOME_CARDS[0].variants[0].image },
-  ] };
-  await render(<ContentCard card={card} />);
+  const card = HOME_CARDS[0];
+  const content = normalizeContent(card.id, { id: card.id, title: card.title, text: longText, author, image: card.variants[0].image });
+  await render(<ContentCard card={card} state={{ status: 'ready', revision: 1, content }} onLoad={jest.fn()} />);
   expect(screen.getByText(longText).props.numberOfLines).toBeUndefined();
   expect(screen.getByText(`- ${author}`).props.numberOfLines).toBeUndefined();
   expect(screen.getByRole('image')).toBeTruthy();
@@ -190,7 +195,9 @@ test.each([undefined, '', '   '])('empty optional author and answer %p create no
 });
 
 test('card without optional image or attribution uses a plain green panel', async () => {
-  await render(<ContentCard card={{ id: 'fact', title: 'fact', variants: [{ text: 'Synthetic text only.' }] }} />);
+  const card = HOME_CARDS[2];
+  const content = normalizeContent('fact', { id: 'fact', title: card.title, text: 'Synthetic text only.' });
+  await render(<ContentCard card={card} state={{ status: 'ready', revision: 1, content }} onLoad={jest.fn()} />);
   expect(screen.getByText('Synthetic text only.')).toBeTruthy();
   expect(screen.queryByRole('image')).toBeNull();
   expect(screen.queryByRole('button', { name: 'Show Answer' })).toBeNull();

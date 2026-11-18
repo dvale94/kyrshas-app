@@ -23,6 +23,54 @@ final class SmokeTests: XCTestCase {
     XCTAssertTrue(element.isHittable, "Expected visible element: \(element)\n\(app.debugDescription)")
   }
 
+  /// Run separately with -only-testing and the documented external mock injection.
+  /// Normal application source contains no failure-mode launch switch.
+  func testControlledMockFailureRecovery() throws {
+    let app = XCUIApplication(bundleIdentifier: "com.dvale1994.kyrshasapp")
+    app.launchArguments = ["-RCT_jsLocation", "localhost:8081"]
+    XCUIDevice.shared.orientation = .portrait
+    app.launch()
+    let initialStatus = app.staticTexts["Loading quote…"]
+    XCTAssertTrue(initialStatus.waitForExistence(timeout: 60), app.debugDescription)
+    XCTAssertFalse(app.buttons["Refresh quote"].isEnabled)
+    capture("failure-01-initial-loading")
+    let quoteError = app.staticTexts["Could not load this example. Use Retry quote to try again."]
+    XCTAssertTrue(quoteError.waitForExistence(timeout: 10), app.debugDescription)
+    let question = app.staticTexts["How many sides does a triangle have?"]
+    XCTAssertTrue(question.waitForExistence(timeout: 10))
+    XCTAssertTrue(app.buttons["Retry quote"].isEnabled)
+    capture("failure-02-isolated-initial-error")
+    app.buttons["Retry quote"].tap()
+    XCTAssertTrue(initialStatus.waitForExistence(timeout: 2))
+    XCTAssertTrue(app.staticTexts["“Small steps can open new paths.”"].waitForExistence(timeout: 10))
+    XCTAssertFalse(quoteError.exists)
+    capture("failure-03-recovered-quote")
+
+    let show = app.buttons["Show Answer"]
+    scrollTo(show, in: app)
+    show.tap()
+    XCTAssertTrue(app.staticTexts["Three sides."].waitForExistence(timeout: 5))
+    app.buttons["Refresh trivia"].tap()
+    XCTAssertTrue(app.staticTexts["Refreshing trivia…"].waitForExistence(timeout: 2))
+    XCTAssertTrue(app.staticTexts["Three sides."].exists)
+    let triviaError = app.staticTexts["Could not refresh this example. Use Retry trivia to try again."]
+    XCTAssertTrue(triviaError.waitForExistence(timeout: 10))
+    XCTAssertTrue(question.exists)
+    XCTAssertTrue(app.staticTexts["Three sides."].exists)
+    capture("failure-04-last-good-answer-retained")
+    let retry = app.buttons["Retry trivia"]
+    scrollTo(retry, in: app)
+    retry.tap()
+    XCTAssertTrue(app.staticTexts["How many corners does a square have?"].waitForExistence(timeout: 10))
+    XCTAssertFalse(triviaError.exists)
+    XCTAssertFalse(app.staticTexts["Three sides."].exists)
+    XCTAssertFalse(app.staticTexts["Four corners."].exists)
+    scrollTo(show, in: app)
+    show.tap()
+    XCTAssertTrue(app.staticTexts["Four corners."].waitForExistence(timeout: 5))
+    capture("failure-05-retry-new-trivia")
+  }
+
   func testSyntheticIPhoneSmoke() throws {
     let app = XCUIApplication(bundleIdentifier: "com.dvale1994.kyrshasapp")
     app.launchArguments = ["-RCT_jsLocation", "localhost:8081"]

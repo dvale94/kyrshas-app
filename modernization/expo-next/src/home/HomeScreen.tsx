@@ -2,8 +2,11 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ContentCard } from './ContentCard';
 import { HOME_CARDS } from './fixtures';
+import { mockContentProvider, type ContentProvider } from './content';
+import { useHomeContent } from './useHomeContent';
 
-export function HomeScreen() {
+export function HomeScreen({ provider = mockContentProvider }: { provider?: ContentProvider } = {}) {
+  const { cards, load } = useHomeContent(provider);
   return (
     <View style={styles.screen}>
       <StatusBar style="light" />
@@ -16,7 +19,9 @@ export function HomeScreen() {
         </View>
         <View style={styles.content}>
           <Text style={styles.caption}>Offline demo · synthetic content</Text>
-          {HOME_CARDS.map((card) => <ContentCard key={card.id} card={card} />)}
+          {HOME_CARDS.map((card) => (
+            <ContentCard key={card.id} card={card} state={cards[card.id]} onLoad={() => load(card.id)} />
+          ))}
         </View>
       </ScrollView>
     </View>

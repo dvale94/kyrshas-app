@@ -1,5 +1,13 @@
 # Agent handoff
 
+## Current task — issue #13: asynchronous home orchestration
+
+Local functional/native PASS. [Issue13 report](reports/issue-13-content-orchestration.md), [migration guide](../docs/migration/expo-next-content-orchestration.md), [OpenSpec tasks](../openspec/changes/home-content-orchestration/tasks.md). Branch `pilot/03c-content-orchestration` from freshly fetched main `ed9cf95`; issue fetched directly and kickoff owner index/worktree clean. Strict complete planning gate passed before code.
+
+Typed validated content/provider seam, deterministic async fixtures and home-owned independent slots replace card-local timers/index. Initial failures isolate; refresh retains last-good, exposes safe Retry, suppresses duplicates and rejects obsolete provider/unmount completions. Same canonical five-card UI/IDs/order/artwork and trivia controls; new trivia success resets its answer while unrelated/failed updates preserve it. No dependency/lock/config/native/security/identity/live-provider/private/birthday change.
+
+PASS clean external npm ci990 and full unchanged verify: TypeScript40 Jest tests/2 suites, config/online compatibility/Doctor20/20/38 policy fixtures; explicit both policy files51/51. Native source/sync, prior separately processed Debug/Release policies, harness, scope/parity and strict OpenSpec5/5 pass. Original native fingerprints remain20,437 legacy/30,193 modern entries unchanged; backup untouched. Prior patched unsigned Debug binary reused with actual hash/UUID provenance, no new application native build. Actual disposable iPhone17/iOS27.2 normal smoke PASS1/0,26.402s after controlled mock PASS1/0,44.020s establishes loading/spinner, partial failure/retry and last-good trivia. Four native attempts retained (3 pass/1 fail); two autonomous harness corrections,0 follow-up human scope prompts. All screenshots/logs/xcresult external at `/private/tmp/kyrshas-issue13-20261117/`. Draft PR/actual hosted status and final permission metrics follow in the report; no merge/archive.
+
 ## Current task — issue #11 / PR12: authorized SDK58 patch alignment
 
 Current local PASS supersedes the historical SDK patch failure below. Owner-authorized only expo~58.0.26 and jest-expo~58.0.15 with npm-generated required compatible transitives; all other direct dependencies, React/RN, app source/tests/scripts/config/identity/security/CI unchanged. Recommendations verified online before edits. Same branch/PR retained, clean owner/index baseline5c1b60a. [Current patch report](reports/issue-11-home-ui.md#authorized-sdk-58-patch-continuation--november-17-2026).

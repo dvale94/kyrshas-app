@@ -1,38 +1,27 @@
-import { useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
-import type { CardFixture } from './fixtures';
+import { useEffect } from 'react';
+import { AccessibilityInfo, ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { CardId } from './content';
+import type { CardState } from './useHomeContent';
 import { CardText } from './CardText';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
-/** A visible, deterministic demonstration delay; no provider or transport work. */
-const demoRefresh = () => new Promise<void>((resolve) => setTimeout(resolve, 650));
-
-export function ContentCard({ card, completeRefresh = demoRefresh }: {
-  card: CardFixture;
-  completeRefresh?: () => Promise<void>;
+export function ContentCard({ card, state, onLoad }: {
+  card: Readonly<{ id: CardId; title: string }>;
+  state: CardState;
+  onLoad: () => void;
 }) {
-  const [variantIndex, setVariantIndex] = useState(0);
-  const [busy, setBusy] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const refreshing = useRef(false);
-  const content = card.variants[variantIndex]!;
-
-  async function refresh() {
-    if (refreshing.current) return;
-    refreshing.current = true;
-    setBusy(true);
-    setFailed(false);
-    try {
-      await completeRefresh();
-      setVariantIndex((index) => (index + 1) % card.variants.length);
-    } catch {
-      // Keep the current fixture and never render/log an untrusted error payload.
-      setFailed(true);
-    } finally {
-      refreshing.current = false;
-      setBusy(false);
-    }
-  }
+  const { content, revision, status } = state;
+  const busy = status === 'idle' || status === 'loading';
+  const failed = status === 'error';
+  const action = failed ? 'Retry' : 'Refresh';
+  const message = busy
+    ? `${content ? 'Refreshing' : 'Loading'} ${card.title}…`
+    : failed ? `Could not ${content ? 'refresh' : 'load'} this example. Use Retry ${card.title} to try again.`
+    : `${card.title} ready`;
+  useEffect(() => {
+    // Live regions cover Android; VoiceOver needs an explicit status announcement.
+    if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(message);
+  }, [message]);
 
   return (
     <View testID={`card-${card.id}`} style={styles.card}>
@@ -41,11 +30,11 @@ export function ContentCard({ card, completeRefresh = demoRefresh }: {
         <Pressable
           testID={`refresh-${card.id}`}
           accessibilityRole="button"
-          accessibilityLabel={`Refresh ${card.title}`}
+          accessibilityLabel={`${action} ${card.title}`}
           accessibilityHint="Show the next synthetic example for this card"
           accessibilityState={{ busy, disabled: busy }}
           disabled={busy}
-          onPress={refresh}
+          onPress={onLoad}
           style={({ pressed }) => [styles.refresh, pressed && styles.pressed]}
         >
           {busy
@@ -53,21 +42,26 @@ export function ContentCard({ card, completeRefresh = demoRefresh }: {
             : <Text accessible={false} style={styles.refreshText}>↻</Text>}
         </Pressable>
       </View>
-      {failed && (
-        <Text accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.error}>
-          Could not refresh this example. Try again.
+      {busy && (
+        <Text testID={`status-${card.id}`} accessibilityLiveRegion="polite" style={styles.status}>
+          {message}
         </Text>
       )}
-      <View style={content.image ? styles.imageSurface : styles.textSurface}>
+      {failed && (
+        <Text accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.error}>
+          {message}
+        </Text>
+      )}
+      {content && <View style={content.image ? styles.imageSurface : styles.textSurface}>
         {content.image && <ImagePlaceholder image={content.image} />}
         <CardText
-          key={variantIndex}
+          key={revision}
           text={content.text}
           author={content.author}
-          answer={card.id === 'trivia' ? content.answer : undefined}
+          answer={content.id === 'trivia' ? content.answer : undefined}
           overlay={!!content.image}
         />
-      </View>
+      </View>}
     </View>
   );
 }
@@ -81,5 +75,6 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.65 },
   imageSurface: { minHeight: 320, padding: 16, justifyContent: 'center', borderRadius: 16, overflow: 'hidden' },
   textSurface: { width: '100%' },
+  status: { color: '#40513a', fontSize: 16, lineHeight: 24 },
   error: { color: '#823315', fontSize: 16, lineHeight: 24 },
 });
