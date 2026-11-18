@@ -1,5 +1,13 @@
 # Home and content cards — Pilot 03B
 
+## Authorized patch alignment — current result
+
+The owner's narrow continuation updates only expo58.0.25→~58.0.26 and jest-expo58.0.14→~58.0.15 plus npm-generated required transitive resolutions. Current online recommendations were verified before edits. React/RN, other direct dependencies, scripts/tests, native plugins, identity and policies are unchanged. [Patch evidence and exact resolution list](../../.agentic/reports/issue-11-home-ui.md#authorized-sdk-58-patch-continuation--november-17-2026) supersede the historical compatibility failure below.
+
+PASS: clean npm ci in workspace and external copy; full unchanged verify (TypeScript17 Jest tests/config/online compatibility/Doctor20/20/38 policy tests); both policy files51 executions (13 repeat imported tests); native-source/sync checks, strict OpenSpec and preservation. Expo's iOS URL-port fix and FileSystem's prebuilt-framework patch warranted a contained rebuild: external-only targeted Expo/FileSystem Pods alignment, other162 pod/subspec versions fixed, copied app/native first-party files identical except external Podfile.lock. Unsigned Debug/Release builds and actual processed exact-policy checks pass. Unchanged native smoke on the rebuilt patched app passes1/0,29.790s, with local screenshots and real localhost Metro. Metro stopped afterward.
+
+Both original native trees remain unchanged (20,437/30,193 entries), including their existing Pods snapshots; the external validation copy alone is synchronized to patched packages. No native clean/prebuild/regeneration, signing/security/identity change or private/live content. Hosted results will be recorded against the patch commit and final PR head in the report/PR. Historical results below remain labeled as pre-alignment evidence.
+
 [Issue #11](https://github.com/dvale94/kyrshas-app/issues/11), November 17, 2026 (America/New_York). Approved [OpenSpec change](../../openspec/changes/home-card-ui-migration/proposal.md), branch `pilot/03b-home-card-ui`, fetched main `abcf6692e3e984b0ec45f6d286586533565f99b1` (merged PR #10). Planning passed strict validation before application edits. Detailed execution evidence: [issue report](../../.agentic/reports/issue-11-home-ui.md).
 
 ## Observed legacy contract and comparison
@@ -29,7 +37,7 @@ The two deterministic variants per category are synthetic examples; all state is
 - Start the approved localhost Metro loop; install only on a new disposable iPhone. Updated standalone XCTest records first/final cards, scrolling, Show/Hide, synthetic refresh, portrait after rotation and relaunch. Inspect safe screenshots locally against the source-derived table; do not claim independent pixel parity.
 - Keep screenshots, xcresult, logs, fingerprints and build products outside Git under `/private/tmp/kyrshas-issue11-20261117/`. Compare all 20,437 legacy and 30,193 modern native entries before/after. Independent backup is neither accessed nor written. Existing owner worktree/index is clean at kickoff and must remain preserved.
 
-## Actual results
+## Historical results before patch alignment
 
 PASS: external locked npm ci (990 packages), TypeScript, 17 component tests, config/introspection, 38 existing policy/synchronizer fixtures run separately, native source/resource/identity checker, synchronizer drift check, actual unsigned Debug/Release simulator builds and distinct processed exact-policy checks. Default and Release remain exactly false/false; Debug retains only the previously approved localhost exception. Both original native trees compare byte-for-byte/path-for-path unchanged (20,437 legacy; 30,193 modern entries). No native project or independent backup was changed.
 

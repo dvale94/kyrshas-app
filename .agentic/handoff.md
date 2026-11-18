@@ -1,6 +1,14 @@
 # Agent handoff
 
-## Current task — issue #11, pilot 03B: synthetic home/card UI
+## Current task — issue #11 / PR12: authorized SDK58 patch alignment
+
+Current local PASS supersedes the historical SDK patch failure below. Owner-authorized only expo~58.0.26 and jest-expo~58.0.15 with npm-generated required compatible transitives; all other direct dependencies, React/RN, app source/tests/scripts/config/identity/security/CI unchanged. Recommendations verified online before edits. Same branch/PR retained, clean owner/index baseline5c1b60a. [Current patch report](reports/issue-11-home-ui.md#authorized-sdk-58-patch-continuation--november-17-2026).
+
+Clean workspace/external npm ci990 packages each and full unchanged verify PASS: TypeScript17 Jest tests/config/online compatibility/Doctor20/20/38 policy tests. Explicit both policy files51 executions (13 repeated imported cases),0 failures. Source/policy/sync/OpenSpec/preservation checks pass. Required Expo iOS URL fix/FileSystem framework change prompted external-only targeted Pods alignment (only Expo/FileSystem versions changed; other162 pod/subspecs fixed), unsigned Debug/Release builds and exact processed policy checks PASS. Existing unchanged native smoke on rebuilt app PASS1/0,29.790s through localhost Metro; screenshots/binaries/logs under `/private/tmp/kyrshas-issue11-patches-20261117/`. Metro stopped.
+
+Original legacy20,437 and modern30,193 native entries unchanged; backup untouched. Original native Pods snapshots remain deliberately unmodified; the external copy alone is synchronized and rebuilt. No native regeneration/clean, release, merge, deployment or archive. Hosted patch/final-head CI and continuation metrics will be finalized in the same report and PR12. OpenSpec keeps the6 completed UI tasks and adds3 authorized patch tasks.
+
+## Original UI delivery — issue #11, pilot 03B: synthetic home/card UI
 
 **Functional/native PASS; aggregate verification FAIL on newly recommended existing SDK patches.** [Issue11 report](reports/issue-11-home-ui.md), [comparison and checks](../docs/migration/expo-next-home-ui.md), [OpenSpec](../openspec/changes/home-card-ui-migration/tasks.md). Branch `pilot/03b-home-card-ui` starts at fetched main/merged PR10 `abcf6692e3e984b0ec45f6d286586533565f99b1`. Direct issue retrieval and clean kickoff index/worktree confirmed.
 

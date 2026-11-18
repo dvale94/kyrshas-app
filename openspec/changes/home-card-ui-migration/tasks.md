@@ -18,6 +18,12 @@
 
 - [x] 4.1 Independently assess acceptance and scoped diff, update migration guide/report/handoff with PASS/FAIL/BLOCKED/NOT RUN, actual local/native/hosted evidence, preservation and intervention/debugging metrics; open one draft PR against main referencing issue #11 and record hosted CI outcomes.
 
+## 5. Authorized SDK 58 patch alignment
+
+- [x] 5.1 Verify current supported recommendations, generate only the authorized expo/jest-expo patch and required compatible transitive lock updates with pinned npm, and verify the direct-dependency/script allowlist and native package delta.
+- [x] 5.2 Run clean npm ci, full unchanged verify/Doctor/all Jest and policy tests, existing native source/security/preservation checks; evaluate and execute a contained rebuild/simulator smoke if native compatibility changes require it, recording PASS/FAIL/BLOCKED/NOT RUN separately.
+- [ ] 5.3 Update the existing report/migration docs/handoff and PR12 with exact package changes and continuation metrics; verify both hosted CI workflows on the final head and strict OpenSpec without merge/release/archive.
+
 ## Workflow follow-up
 
 - Keep this change unarchived for owner review. Subsequent slices 03C–03G require their own approved scopes; no merge, deployment or release.

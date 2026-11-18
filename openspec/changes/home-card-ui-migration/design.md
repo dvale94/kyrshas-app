@@ -26,6 +26,12 @@ See proposal.md. Fetched main is the merged PR #10 baseline (abcf669); worktree/
 - [Async refresh or list movement resets unrelated state] → Stable mounted keys and controlled overlapping refresh tests.
 - [Hosted SDK recommendations drift] → Report actual failures; do not change dependency/security scope merely to pass.
 
+## Authorized patch continuation — November 17, 2026
+
+The owner separately approves only the two patch alignments and required compatible transitive resolutions after independent UI review. Verify current online Expo recommendations before editing; the pre-change check confirms~58.0.26/~58.0.15. Generate the lock with pinned npm10.9.9 in a fresh external copy, review the complete resolution delta and preserve every other direct dependency and verification script. No new product behavior or spec requirement is introduced; home-feed scenarios remain unchanged.
+
+Run clean locked npm ci and the full unchanged verify/Doctor/Jest/policy checks plus existing native-source/security/preservation checks. Compare published old/new package native files, podspecs/autolinking and transitive native versions to decide whether a contained rebuild/simulator smoke is necessary. If required, use only an external copy and the existing disposable synthetic phone, with no original-native generation or policy change. Report missing prerequisites/native incompatibility as BLOCKED rather than reusing the old binary as patch validation. Verify both hosted workflows on the final PR12 head. Preserve historical failures with a superseding current result, update report/docs/handoff/tasks and keep OpenSpec unarchived. This authorization supersedes only the earlier unchanged-lock/dependency restriction for those two patches.
+
 ## Migration Plan
 
 Strictly validate planning artifacts before product edits, implement the small presentation slice with tests, run fresh locked full verification, then validate actual disposable iPhone rendering via Metro and the updated external XCTest runner. Document failures/retries and native preservation, update task evidence and deliver one scoped draft PR against main. Changes remain reversible source edits; no deployment, release, merge or OpenSpec archive occurs.
