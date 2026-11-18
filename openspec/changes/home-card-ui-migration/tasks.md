@@ -22,7 +22,7 @@
 
 - [x] 5.1 Verify current supported recommendations, generate only the authorized expo/jest-expo patch and required compatible transitive lock updates with pinned npm, and verify the direct-dependency/script allowlist and native package delta.
 - [x] 5.2 Run clean npm ci, full unchanged verify/Doctor/all Jest and policy tests, existing native source/security/preservation checks; evaluate and execute a contained rebuild/simulator smoke if native compatibility changes require it, recording PASS/FAIL/BLOCKED/NOT RUN separately.
-- [ ] 5.3 Update the existing report/migration docs/handoff and PR12 with exact package changes and continuation metrics; verify both hosted CI workflows on the final head and strict OpenSpec without merge/release/archive.
+- [x] 5.3 Update the existing report/migration docs/handoff and PR12 with exact package changes and continuation metrics; verify both hosted CI workflows on the final head and strict OpenSpec without merge/release/archive.
 
 ## Workflow follow-up
 
