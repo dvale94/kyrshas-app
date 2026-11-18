@@ -10,8 +10,8 @@ export function ImagePlaceholder({ image }: { image: PlaceholderImage }) {
       pointerEvents="none"
       style={[StyleSheet.absoluteFill, styles.canvas, { backgroundColor: image.sky }]}
     >
-      <View style={[styles.sun, { backgroundColor: image.sun }]} />
-      <View style={[styles.land, { backgroundColor: image.land }]} />
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.sun, { backgroundColor: image.sun }]} />
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.land, { backgroundColor: image.land }]} />
     </View>
   );
 }

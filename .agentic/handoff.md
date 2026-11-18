@@ -1,5 +1,13 @@
 # Agent handoff
 
+## Current task — issue #15: synthetic content edge presentation
+
+Local functional/native PASS; hosted/draft delivery pending at this revision. [Report](reports/issue-15-content-parity.md), [migration guide](../docs/migration/expo-next-content-parity.md), [OpenSpec tasks](../openspec/changes/home-content-edge-parity/tasks.md). Fresh main347b6c4, clean kickoff index/worktree, branch `pilot/03d-content-edge-parity`. Complete strict planning passed before product edits.
+
+Minimal heading/panel/author width refinements, descriptive optional local placeholder semantics, decoration accessibility and purposeful user-outcome announcements preserve default feed and asynchronous provider/hook behavior. No startup announcement flood; immediate identical retry errors announce correctly despite batching. Original40 tests unchanged;22 new cases yield62/62. Clean isolated npm ci990 and exact full unchanged verify PASS: TypeScript62 Jest/config/online compatibility/Doctor20/20/38 policy. Explicit policy51/51, native-source/sync and prior distinct processed Debug/Release policy, harness/strict OpenSpec6/6/scope/whitespace pass.
+
+Actual disposable iPhone SE3/iOS27.2 native normal PASS1/0,24.352s; standard edge PASS1/0,17.288s; final accessibility-medium edge PASS1/0,36.639s. Six attempts4 pass/2 fail retained; Metro-excluded test fixture and one-direction traversal corrected externally/in standalone harness. Prior verified unsigned application binary reused; no new application native build. Both ignored native trees20,437/30,193 entries unchanged, original index/unrelated tracked contents preserved, backup untouched. External entry restored, task fixture removed, Metro stopped/phone shut down. Evidence `/private/tmp/kyrshas-issue15-20261117/`. Actual VoiceOver auditory review/physical/production visual/upgrade/release NOT RUN. No dependency/config/security/native-project/live-provider/private/birthday change, merge/deploy/release/archive. Zero follow-up human scope decisions; detailed metrics and graph WARN disclosed in report.
+
 ## Current task — issue #13: asynchronous home orchestration
 
 Local functional/native PASS. [Issue13 report](reports/issue-13-content-orchestration.md), [migration guide](../docs/migration/expo-next-content-orchestration.md), [OpenSpec tasks](../openspec/changes/home-content-orchestration/tasks.md). Branch `pilot/03c-content-orchestration` from freshly fetched main `ed9cf95`; issue fetched directly and kickoff owner index/worktree clean. Strict complete planning gate passed before code.

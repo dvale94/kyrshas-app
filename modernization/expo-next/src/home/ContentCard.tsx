@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { CardId } from './content';
 import type { CardState } from './useHomeContent';
@@ -18,27 +18,35 @@ export function ContentCard({ card, state, onLoad }: {
     ? `${content ? 'Refreshing' : 'Loading'} ${card.title}…`
     : failed ? `Could not ${content ? 'refresh' : 'load'} this example. Use Retry ${card.title} to try again.`
     : `${card.title} ready`;
+  const requested = useRef(false);
   useEffect(() => {
-    // Live regions cover Android; VoiceOver needs an explicit status announcement.
+    // A replacement provider returns to idle: discard the previous action's intent.
+    if (status === 'idle') requested.current = false;
+    if (busy || !requested.current) return;
+    requested.current = false;
+    // Startup/loading stays quiet. Announce only the user's settled action once.
     if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(message);
-  }, [message]);
+    // Check every commit: loading and an identical retry error can be batched.
+  });
 
   return (
     <View testID={`card-${card.id}`} style={styles.card}>
       <View style={styles.headingRow}>
-        <Text accessibilityRole="header" style={styles.heading}>{card.title.toUpperCase()}</Text>
+        <Text accessibilityRole="header" style={styles.heading}>{(content?.title ?? card.title).toUpperCase()}</Text>
         <Pressable
           testID={`refresh-${card.id}`}
           accessibilityRole="button"
           accessibilityLabel={`${action} ${card.title}`}
-          accessibilityHint="Show the next synthetic example for this card"
+          accessibilityHint={failed
+            ? content ? 'Try this card again; current content stays until a new example is ready' : 'Try this card again to load an example'
+            : 'Show the next synthetic example for this card'}
           accessibilityState={{ busy, disabled: busy }}
           disabled={busy}
-          onPress={onLoad}
+          onPress={() => { requested.current = true; onLoad(); }}
           style={({ pressed }) => [styles.refresh, pressed && styles.pressed]}
         >
           {busy
-            ? <ActivityIndicator testID={`busy-${card.id}`} color="#38761d" />
+            ? <ActivityIndicator testID={`busy-${card.id}`} accessible={false} color="#38761d" />
             : <Text accessible={false} style={styles.refreshText}>↻</Text>}
         </Pressable>
       </View>
@@ -69,8 +77,8 @@ export function ContentCard({ card, state, onLoad }: {
 const styles = StyleSheet.create({
   card: { borderBottomColor: '#38761d', borderBottomWidth: 2, paddingTop: 16, paddingBottom: 20, gap: 12 },
   headingRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  heading: { flex: 1, color: '#38761d', fontSize: 24, fontWeight: '700', textAlign: 'center' },
-  refresh: { minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
+  heading: { flex: 1, flexShrink: 1, color: '#38761d', fontSize: 24, fontWeight: '700', textAlign: 'center' },
+  refresh: { flexShrink: 0, minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
   refreshText: { color: '#38761d', fontSize: 32 },
   pressed: { opacity: 0.65 },
   imageSurface: { minHeight: 320, padding: 16, justifyContent: 'center', borderRadius: 16, overflow: 'hidden' },

@@ -1,6 +1,9 @@
 export type CardId = 'quote' | 'trivia' | 'fact' | 'dad joke' | 'bucket list item';
 
-/** Locally drawn demonstration artwork, never a remote image or private photo. */
+/** Optional locally drawn artwork: nonblank accessible label and #RRGGBB colors.
+ * Omit image for a text-only panel. Invalid supplied metadata is a card error.
+ * This is a synthetic placeholder, not a remote URI/base64/photo contract.
+ */
 export type PlaceholderImage = Readonly<{
   label: string;
   sky: string;
