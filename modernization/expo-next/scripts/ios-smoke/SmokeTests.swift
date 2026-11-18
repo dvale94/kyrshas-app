@@ -17,8 +17,12 @@ final class SmokeTests: XCTestCase {
   private func scrollTo(_ element: XCUIElement, in app: XCUIApplication, up: Bool = true) {
     for _ in 0..<8 {
       if element.isHittable { return }
-      if up { app.scrollViews.firstMatch.swipeUp() }
-      else { app.scrollViews.firstMatch.swipeDown() }
+      let scroll = app.scrollViews.firstMatch
+      // Collapsing a large answer can leave the next target above the viewport.
+      let towardEnd = element.exists && !element.frame.isEmpty
+        ? element.frame.midY > scroll.frame.midY : up
+      if towardEnd { scroll.swipeUp() }
+      else { scroll.swipeDown() }
     }
     XCTAssertTrue(element.isHittable, "Expected visible element: \(element)\n\(app.debugDescription)")
   }
@@ -69,6 +73,60 @@ final class SmokeTests: XCTestCase {
     show.tap()
     XCTAssertTrue(app.staticTexts["Four corners."].waitForExistence(timeout: 5))
     capture("failure-05-retry-new-trivia")
+  }
+
+  /// Run only against the external entry using a copied contentEdges.native.ts fixture.
+  /// Metro excludes __tests__; see the migration guide for the external-only copy.
+  /// Also runnable after simctl ui <disposable-id> content_size accessibility-medium.
+  func testSyntheticContentEdges() throws {
+    let app = XCUIApplication(bundleIdentifier: "com.dvale1994.kyrshasapp")
+    app.launchArguments = ["-RCT_jsLocation", "localhost:8081"]
+    XCUIDevice.shared.orientation = .portrait
+    app.launch()
+    let story = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "End of the synthetic story.")).firstMatch
+    XCTAssertTrue(story.waitForExistence(timeout: 60), app.debugDescription)
+    XCTAssertTrue(story.label.contains("Café paths, naïve robots"))
+    let width = app.windows.firstMatch.frame.width
+    XCTAssertLessThanOrEqual(story.frame.width, width - 20)
+    XCTAssertGreaterThanOrEqual(story.frame.minX, 10)
+    capture("edge-01-long-quote-image-top")
+    let author = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "- Fictional Cartographer")).firstMatch
+    scrollTo(author, in: app)
+    XCTAssertTrue(author.label.hasSuffix("Entirely Synthetic Adventures"))
+    XCTAssertLessThanOrEqual(author.frame.width, width - 20)
+    XCTAssertGreaterThanOrEqual(author.frame.minX, 10)
+    capture("edge-02-complete-attribution")
+
+    let heading = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "TRIVIA FROM THE IMAGINARY PAPER CITY")).firstMatch
+    scrollTo(heading, in: app)
+    XCTAssertTrue(heading.label.hasSuffix("DELIBERATELY LONG HEADING"))
+    XCTAssertGreaterThan(heading.frame.height, 30, "Long heading must wrap")
+    XCTAssertLessThanOrEqual(heading.frame.maxX, width - 10)
+    capture("edge-03-long-heading-and-prompt")
+    let show = app.buttons["Show Answer"]
+    scrollTo(show, in: app)
+    XCTAssertGreaterThanOrEqual(show.frame.height, 48)
+    show.tap()
+    let answer = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "End of the synthetic answer.")).firstMatch
+    XCTAssertTrue(answer.waitForExistence(timeout: 5))
+    XCTAssertLessThanOrEqual(answer.frame.width, width - 20)
+    let hide = app.buttons["Hide Answer"]
+    scrollTo(hide, in: app)
+    capture("edge-04-long-answer-end-and-control")
+    hide.tap()
+    XCTAssertFalse(answer.exists)
+    let fact = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "One.")).firstMatch
+    scrollTo(fact, in: app)
+    XCTAssertTrue(fact.label.contains("三 ✨"))
+    capture("edge-05-no-image-short-multiline-fact")
+    let joke = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Why did the fictional map smile?")).firstMatch
+    scrollTo(joke, in: app)
+    XCTAssertTrue(joke.label.contains("voilà!"))
+    let bucket = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Fold a tiny paper boat.")).firstMatch
+    scrollTo(bucket, in: app)
+    XCTAssertTrue(bucket.label.hasSuffix("imaginary passenger."))
+    capture("edge-06-image-bucket-and-final-card")
+    XCTAssertEqual(app.state, .runningForeground)
   }
 
   func testSyntheticIPhoneSmoke() throws {
