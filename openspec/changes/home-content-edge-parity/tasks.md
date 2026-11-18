@@ -16,4 +16,4 @@
 
 ## 4. Reviewable delivery
 
-- [ ] 4.1 Independently assess every criterion against code/tests/native evidence, complete docs/report/handoff and workflow metrics, and open one draft PR against main with actual separately recorded hosted Expo/harness outcomes; leave OpenSpec unarchived and do not merge/deploy/release.
+- [x] 4.1 Independently assess every criterion against code/tests/native evidence, complete docs/report/handoff and workflow metrics, and open one draft PR against main with actual separately recorded hosted Expo/harness outcomes; leave OpenSpec unarchived and do not merge/deploy/release.
