@@ -1,5 +1,9 @@
 # Secure content roadmap and owner approval gate
 
+**November 19, 2026 superseding owner decision:** updated [issue #19](https://github.com/dvale94/kyrshas-app/issues/19) replaces the former Worker/backend scope with local Expo development only. The historical unapproved phases below are retained, not selected for this scenario. Current authority is the [ADR0002 local addendum](../decisions/0002-secure-content-delivery.md#local-only-owner-decision-addendum--november-19-2026), [local experiment guide](expo-next-local-content.md), and [local-random-api-development OpenSpec](../../openspec/changes/local-random-api-development/proposal.md). Direct API access requires development + explicit local opt-in + new privately owner-created app-root env key; mock default and production exclusion remain mandatory. No hosted infrastructure is implemented. Future distribution requires a separate server-side proxy/Worker, new scoped credential and owner approval. No birthday, deployment, release, native regeneration, merge or archive.
+
+## Historical roadmap — retained planning evidence
+
 November 17, 2026 (America/New_York). **Planning only; all implementation phases below are unapproved.** [Issue #17](https://github.com/dvale94/kyrshas-app/issues/17), [ADR](../decisions/0002-secure-content-delivery.md), [architecture/contract/costs](secure-live-content-architecture.md), [threat model](secure-content-threat-model.md), [acceptance matrix](secure-content-verification.md). Complete strict OpenSpec planning passed before these delivery documents.
 
 ## 03F-A — this delivery
