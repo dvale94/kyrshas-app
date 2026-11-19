@@ -1,5 +1,15 @@
 # ADR 0002: Serve reviewed content independently of public demand
 
+## Local-only owner decision addendum — November 19, 2026
+
+**Accepted for local Expo development only**, by the owner's updated [issue #19](https://github.com/dvale94/kyrshas-app/issues/19). This addendum supersedes the proposed curated-feed/gateway recommendation below for this personal local experiment. Issue #19's former Cloudflare Worker/backend plan is entirely replaced. Historical planning below is retained as evidence and is not an implementation task list.
+
+Use an explicitly enabled direct API Ninjas development adapter at the existing five-card provider seam, gated by `__DEV__`, exact `live-local` mode and a new owner-issued key in the ignored app-root `.env.local`. Mock remains default; production cannot enable live transport. No backend/Worker/gateway or deployment infrastructure is implemented. The owner alone creates the private env and separately authorizes any real-provider smoke; the agent never accesses the old exposed credential or real local env.
+
+The owner accepts that Expo public variables expose the temporary key in the local Metro JavaScript bundle: Gitignore is not encryption and EAS Secret does not hide client-inlined values. This choice is not release-safe. **Any future distributed release requires a separately approved server-side proxy/Worker and a new scoped provider credential**, with rights/quotas/security review. No App Store/TestFlight/EAS/OTA/public sharing, birthday, native regeneration/security-policy change, deploy/release/merge/archive is authorized. See [setup, mapping and rollback](../migration/expo-next-local-content.md) and the strictly validated [new OpenSpec](../../openspec/changes/local-random-api-development/proposal.md).
+
+## Historical proposed architecture
+
 Date: November 17, 2026 (America/New_York). Status: **PROPOSED — owner approval required; no implementation authorized**. Scope: [issue #17](https://github.com/dvale94/kyrshas-app/issues/17), Pilot 03F-A. Supersedes no implemented transport. Existing legacy files remain untouched.
 
 ## Context

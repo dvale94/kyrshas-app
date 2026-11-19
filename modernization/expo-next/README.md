@@ -1,5 +1,7 @@
 # Isolated iPhone Expo scaffold
 
+Local-only API experiment: see [owner setup, mode gates, endpoint mapping and rollback](../../docs/migration/expo-next-local-content.md). Mocks remain default. The owner alone creates the ignored app-root `.env.local` privately; `.env.example` contains placeholders only. `npm start` intentionally disables dotenv; use the guide's explicit direct CLI command to opt into live development. Keys are visible in Metro JS bundles. Live-provider acceptance is NOT RUN pending separate owner authorization; future distribution requires a server-side proxy/Worker and a new scoped key. No backend or deployment infrastructure is included.
+
 Issue #5 demonstration only. The original application is preserved at the repository root. No backend, credentials or EAS login is required.
 
 ```sh

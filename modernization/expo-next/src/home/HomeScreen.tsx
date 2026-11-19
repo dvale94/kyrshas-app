@@ -5,7 +5,7 @@ import { HOME_CARDS } from './fixtures';
 import { mockContentProvider, type ContentProvider } from './content';
 import { useHomeContent } from './useHomeContent';
 
-export function HomeScreen({ provider = mockContentProvider }: { provider?: ContentProvider } = {}) {
+export function HomeScreen({ provider = mockContentProvider, liveLocal = false }: { provider?: ContentProvider; liveLocal?: boolean } = {}) {
   const { cards, load } = useHomeContent(provider);
   return (
     <View style={styles.screen}>
@@ -18,7 +18,7 @@ export function HomeScreen({ provider = mockContentProvider }: { provider?: Cont
           <Text accessibilityRole="header" style={styles.title}>Kyrsha&apos;s App</Text>
         </View>
         <View style={styles.content}>
-          <Text style={styles.caption}>Offline demo · synthetic content</Text>
+          <Text style={styles.caption}>{liveLocal ? 'Live local development · API Ninjas' : 'Offline demo · synthetic content'}</Text>
           {HOME_CARDS.map((card) => (
             <ContentCard key={card.id} card={card} state={cards[card.id]} onLoad={() => load(card.id)} />
           ))}
