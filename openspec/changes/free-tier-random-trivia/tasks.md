@@ -8,4 +8,4 @@
 ## 2. Integration and draft delivery
 
 - [x] 2.1 Run full unchanged isolated verify, policy fixtures, root harness/Python syntax, strict OpenSpec and source/scope protections; record exact outcomes and native/live checks NOT RUN in issue report and handoff.
-- [ ] 2.2 Open one draft PR against main, observe hosted CI on its implementation head, and record CI outcomes in the PR and final report; preserve env/native state and leave OpenSpec unarchived.
+- [x] 2.2 Open one draft PR against main, observe hosted CI on its implementation head, and record CI outcomes in the PR and final report; preserve env/native state and leave OpenSpec unarchived.
