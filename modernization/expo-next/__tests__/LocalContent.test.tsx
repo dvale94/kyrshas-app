@@ -160,7 +160,7 @@ test('maps all five documented shapes and makes one new request on every sequent
   expect(jest.getTimerCount()).toBe(0);
   const urls = transport.mock.calls.map(([url]) => url);
   expect(urls[0]).toMatch(/^https:\/\/api\.api-ninjas\.com\/v2\/randomquotes\?categories=(courage|happiness|inspirational|life|love)$/);
-  expect(urls[1]).toMatch(/^https:\/\/api\.api-ninjas\.com\/v1\/trivia\?category=(entertainment|general|historyholidays|fooddrink)$/);
+  expect([urls[1], urls[6]]).toEqual(Array(2).fill('https://api.api-ninjas.com/v1/trivia'));
   expect(urls.slice(2, 5)).toEqual(['https://api.api-ninjas.com/v1/facts', 'https://api.api-ninjas.com/v1/dadjokes', 'https://api.api-ninjas.com/v1/bucketlist']);
   for (const [url, init] of transport.mock.calls) {
     expect(url).not.toContain(KEY);
@@ -170,16 +170,28 @@ test('maps all five documented shapes and makes one new request on every sequent
   }
 });
 
-test('all retained quote and trivia topics are reachable without arbitrary queries', async () => {
+test('all retained quote topics are reachable without arbitrary queries', async () => {
   const transport = goodTransport();
   const provider = createLocalApiNinjasProvider({ key: KEY, transport });
   const random = jest.spyOn(Math, 'random');
-  for (const [id, count] of [['quote', 5], ['trivia', 4]] as const) {
-    for (let i = 0; i < count; i++) { random.mockReturnValue((i + 0.1) / count); await load(provider, id); }
-  }
+  for (let i = 0; i < 5; i++) { random.mockReturnValue((i + 0.1) / 5); await load(provider, 'quote'); }
   expect(transport.mock.calls.map(([url]) => url.split('=').pop())).toEqual([
-    'courage', 'happiness', 'inspirational', 'life', 'love', 'entertainment', 'general', 'historyholidays', 'fooddrink',
+    'courage', 'happiness', 'inspirational', 'life', 'love',
   ]);
+});
+
+test('Free-tier trivia loads and refreshes without any query and accepts random catalog repeats', async () => {
+  const next = { category: 'music', question: 'Another synthetic question?', answer: 'Another synthetic answer.' };
+  const transport = goodTransport()
+    .mockImplementationOnce(async (url) => response(url))
+    .mockImplementation(async (url) => response(url, [next]));
+  const provider = createLocalApiNinjasProvider({ key: KEY, transport });
+  await expect(provider.load('trivia', { revision: 0 })).resolves.toMatchObject({ text: 'Synthetic question?', answer: 'Synthetic answer.' });
+  for (const revision of [1, 2]) {
+    await expect(provider.load('trivia', { revision })).resolves.toMatchObject({ text: next.question, answer: next.answer });
+  }
+  expect(transport.mock.calls.map(([url]) => url)).toEqual(Array(3).fill('https://api.api-ninjas.com/v1/trivia'));
+  expect(jest.getTimerCount()).toBe(0);
 });
 
 test('shares only pending same-card requests while allowing another card and a later refresh', async () => {

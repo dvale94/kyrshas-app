@@ -6,7 +6,6 @@ const MAX_TEXT = 2000;
 const DEADLINE_MS = 8000;
 const SAFE_ERROR = 'Content unavailable. Please try again.';
 const QUOTE_TOPICS = ['courage', 'happiness', 'inspirational', 'life', 'love'] as const;
-const TRIVIA_TOPICS = ['entertainment', 'general', 'historyholidays', 'fooddrink'] as const;
 
 type Reader = {
   read(): Promise<{ done: boolean; value?: Uint8Array }>;
@@ -38,7 +37,7 @@ function requestUrl(id: CardId): string {
   const topic = (values: readonly string[]) => values[Math.floor(Math.random() * values.length)];
   switch (id) {
     case 'quote': return `${ORIGIN}/v2/randomquotes?categories=${topic(QUOTE_TOPICS)}`;
-    case 'trivia': return `${ORIGIN}/v1/trivia?category=${topic(TRIVIA_TOPICS)}`;
+    case 'trivia': return `${ORIGIN}/v1/trivia`;
     case 'fact': return `${ORIGIN}/v1/facts`;
     case 'dad joke': return `${ORIGIN}/v1/dadjokes`;
     case 'bucket list item': return `${ORIGIN}/v1/bucketlist`;
