@@ -18,7 +18,7 @@ These steps are instructions for the owner, **not actions performed by the agent
    ```
 
    The first must show the app `.env*` ignore rule; the other two must be empty. Never use `git add -f`, `cat`, environment dumps or config dumps on this file. The committed `.env.example` is the only exception to that rule.
-3. Privately create `modernization/expo-next/.env.local` using a local editor. Copy the **placeholder-only** `.env.example` structure; replace its key placeholder with a **new account-issued local key** and change mode from `mock` to `live-local`. Do not place the key in any tracked config, EAS profile or shell history. Confirm provider entitlement/terms and quota privately first; trivia category filtering requires a suitable plan. No subscription or paid service is provisioned here.
+3. Privately create `modernization/expo-next/.env.local` using a local editor. Copy the **placeholder-only** `.env.example` structure; replace its key placeholder with a **new account-issued local key** and change mode from `mock` to `live-local`. Do not place the key in any tracked config, EAS profile or shell history. Confirm provider entitlement/terms and quota privately first. Trivia uses the Free-compatible unfiltered random endpoint without premium parameters; no subscription or paid service is provisioned here.
 4. From the app root, start the installed CLI directly so Expo standard dotenv loading is enabled:
 
    ```sh
@@ -48,7 +48,7 @@ Public provider docs checked November19,2026; documentation research makes no au
 | Card | Documented request and response | Reconciliation |
 |---|---|---|
 | Quote | [`/v2/randomquotes?categories=<topic>`](https://api-ninjas.com/api/quotes), one-item array with quote and optional author | Current `/v2/quotes` is deterministic. Random topics: courage, happiness, inspirational, life, love. Historic dreams is absent from current docs and deliberately excluded; no undocumented fallback. |
-| Trivia | [`/v1/trivia?category=<topic>`](https://api-ninjas.com/api/trivia), one-item array with question and answer | Retains entertainment, general, historyholidays, fooddrink. Category is documented premium-only; owner must verify entitlement before smoke. No automatic unfiltered/paid fallback. |
+| Trivia | [`/v1/trivia`](https://api-ninjas.com/api/trivia), one-item array with question and answer | Free-compatible unfiltered random question on every load/refresh. Exact URL has no query: omit premium-only category, limit and safe. The Free catalog is limited (currently 100 questions); repeats are possible and unique/new content is never guaranteed. |
 | Fact | [`/v1/facts`](https://api-ninjas.com/api/facts), one-item array with fact | Default single result; omit premium limit parameter. |
 | Dad joke | [`/v1/dadjokes`](https://api-ninjas.com/api/dadjokes), one-item array with joke | Default single result. |
 | Bucket list | [`/v1/bucketlist`](https://api-ninjas.com/api/bucketlist), object with item | No parameters; deliberately differs from array routes. |
@@ -57,10 +57,12 @@ Live cards are text-only. Existing local geometric mock placeholders and all fiv
 
 Non-200/429, entitlement, timeout, network, empty/malformed/oversized and missing-answer failures become generic per-card errors. Raw provider bodies, headers and exceptions are discarded with no adapter logs. Existing UI loading/refresh/retry, last-good content, trivia answer reset, obsolete-provider protection and accessibility remain covered by tests. Error presentation retains the existing generic example wording. Live mode reports provider failures honestly and never silently substitutes synthetic success.
 
-Review [provider terms](https://api-ninjas.com/terms), [pricing/quotas](https://api-ninjas.com/pricing) and content licensing before any external sharing; local functionality does not establish redistribution rights, attribution clearance or editorial suitability. Topic parameters can fail under the owner's plan, and random text may repeat or be unsuitable. No live success or entitlement has been established here.
+Review [provider terms](https://api-ninjas.com/terms), [pricing/quotas](https://api-ninjas.com/pricing) and content licensing before any external sharing; local functionality does not establish redistribution rights, attribution clearance or editorial suitability. Quote topic parameters can fail under the owner's plan. Trivia has no topic or safety filter; random text may repeat or be unsuitable. No live success or entitlement has been established here. [Issue #21](https://github.com/dvale94/kyrshas-app/issues/21) corrects only the former premium trivia category request; quote, fact, dad-joke and bucket-list routes retain their existing behavior.
 
 ## Verification and future boundary
 
 See the [issue report](../../.agentic/reports/issue-19-local-content.md) for exact local/hosted/simulator outcomes and metrics. Automated tests use synthetic credentials and fake streamed transport with network sentinels; existing CI and full verify remain unchanged and dotenv-disabled. Original native trees/ATS/default/Release/Debug-localhost rules, dependencies and legacy source are preserved. Live-provider acceptance is **NOT RUN** pending private owner setup and explicit authorization.
+
+Random photo backgrounds are optional future scope requiring a separate approved change; no external images are requested here. Birthday content is excluded.
 
 A future distributed release **requires a separate server-side proxy/Worker**, a new scoped provider credential, rights/quotas/security review and explicit owner approval. This change implements no gateway/Worker/backend, deployment infrastructure, public sharing, birthday, native regeneration, production access, merge, release or OpenSpec archive. Historical curated-feed planning remains as evidence; [ADR0002's addendum](../decisions/0002-secure-content-delivery.md#local-only-owner-decision-addendum--november-19-2026) supersedes that recommendation only for this local development scenario.

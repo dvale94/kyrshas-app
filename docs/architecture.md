@@ -61,3 +61,9 @@ A nonempty credential remains in tracked `eas.json` under the preview environmen
 Git tracks no `ios/` or `android/` files. This machine nevertheless has an ignored `ios/` directory with an Xcode project/workspace, Pods, Podfile/lock and build artifacts; Android is absent. Whether iOS contains manual changes is unknown. Do not delete or regenerate it on the assumption that the tracked repository captures everything.
 
 `.github/workflows/ci.yml` validates only the starter structure and Python syntax; it does not install or test the application. See [verification](verification.md) for executed results and [migration audit](migration/expo-audit.md) for compatibility risks. Deployment and native regeneration require separate approval.
+
+## Modern local-development trivia — issue #21
+
+The isolated `modernization/expo-next` app uses the development-only adapter described in the [local content runbook](migration/expo-next-local-content.md). [Issue #21](https://github.com/dvale94/kyrshas-app/issues/21) changes only its trivia request to exact `https://api.api-ninjas.com/v1/trivia` without any query parameters. API Ninjas supplies an unfiltered random question and answer on each load/refresh; its limited Free catalog can repeat. Category, limit and safe are premium-only and omitted, per the [provider documentation](https://api-ninjas.com/api/trivia) checked November 19, 2026. No live API request was made.
+
+The other four local routes, explicit development plus live-local opt-in, mock default and production exclusion, response validation, pending-request sharing and card behaviors remain unchanged. The legacy observations above remain historical. Photo backgrounds are optional separate future scope; birthday content remains excluded from the modern app.
