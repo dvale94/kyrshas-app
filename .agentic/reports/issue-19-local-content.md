@@ -2,7 +2,7 @@
 
 November 19, 2026 (America/New_York). Scope: directly fetched [updated issue #19](https://github.com/dvale94/kyrshas-app/issues/19), updated2026-11-19T22:43:45Z. Owner replaced the prior Worker/backend plan entirely. Branch `pilot/03fb1-local-random-api` from freshly fetched main `ebe1167e1e6c37802cab01a02692f5a69d6b99e3`; kickoff worktree/index clean. No owner edits were overwritten.
 
-**Local acceptance PASS; live-provider acceptance NOT RUN.** Draft PR/hosted evidence is added below after submission. The owner alone must privately issue a new key, create the local env and separately authorize real-provider testing. Neither legacy credential values nor a real local env were accessed, copied, created or populated. No provider/account request was made.
+**Local and hosted acceptance PASS; live-provider acceptance NOT RUN.** Draft [PR #20](https://github.com/dvale94/kyrshas-app/pull/20) targets main; implementation c2ae547 has independent hosted Expo/harness PASS linked below. The owner alone must privately issue a new key, create the local env and separately authorize real-provider testing. Neither legacy credential values nor a real local env were accessed, copied, created or populated. No provider/account request was made.
 
 ## Scope and planning gate
 
@@ -39,7 +39,7 @@ Pinned Node22.23.4/npm10.9.9. App commands remove inherited public key/mode and 
 | `python3 scripts/doctor.py`; Python syntax with external pycache | PASS exit0. Starter harness only; application verification is separately recorded above. |
 | `openspec validate local-random-api-development --strict`; `openspec validate --all --strict` | PASS exit0 before coding and final checks;8/8 active changes, no archive. |
 | Exact Git ignore/tracking/history/scope and whitespace | PASS: exact local env ignored by app `.env*`, sample exempted, real env absent/untracked/no history; native trees ignored/untracked; no unrelated changes; `git diff --check` exit0. Final staged check repeated before push. |
-| Hosted harness and isolated Expo CI | Evidence recorded below after draft PR submission; independent of local commands. |
+| Hosted harness and isolated Expo CI on c2ae547 | **PASS**: [harness44635492865](https://github.com/dvale94/kyrshas-app/actions/runs/44635492865), [Expo44635492788](https://github.com/dvale94/kyrshas-app/actions/runs/44635492788). Both completed success; independently fetched job logs confirm117 Jest/4 suites, config/online compatibility/Doctor20/20/38 policy checks and root structure/Python syntax. |
 | Live API Ninjas authentication/entitlement/content | **NOT RUN**: requires owner-private new key/setup and explicit later smoke authorization. Synthetic transport success is not live-provider acceptance. |
 | Physical device, VoiceOver auditory audit, signed/release/distribution/upgrade | **NOT RUN**, outside scope. No production visual or release-safety claim. |
 
@@ -51,7 +51,7 @@ One processed-policy invocation used an incorrect external Release directory and
 
 Known disposable iPhone SE3 `6E92159C-60F3-41F0-9E7F-106D00080D58`, iOS27.2 build24B8117; Xcode27.2 build27B52. Other existing booted devices were untouched. Reused the previously installed synthetic unsigned Debug app; inspected only its selected plist/binary hashes, matching prior issue15 provenance and original issue11-patches product. No app rebuild, reinstall, native generation, Pods, signing or project edit. No embedded main.jsbundle; fresh JS came from dotenv-disabled localhost Metro in the isolated clean verification copy, with inherited provider key/mode removed.
 
-Generated only an external standalone XCTest runner using the existing Ruby helper. Ran the **unchanged** `SmokeTests/testSyntheticIPhoneSmoke` via xcodebuild test with signing disabled and only that test selected: **PASS1 test/0 failures,34.572s**, one attempt, no retries. Asserted offline caption, first/final card, quote/trivia refresh, Show/Hide/reset, scrolling, portrait after landscape request and relaunch. Eight synthetic screenshots retained; first-card and new-trivia-answer screenshots visually inspected for correct fallback, readable content and controls. This verifies mock fallback, not live transport/provider success. Metro stopped and only the test phone shut down afterward.
+Generated only an external standalone XCTest runner using the existing Ruby helper. Ran the **unchanged** `SmokeTests/testSyntheticIPhoneSmoke` via xcodebuild test with signing disabled and only that test selected: **PASS1 test/0 failures,34.572s**, one attempt, no retries. Asserted offline caption, first/final card, quote/trivia refresh, Show/Hide/reset, scrolling, portrait after landscape request and relaunch. Eight synthetic screenshots retained; first-card and new-trivia-answer screenshots visually inspected for correct fallback, readable content and controls. This verifies mock fallback, not live transport/provider success. Native smoke preceded the final key-alphabet/placeholder correction; its selected absent-key mock branch and UI are unchanged. Final117-test/full verification covers that correction, so no additional native run was warranted. Metro stopped and only the test phone shut down afterward.
 
 `native-provenance.json` records UUID899C03AA-134D-32D6-9B0C-909A333A3F54 and matching binary/dylib/plist hashes. Metadata snapshots (mode, size, mtime_ns, inode and symlink target; no native content reads for fingerprinting) match **all20,437 legacy and30,193 modern entries**, with no additions/removals. Native source/policy checker reads were restricted to the modern policy verification. Backup never accessed. No resets/stashes, native regeneration/clean, legacy source/config/credential reads, native security/identity/permission changes or private assets.
 
@@ -73,8 +73,10 @@ Limits: provider contracts/entitlements may differ in the owner's account; trivi
 - Native:1 mock XCTest attempt,1 pass/0 failures,34.572s;0 app builds/reinstalls,0 native regeneration/Pods/signing actions. Eight safe screenshots,2 visually inspected.
 - External installation:1 clean locked990-package install. Full unchanged verify:2 external passes, repeated for the final key-validation correction. No automated real-provider requests, live smokes or credential reads.
 - Gortex: native MCP navigation/impact/verify/edit/detect/tests/guards/contract; advisory WARN disclosed above. Tool-schema corrections did not justify bypassing to CLI source mutation.
-- Draft PR/hosted CI and final delivery intervention counts are finalized in the submission evidence below. No merge, deployment, release or archive.
+- One draft PR; implementation hosted workflows2/2 PASS with independently inspected job logs. Through initial implementation push:17 automatically approved environment escalation requests,0 rejections; final documentation Git metadata requests are counted separately in the PR. No merge, deployment, release or archive.
 
 ## Submission evidence
 
-Pending draft PR creation and hosted runs. Owner review and separate private live-smoke authorization remain the only acceptance follow-ups; no key value should be posted.
+Draft [PR #20](https://github.com/dvale94/kyrshas-app/pull/20), implementation `c2ae5470cbf2d59b3a0a4b93da13a2994748b9df`, against main `ebe1167`. Hosted [Expo PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44635492788) and [harness PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44635492865) are independent evidence on that code commit, with job logs inspected. Final evidence-only commit changes this report, handoff and the sixth task checkbox; its exact-head hosted outcomes are linked separately in the PR to distinguish code verification from subsequent documentation.
+
+All6 implementation tasks complete, OpenSpec unarchived. Owner review and separate private live-smoke authorization remain acceptance follow-ups; no key value should be posted. No merge, distribution, backend, deployment or release.
