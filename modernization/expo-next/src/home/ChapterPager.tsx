@@ -3,6 +3,7 @@ import { AccessibilityInfo, findNodeHandle, Pressable, SafeAreaView, ScrollView,
 import { HOME_CARDS } from './fixtures';
 import type { CardId, ContentProvider } from './content';
 import { ChapterReading } from './ChapterReading';
+import { chapters, colors, radius, space, touch, type } from './tokens';
 
 // Resolve the built-in primitive once; no third-party safe-area dependency is adopted.
 const NativeSafeArea = SafeAreaView;
@@ -113,7 +114,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
           style={styles.position}
         >{names[active]} · {active + 1} of 5</Text>
         <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.segments}>
-          {HOME_CARDS.map(({ id }, index) => <View key={id} testID={`progress-${id}`} style={[styles.segment, index === active && styles.selected]} />)}
+          {HOME_CARDS.map(({ id }, index) => <View key={id} testID={`progress-${id}`} style={[styles.segment, index === active && styles.selected, index === active && { backgroundColor: chapters[id].accent }]} />)}
         </View>
       </View>
       <View testID="chapter-viewport" style={styles.viewport} onLayout={(event) => setHeight(Math.max(0, event.nativeEvent.layout.height))}>
@@ -166,14 +167,14 @@ export function ChapterPager({ session, revisions, renderChapter }: {
               importantForAccessibility={index === active ? 'auto' : 'no-hide-descendants'}
             >
               <ChapterReading id={id} active={index === active} height={height} revision={revisions[id]} session={session} onOverflow={onOverflow}>
-                <Text style={styles.cue}>{overflows[id] !== false ? 'Scroll to read · Use Next or Previous chapter' : index === 4 ? 'Last chapter · Use Previous to return' : 'Swipe for more · Or use Next chapter'}</Text>
                 {renderChapter(id)}
+                <Text style={styles.cue}>{index === 4 ? 'Last chapter · Previous to return' : overflows[id] !== false || screenReader ? 'Scroll to read · Navigate below' : 'Swipe for more · Or use Next'}</Text>
               </ChapterReading>
             </View>
           ))}
         </ScrollView>
       </View>
-      <View style={styles.navigation}>
+      <View testID="chapter-navigation" style={[styles.navigation, fontScale > 1.5 && styles.stackedNavigation]}>
         {([-1, 1] as const).map((direction) => {
           const unavailable = height <= 0 || settling || (direction === -1 ? active === 0 : active === 4);
           const action = direction === -1 ? 'Previous' : 'Next';
@@ -186,7 +187,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
             accessibilityState={{ disabled: unavailable }}
             disabled={unavailable}
             onPress={() => navigate(direction)}
-            style={[styles.button, unavailable && styles.disabled]}
+            style={({ pressed }) => [styles.button, fontScale > 1.5 && styles.stackedButton, unavailable && styles.disabled, pressed && !unavailable && styles.pressed]}
           ><Text style={styles.buttonText}>{action}</Text></Pressable>;
         })}
       </View>
@@ -195,16 +196,19 @@ export function ChapterPager({ session, revisions, renderChapter }: {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#eff3f4' },
+  screen: { flex: 1, backgroundColor: colors.canvas },
   viewport: { flex: 1, minHeight: 0 },
-  location: { paddingHorizontal: 12, paddingVertical: 8, gap: 8 },
-  position: { color: '#234b13', fontSize: 16, textAlign: 'center' },
-  segments: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, height: 8 },
-  segment: { width: 20, height: 4, backgroundColor: '#647269', borderRadius: 4 },
-  selected: { width: 36, height: 8, backgroundColor: '#234b13' },
-  cue: { fontSize: 16, color: '#40513a', paddingTop: 8, textAlign: 'center' },
-  navigation: { flexDirection: 'row', gap: 8, padding: 8 },
-  button: { flex: 1, minWidth: 48, minHeight: 48, padding: 8, justifyContent: 'center', borderWidth: 2, borderColor: '#234b13', borderRadius: 8 },
-  disabled: { borderStyle: 'dashed' },
-  buttonText: { fontSize: 18, color: '#234b13', textAlign: 'center', fontWeight: '600' },
+  location: { paddingHorizontal: space.lg, paddingTop: space.md, paddingBottom: space.sm, gap: space.sm },
+  position: { ...type.label, color: colors.secondary, textAlign: 'center' },
+  segments: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.sm, height: 8 },
+  segment: { width: 20, height: 4, backgroundColor: colors.inactive, borderRadius: 4 },
+  selected: { width: 36, height: 8 },
+  cue: { ...type.label, color: colors.secondary, paddingTop: space.sm, textAlign: 'center' },
+  navigation: { flexDirection: 'row', gap: space.md, paddingHorizontal: space.lg, paddingTop: space.sm, paddingBottom: space.md },
+  button: { flex: 1, minWidth: touch, minHeight: touch, padding: space.md, justifyContent: 'center', borderWidth: 1, borderColor: colors.stroke, borderRadius: radius.control, backgroundColor: colors.surface },
+  stackedNavigation: { flexDirection: 'column' },
+  stackedButton: { flex: 0 },
+  disabled: { borderColor: colors.inactive, backgroundColor: colors.canvas },
+  pressed: { backgroundColor: colors.pressed },
+  buttonText: { ...type.button, color: colors.secondary, textAlign: 'center', fontWeight: '600' },
 });

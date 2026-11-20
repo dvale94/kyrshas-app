@@ -60,7 +60,7 @@ test('renders the branded normal-day feed in exact legacy order with conditional
   expect(screen.getByText('Offline demo · synthetic content')).toBeTruthy();
   expect(cardIds()).toEqual(expectedIds);
   expect(screen.getAllByRole('header').map((node) => node.props.children)).toEqual([
-    "Kyrsha's App", 'QUOTE', 'TRIVIA', 'FACT', 'DAD JOKE', 'BUCKET LIST ITEM',
+    "Kyrsha's App", 'Quote', 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item',
   ]);
   for (const id of ['quote', 'fact', 'bucket list item']) expect(within(screen.getByTestId(`card-${id}`)).getByRole('image')).toBeTruthy();
   for (const id of ['trivia', 'dad joke']) expect(within(screen.getByTestId(`card-${id}`)).queryByRole('image')).toBeNull();
@@ -197,7 +197,7 @@ test.each([undefined, '', '   '])('empty optional author and answer %p create no
   expect(screen.queryByText(/^-/)).toBeNull();
 });
 
-test('card without optional image or attribution uses a plain green panel', async () => {
+test('card without optional image or attribution uses a readable plain panel', async () => {
   const card = HOME_CARDS[2];
   const content = normalizeContent('fact', { id: 'fact', title: card.title, text: 'Synthetic text only.' });
   await render(<ContentCard card={card} state={{ status: 'ready', revision: 1, content }} onLoad={jest.fn()} />);
