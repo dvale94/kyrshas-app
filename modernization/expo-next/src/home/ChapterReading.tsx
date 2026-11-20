@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { CardId, ContentProvider } from './content';
+import { colors, space } from './tokens';
 
 /** Each chapter owns its native reading offset for the entire mounted home session. */
 export function ChapterReading({ id, active, height, revision, session, onOverflow, children }: {
@@ -43,6 +44,7 @@ export function ChapterReading({ id, active, height, revision, session, onOverfl
       bounces={false}
       scrollsToTop={false}
       showsVerticalScrollIndicator={overflow}
+      indicatorStyle="white"
       onContentSizeChange={(_, nextHeight) => setContentHeight(nextHeight)}
       onScroll={(event) => { offset.current = event.nativeEvent.contentOffset.y; }}
       scrollEventThrottle={16}
@@ -53,6 +55,6 @@ export function ChapterReading({ id, active, height, revision, session, onOverfl
 }
 
 const styles = StyleSheet.create({
-  reader: { flex: 1, minHeight: 0 },
-  content: { paddingHorizontal: 12, paddingBottom: 16 },
+  reader: { flex: 1, minHeight: 0, backgroundColor: colors.canvas },
+  content: { width: '100%', maxWidth: 568, alignSelf: 'center', paddingHorizontal: space.lg, paddingBottom: space.xl },
 });

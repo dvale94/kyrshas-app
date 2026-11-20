@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react-n
 import { configure } from '@testing-library/react-native';
 import { HomeScreen } from '../src/home/HomeScreen';
 import { ContentCard } from '../src/home/ContentCard';
+import { chapters, colors } from '../src/home/tokens';
 import { HOME_CARDS } from '../src/home/fixtures';
 import { createMockContentProvider, normalizeContent, type CardContent, type CardId, type ContentProvider } from '../src/home/content';
 import { edgeContents, edgeImage, edgeProvider, longAnswer, longAuthor, longQuestion, longText, longTitle } from './fixtures/contentEdges';
@@ -59,7 +60,7 @@ test('all five edge categories keep complete multiline Unicode/punctuation and e
   expect(screen.getAllByTestId(/^card-/).map((item) => item.props.testID)).toEqual(HOME_CARDS.map(({ id }) => `card-${id}`));
   for (const content of Object.values(edgeContents)) expectGrowingText(content.text);
   expectGrowingText(`- ${longAuthor}`);
-  expectGrowingText(longTitle.toUpperCase());
+  expectGrowingText(longTitle);
   expect(screen.getAllByRole('image')).toHaveLength(2);
   expect(screen.queryByText('-    ')).toBeNull();
   await fireEvent.press(screen.getByRole('button', { name: 'Show Answer', expanded: false }));
@@ -77,7 +78,7 @@ test.each(['quote', 'fact', 'bucket list item'] as const)('%s supports local ima
   await screen.rerender(readyCard(id, { ...value, image: undefined }));
   expect(screen.queryByRole('image')).toBeNull();
   expectGrowingText('✓');
-  expect(screen.getByText('✓')).toHaveStyle({ color: '#fff' });
+  expect(screen.getByText('✓')).toHaveStyle({ color: colors.primary });
   expect(screen.queryByRole('button', { name: 'Show Answer' })).toBeNull();
 });
 
@@ -213,14 +214,18 @@ function luminance(hex: string) {
     .map((n) => n <= 0.04045 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4);
   return channels[0]! * 0.2126 + channels[1]! * 0.7152 + channels[2]! * 0.0722;
 }
-test('white text contrast remains above 4.5 on brand panel and worst-case white artwork overlay', async () => {
+test('concrete Afterglow surfaces protect text with or without media and retain practical controls', async () => {
   await render(<HomeScreen provider={edgeProvider} />);
-  expect((1.05) / (luminance('#38761d') + 0.05)).toBeGreaterThan(4.5);
-  // Composite rgba(20,35,24,.88) against the brightest permitted background.
-  const overlay = [20, 35, 24].map((n) => Math.round(n * 0.88 + 255 * 0.12).toString(16).padStart(2, '0')).join('');
-  expect(1.05 / (luminance('#' + overlay) + 0.05)).toBeGreaterThan(4.5);
-  expect(screen.getByText(longText).parent).toHaveStyle({ backgroundColor: 'rgba(20, 35, 24, 0.88)' });
-  expect(screen.getByText(edgeContents.fact.text).parent).toHaveStyle({ backgroundColor: '#38761d' });
+  for (const background of [colors.canvas, colors.surface, colors.elevated, colors.pressed]) {
+    for (const foreground of [colors.primary, colors.secondary, colors.error, ...Object.values(chapters).map(({ accent }) => accent)]) {
+      expect((luminance(foreground) + 0.05) / (luminance(background) + 0.05)).toBeGreaterThanOrEqual(4.5);
+    }
+    for (const foreground of [colors.stroke, colors.inactive]) {
+      expect((luminance(foreground) + 0.05) / (luminance(background) + 0.05)).toBeGreaterThanOrEqual(3);
+    }
+  }
+  expect(screen.getByText(longText).parent).toHaveStyle({ backgroundColor: colors.surface });
+  expect(screen.getByText(edgeContents.fact.text).parent).toHaveStyle({ backgroundColor: colors.surface });
   for (const button of screen.getAllByRole('button')) {
     const style = StyleSheet.flatten(button.props.style);
     expect(style.minHeight).toBeGreaterThanOrEqual(48);
