@@ -1,4 +1,5 @@
 import { act, fireEvent, render, renderHook, screen, userEvent, within } from '@testing-library/react-native';
+import { configure } from '@testing-library/react-native';
 import { HomeScreen } from '../src/home/HomeScreen';
 import { useHomeContent } from '../src/home/useHomeContent';
 import { HOME_CARDS } from '../src/home/fixtures';
@@ -27,6 +28,7 @@ let network: jest.SpyInstance;
 let xhr: jest.Mock;
 const originalXhr = Object.getOwnPropertyDescriptor(globalThis, 'XMLHttpRequest');
 beforeEach(() => {
+  configure({ defaultIncludeHiddenElements: true }); // Inspect retained offscreen data slots.
   network = jest.spyOn(globalThis, 'fetch').mockImplementation(() => { throw new Error('Network forbidden'); });
   xhr = jest.fn(() => { throw new Error('Network forbidden'); });
   Object.defineProperty(globalThis, 'XMLHttpRequest', { configurable: true, writable: true, value: xhr });
