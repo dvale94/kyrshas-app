@@ -2,7 +2,7 @@
 
 November 19, 2026 (America/New_York). [Issue](https://github.com/dvale94/kyrshas-app/issues/25), branch `feat/issue-25-afterglow-vertical-paging`, base freshly fetched main `ca1230ae2ce28d424a3452d169390c67521a48b4` (merged PR #24). [OpenSpec](../../openspec/changes/afterglow-vertical-chapter-paging/proposal.md), [migration/reproduction guide](../../docs/migration/afterglow-vertical-chapter-paging.md).
 
-**Automated/source acceptance PASS. Actual compact-iPhone native acceptance PASS at default and largest accessibility text size.** This report separates actual simulator observations from synthetic Jest scroll events. Draft PR and hosted CI evidence will be recorded after delivery; no merge or archive is authorized.
+**Automated/source acceptance PASS. Actual compact-iPhone native acceptance PASS at default and largest accessibility text size.** This report separates actual simulator observations from synthetic Jest scroll events. Draft [PR #26](https://github.com/dvale94/kyrshas-app/pull/26) targets main; independent hosted Expo and harness checks pass on implementation `28bd31d`. No merge or archive is authorized.
 
 ## Delivered behavior and bounded files
 
@@ -81,3 +81,9 @@ The verify-delivery review checks the bounded spec against source, retained stat
 Local delivery checks PASS: strict active/all 11 specs, whitespace, local linked paths (10 checked), scoped 18-path staging and native/index preservation. External App entry restored from the original; all 16 compared entry/source/package/config files match the tested workspace, and final tests/runner fixture are synchronized. This task's Metro stopped and disposable phone shut down; no owner simulator/server was stopped. No product changes followed the passing native/133-test source checks. Draft PR URL and hosted CI are recorded in the delivery follow-up below. No merge, deployment, publication, release, main-spec sync or OpenSpec archive is performed.
 
 Required owner decisions: review this bounded functional pilot and remaining manual assistive/device acceptance; approve any eventual merge. Final visuals/fonts/artwork rights, rich motion, third-party paging/safe-area packages, native/security expansion and release remain separate future scopes, not implicitly approved by this delivery.
+
+## Draft PR and hosted verification
+
+Draft [PR #26](https://github.com/dvale94/kyrshas-app/pull/26) is open against main, unmerged. Implementation commit: `28bd31d83e9dc59eeb7eabd0b919257568026746`. Independently fetched GitHub results show [Expo PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44669135618), [PR harness PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44669135671) and [push harness PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44669095535). Hosted Expo job logs independently confirm133/133 tests, five suites, Doctor20/20 and38 policy fixtures/zero failures. Hosted CI does not execute native acceptance.
+
+All eight OpenSpec tasks are complete and the change remains unarchived. The final follow-up updates only report/handoff/task evidence; application, tests, native acceptance tooling, configuration and lock remain identical to the tested implementation. Final documentation-head commit and its separately observed hosted results are recorded in the PR description and final delivery response to avoid a self-referencing documentation-commit cycle. Worktree is left clean after those scoped commits; owner retains merge authority.

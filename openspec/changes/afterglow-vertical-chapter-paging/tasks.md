@@ -18,7 +18,7 @@
 
 - [x] 4.1 Run complete unchanged modern verification under pinned Node/npm with dotenv disabled, strict active/all OpenSpec, root harness/Python syntax, policy, whitespace, scope and native/index preservation checks; record exact outcomes and graph limits.
 - [x] 4.2 Attempt non-destructive external unsigned Debug/XCUITest acceptance on a compact iPhone at default and largest type, especially overflow gesture arbitration and answer revisit; record actual screenshots/observations separately from tests or explicitly mark BLOCKED/NOT RUN with provisional acceptance.
-- [ ] 4.3 Deliver detailed report and additive handoff; commit only scoped files, open a draft PR against main, and record commit/URL/hosted CI outcomes, unresolved risks and owner approvals without merge or archive.
+- [x] 4.3 Deliver detailed report and additive handoff; commit only scoped files, open a draft PR against main, and record commit/URL/hosted CI outcomes, unresolved risks and owner approvals without merge or archive.
 
 ## Workflow follow-up
 
