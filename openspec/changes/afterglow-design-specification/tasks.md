@@ -20,7 +20,7 @@ All tracked tasks implement Phase 04A documentation only. Future application pil
 
 - [x] 4.1 Write `docs/design/afterglow/implementation-roadmap.md`; verify seven separately bounded future pilots each have dependencies, acceptance evidence and approval gates, with paging recommended next and unresolved production choices explicit.
 - [x] 4.2 Run final strict active/all OpenSpec, harness/Python syntax, Markdown link, whitespace, documentation-only scope and native metadata preservation checks; record exact outcomes and skipped checks in `.agentic/reports/issue-23-afterglow-design.md` and prepend `.agentic/handoff.md` without deleting historical entries.
-- [ ] 4.3 Commit only approved documentation/OpenSpec paths and open a draft PR against main; verify PR URL/base/draft state and report validation evidence, unresolved decisions and next pilot without merging or archiving.
+- [x] 4.3 Commit only approved documentation/OpenSpec paths and open a draft PR against main; verify PR URL/base/draft state and report validation evidence, unresolved decisions and next pilot without merging or archiving.
 
 ## Workflow follow-up
 

@@ -1,6 +1,6 @@
 # Issue #23 delivery report — Afterglow Phase 04A
 
-Date: November 19, 2026 (America/New_York). Scope: documentation and OpenSpec only. [Issue](https://github.com/dvale94/kyrshas-app/issues/23), [proposal](../../openspec/changes/afterglow-design-specification/proposal.md), [tasks](../../openspec/changes/afterglow-design-specification/tasks.md). Branch `docs/issue-23-afterglow-design`; fetched current main and local HEAD both `23a02c686c87d0e6bcb8e8405fd7d41cd5828d9e`. Kickoff index/worktree clean; no owner changes to transfer, overwrite or stash.
+Date: November 19, 2026 (America/New_York). Scope: documentation and OpenSpec only. [Issue](https://github.com/dvale94/kyrshas-app/issues/23), [proposal](../../openspec/changes/afterglow-design-specification/proposal.md), [tasks](../../openspec/changes/afterglow-design-specification/tasks.md). Branch `docs/issue-23-afterglow-design`; fetched current main and kickoff local HEAD both `23a02c686c87d0e6bcb8e8405fd7d41cd5828d9e`. Kickoff index/worktree clean; no owner changes to transfer, overwrite or stash.
 
 ## Delivered design package
 
@@ -37,7 +37,7 @@ Gortex localized the modern entry/HomeScreen/useHomeContent path and identified 
 | Harness syntax | `PYTHONPYCACHEPREFIX=/private/tmp/kyrshas-issue23-pycache python3 -m py_compile scripts/doctor.py`, exit 0; no repository bytecode output |
 | Proposed contrast arithmetic | Python sRGB ratio assertions pass: primary/secondary ≥4.5 on three dark surfaces and 88%-midnight-over-white composite; accents/progress ≥3 on control surface. Full numerical table in feasibility doc. No rendered-screen certification |
 | Final strict OpenSpec | `openspec validate --all --strict`, exit 0, **10 passed / 0 failed**, after design documents; active strict validation also passed |
-| Local Markdown links/anchors | Ad hoc Python checker: **101 relative links**, existing target paths/heading anchors, exit 0; checks all new Markdown documents and the additive current handoff section |
+| Local Markdown links/anchors | Ad hoc Python checker: **59 relative links**, existing target paths/heading anchors, exit 0; checks all new Markdown documents and the additive current handoff section |
 | Documentation-only scope | Exact **12-path allowlist** includes five OpenSpec artifacts, five audit/design docs, report and handoff; tracked product/config/dependency/test/CI/legacy/earlier-spec diff empty; exit 0 |
 | Handoff preservation | Historical handoff suffix compared to base; all prior entries retained, exit 0 |
 | Native preservation | Metadata-only before/after comparison: legacy **20,437**, modern **30,193** entries unchanged; no native contents read; exit 0 |
@@ -78,4 +78,6 @@ Recommend **04B `afterglow-vertical-chapter-paging`** next: current synthetic co
 - Initial `git fetch origin main` could not open `.git/FETCH_HEAD` in sandbox; authorized escalation succeeded. Branch creation likewise used path-scoped Git permission. No auto-review rejection or owner scope question.
 - Gortex impact on new/nonindexed Markdown had no symbol coverage; existing source anchor was used only to establish the preserved boundary. First note-save used unsupported field names and was corrected; no source affected.
 - One functions orchestration call had a JavaScript parse error before execution; corrected contrast/research call passed. No partial source mutation or provider call.
-- Final PR URL, commit and final validation evidence pending delivery steps below.
+- Draft [PR #24](https://github.com/dvale94/kyrshas-app/pull/24) opened against `main`; returned state open/draft=true/merged=false, base `23a02c6`, documentation package commit `e64f7b9496e62ee495e6f66a3bcd793b7027ea4b`,12 changed paths and no application/native files. All8 documentation tasks are complete; target UI remains unimplemented and OpenSpec unarchived.
+- Independently observed hosted harness jobs on package commit `e64f7b9`: [push harness PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44661539102) and [PR harness PASS](https://github.com/dvale94/kyrshas-app/actions/runs/44661579130), including starter structure and Python syntax steps. This is harness evidence only. Final report/handoff/task-checkbox follow-up is a separate documentation commit; final-head CI is linked in the PR description after observation, not inferred from these earlier runs.
+- Final local acceptance: strict current/all OpenSpec, scoped link/anchor and whitespace checks pass; git diff remains exactly the12 approved docs/OpenSpec paths, previous handoff content retained and native metadata unchanged. No FAIL or BLOCKED documentation checks. No merge, deployment, release or archive.
