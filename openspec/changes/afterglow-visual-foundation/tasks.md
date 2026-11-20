@@ -17,7 +17,7 @@
 ## 4. Integration and delivery
 
 - [x] 4.1 Run unchanged full modern verify under pinned Node/npm with dotenv disabled, explicit policy regressions, strict all/active OpenSpec, root harness, whitespace and owner/native/scope preservation; record exact outcomes.
-- [ ] 4.2 Complete detailed report, reproduction guide and additive handoff, mark only evidenced tasks complete, and open draft PR against main with screenshots/evidence and unresolved visual decisions.
+- [x] 4.2 Complete detailed report, reproduction guide and additive handoff, mark only evidenced tasks complete, and open draft PR against main with screenshots/evidence and unresolved visual decisions.
 
 ## Workflow follow-up
 
