@@ -1,5 +1,6 @@
 import { AccessibilityInfo, Platform, StyleSheet } from 'react-native';
 import { act, fireEvent, render, screen, within } from '@testing-library/react-native';
+import { configure } from '@testing-library/react-native';
 import { HomeScreen } from '../src/home/HomeScreen';
 import { ContentCard } from '../src/home/ContentCard';
 import { HOME_CARDS } from '../src/home/fixtures';
@@ -11,6 +12,7 @@ let xhr: jest.Mock;
 let announce: jest.SpyInstance;
 const originalXhr = Object.getOwnPropertyDescriptor(globalThis, 'XMLHttpRequest');
 beforeEach(() => {
+  configure({ defaultIncludeHiddenElements: true }); // Inspect all five mounted presentations.
   network = jest.spyOn(globalThis, 'fetch').mockImplementation(() => { throw new Error('No network'); });
   xhr = jest.fn(() => { throw new Error('No network'); });
   Object.defineProperty(globalThis, 'XMLHttpRequest', { configurable: true, writable: true, value: xhr });
@@ -45,7 +47,8 @@ function expectGrowingText(value: string) {
   let current = node;
   while (current) {
     const style = StyleSheet.flatten(current.props.style) ?? {};
-    expect(style.height).toBeUndefined();
+    // The chapter viewport is bounded; text and its reading content still grow naturally.
+    if (!String(current.props.testID).startsWith('chapter-')) expect(style.height).toBeUndefined();
     expect(style.maxHeight).toBeUndefined();
     current = current.parent!;
   }

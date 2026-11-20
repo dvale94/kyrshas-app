@@ -1,4 +1,5 @@
 import { act, render, screen, userEvent, within } from '@testing-library/react-native';
+import { configure } from '@testing-library/react-native';
 import App from '../App';
 import { HomeScreen } from '../src/home/HomeScreen';
 import { ContentCard } from '../src/home/ContentCard';
@@ -10,6 +11,8 @@ let network: jest.SpyInstance;
 let xhr: jest.Mock;
 const originalXhr = Object.getOwnPropertyDescriptor(globalThis, 'XMLHttpRequest');
 beforeEach(() => {
+  // Data/presentation regressions inspect all mounted slots; Paging tests verify active-only focus.
+  configure({ defaultIncludeHiddenElements: true });
   jest.useFakeTimers();
   network = jest.spyOn(globalThis, 'fetch').mockImplementation(() => {
     throw new Error('Synthetic cards must never request network content');

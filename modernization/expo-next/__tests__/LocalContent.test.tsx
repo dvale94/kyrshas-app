@@ -1,4 +1,5 @@
 import { act, cleanup, render, screen, userEvent } from '@testing-library/react-native';
+import { configure } from '@testing-library/react-native';
 import { fetch as expoFetch } from 'expo/fetch';
 import { HomeScreen } from '../src/home/HomeScreen';
 import { createContentSource } from '../src/home/contentSource';
@@ -50,6 +51,7 @@ let xhr: jest.Mock;
 const originalXhr = Object.getOwnPropertyDescriptor(globalThis, 'XMLHttpRequest');
 let logs: jest.SpyInstance[];
 beforeEach(() => {
+  configure({ defaultIncludeHiddenElements: true }); // Inspect retained offscreen data slots.
   dev(true);
   jest.useFakeTimers();
   network = jest.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Network forbidden'));
