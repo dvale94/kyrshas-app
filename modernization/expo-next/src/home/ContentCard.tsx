@@ -4,6 +4,7 @@ import type { CardId } from './content';
 import type { CardState } from './useHomeContent';
 import { CardText } from './CardText';
 import { ImagePlaceholder } from './ImagePlaceholder';
+import { chapters, colors, radius, space, touch, type } from './tokens';
 
 export function ContentCard({ card, state, onLoad }: {
   card: Readonly<{ id: CardId; title: string }>;
@@ -14,6 +15,8 @@ export function ContentCard({ card, state, onLoad }: {
   const busy = status === 'idle' || status === 'loading';
   const failed = status === 'error';
   const action = failed ? 'Retry' : 'Refresh';
+  const chapter = chapters[card.id];
+  const suppliedTitle = content?.title && content.title.toLowerCase() !== card.title.toLowerCase() ? content.title : undefined;
   const message = busy
     ? `${content ? 'Refreshing' : 'Loading'} ${card.title}…`
     : failed ? `Could not ${content ? 'refresh' : 'load'} this example. Use Retry ${card.title} to try again.`
@@ -32,24 +35,27 @@ export function ContentCard({ card, state, onLoad }: {
   return (
     <View testID={`card-${card.id}`} style={styles.card}>
       <View style={styles.headingRow}>
-        <Text accessibilityRole="header" style={styles.heading}>{(content?.title ?? card.title).toUpperCase()}</Text>
+        <View style={styles.pill}>
+          <Text accessibilityRole="header" style={[styles.heading, { color: chapter.accent }]}>{chapter.label}</Text>
+        </View>
         <Pressable
           testID={`refresh-${card.id}`}
           accessibilityRole="button"
           accessibilityLabel={`${action} ${card.title}`}
           accessibilityHint={failed
             ? content ? 'Try this card again; current content stays until a new example is ready' : 'Try this card again to load an example'
-            : 'Show the next synthetic example for this card'}
+            : 'Load another example for this card'}
           accessibilityState={{ busy, disabled: busy }}
           disabled={busy}
           onPress={() => { requested.current = true; onLoad(); }}
-          style={({ pressed }) => [styles.refresh, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.refresh, failed && styles.retry, pressed && styles.pressed]}
         >
           {busy
-            ? <ActivityIndicator testID={`busy-${card.id}`} accessible={false} color="#38761d" />
-            : <Text accessible={false} style={styles.refreshText}>↻</Text>}
+            ? <ActivityIndicator testID={`busy-${card.id}`} accessible={false} color={chapter.accent} />
+            : <Text accessible={false} style={[failed ? styles.retryText : styles.refreshText, { color: chapter.accent }]}>{failed ? 'Retry' : '↻'}</Text>}
         </Pressable>
       </View>
+      {!!suppliedTitle && <Text style={styles.suppliedTitle}>{suppliedTitle}</Text>}
       {busy && (
         <Text testID={`status-${card.id}`} accessibilityLiveRegion="polite" style={styles.status}>
           {message}
@@ -70,19 +76,28 @@ export function ContentCard({ card, state, onLoad }: {
           overlay={!!content.image}
         />
       </View>}
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={styles.quiet}>
+        <View style={[styles.accentLine, { backgroundColor: chapter.accent }]} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { borderBottomColor: '#38761d', borderBottomWidth: 2, paddingTop: 16, paddingBottom: 20, gap: 12 },
-  headingRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  heading: { flex: 1, flexShrink: 1, color: '#38761d', fontSize: 24, fontWeight: '700', textAlign: 'center' },
-  refresh: { flexShrink: 0, minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
-  refreshText: { color: '#38761d', fontSize: 32 },
-  pressed: { opacity: 0.65 },
-  imageSurface: { minHeight: 320, padding: 16, justifyContent: 'center', borderRadius: 16, overflow: 'hidden' },
+  card: { paddingTop: space.xl, paddingBottom: space.sm, gap: space.lg },
+  headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
+  pill: { flexShrink: 1, backgroundColor: colors.surface, borderRadius: radius.pill, paddingHorizontal: space.lg, paddingVertical: space.sm },
+  heading: { ...type.label, flexShrink: 1, fontWeight: '600' },
+  refresh: { flexShrink: 0, minWidth: touch, minHeight: touch, padding: space.sm, borderRadius: radius.control, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  refreshText: { fontSize: 30, lineHeight: 34 },
+  retry: { borderWidth: 1, borderColor: colors.error, paddingHorizontal: space.md },
+  retryText: { ...type.button, fontWeight: '600' },
+  pressed: { backgroundColor: colors.pressed },
+  imageSurface: { paddingBottom: space.xl, borderRadius: radius.panel, overflow: 'hidden' },
   textSurface: { width: '100%' },
-  status: { color: '#40513a', fontSize: 16, lineHeight: 24 },
-  error: { color: '#823315', fontSize: 16, lineHeight: 24 },
+  suppliedTitle: { ...type.secondary, color: colors.secondary },
+  status: { ...type.secondary, color: colors.secondary, paddingHorizontal: space.sm },
+  error: { ...type.secondary, color: colors.error, backgroundColor: colors.surface, borderRadius: radius.status, padding: space.lg },
+  quiet: { paddingTop: space.lg, paddingBottom: space.sm, alignItems: 'center' },
+  accentLine: { width: 40, height: 2, borderRadius: 2, opacity: 0.5 },
 });

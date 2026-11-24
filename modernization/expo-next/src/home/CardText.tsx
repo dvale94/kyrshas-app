@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { chapters, colors, radius, space, touch, type } from './tokens';
 
 export function CardText({ text, author, answer, overlay = false }: {
   text: string;
@@ -14,7 +15,10 @@ export function CardText({ text, author, answer, overlay = false }: {
       {!!author?.trim() && <Text style={styles.author}>- {author}</Text>}
       {!!answer?.trim() && (
         <View style={styles.trivia}>
-          {answerVisible && <Text accessibilityLiveRegion="polite" style={styles.body}>{answer}</Text>}
+          {answerVisible && <View style={styles.answer}>
+            <Text style={styles.answerLabel}>Answer</Text>
+            <Text accessibilityLiveRegion="polite" style={styles.answerText}>{answer}</Text>
+          </View>}
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={answerVisible ? 'Hide Answer' : 'Show Answer'}
@@ -32,12 +36,15 @@ export function CardText({ text, author, answer, overlay = false }: {
 }
 
 const styles = StyleSheet.create({
-  panel: { width: '100%', backgroundColor: '#38761d', borderRadius: 8, padding: 18, gap: 12 },
-  overlay: { backgroundColor: 'rgba(20, 35, 24, 0.88)' },
-  body: { color: '#fff', fontSize: 18, lineHeight: 27, textAlign: 'center' },
-  author: { color: '#fff', fontSize: 16, lineHeight: 24, alignSelf: 'flex-end', maxWidth: '100%', flexShrink: 1, textAlign: 'right' },
-  trivia: { gap: 12 },
-  button: { minHeight: 48, minWidth: 48, justifyContent: 'center', padding: 12, borderRadius: 6, backgroundColor: '#234b13' },
-  buttonText: { color: '#fff', fontSize: 18, fontWeight: '600', textAlign: 'center' },
-  pressed: { opacity: 0.8 },
+  panel: { width: '100%', backgroundColor: colors.surface, borderRadius: radius.panel, padding: space.xl, gap: space.lg },
+  overlay: { backgroundColor: colors.surface },
+  body: { ...type.body, color: colors.primary, textAlign: 'left' },
+  author: { ...type.secondary, color: colors.secondary, maxWidth: '100%', flexShrink: 1 },
+  trivia: { gap: space.lg },
+  answer: { backgroundColor: colors.elevated, borderRadius: radius.status, padding: space.lg, gap: space.sm },
+  answerLabel: { ...type.label, color: chapters.trivia.accent, fontWeight: '600' },
+  answerText: { ...type.answer, color: colors.primary },
+  button: { minHeight: touch, minWidth: touch, justifyContent: 'center', padding: space.md, borderRadius: radius.status, backgroundColor: colors.elevated, borderWidth: 1, borderColor: chapters.trivia.accent },
+  buttonText: { ...type.button, color: chapters.trivia.accent, fontWeight: '600', textAlign: 'center' },
+  pressed: { backgroundColor: colors.pressed },
 });
