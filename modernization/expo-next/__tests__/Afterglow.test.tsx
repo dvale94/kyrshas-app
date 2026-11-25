@@ -33,6 +33,7 @@ test('canonical chapter framing stays separate from complete natural-case provid
 
 test('every selected location uses its category accent and shape without recoloring inactive segments', async () => {
   await render(<HomeScreen provider={createMockContentProvider({ delayMs: 0 })} />);
+  await fireEvent(screen.getByTestId('chapter-screen'), 'layout', { nativeEvent: { layout: { width: 375, height: 667, x: 0, y: 0 } } });
   await fireEvent(screen.getByTestId('chapter-viewport'), 'layout', { nativeEvent: { layout: { width: 375, height: 470, x: 0, y: 0 } } });
   for (const [index, card] of HOME_CARDS.entries()) {
     expect(screen.getByTestId('chapter-progress')).toHaveAccessibilityValue({ now: index + 1 });
@@ -53,6 +54,8 @@ test('every selected location uses its category accent and shape without recolor
 
 test('art failure keeps midnight canvas and content actions available', async () => {
   await render(<HomeScreen provider={createMockContentProvider({ delayMs: 0 })} />);
+  await fireEvent(screen.getByTestId('chapter-screen'), 'layout', { nativeEvent: { layout: { width: 375, height: 667, x: 0, y: 0 } } });
+  await fireEvent(screen.getByTestId('chapter-viewport'), 'layout', { nativeEvent: { layout: { width: 375, height: 470, x: 0, y: 0 } } });
   await fireEvent(screen.getByTestId('scene-quote', hidden), 'error');
   expect(screen.queryByTestId('scene-quote', hidden)).toBeNull();
   expect(screen.getByText(HOME_CARDS[0].variants[0].text)).toBeTruthy();

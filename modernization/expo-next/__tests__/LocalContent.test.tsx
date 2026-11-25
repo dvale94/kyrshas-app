@@ -311,7 +311,7 @@ test('live adapter preserves loading, isolated errors, last-good retry and acces
   });
   const source = createContentSource({ mode: 'live-local', key: KEY, transport });
   await render(<HomeScreen {...source} />);
-  expect(screen.getByText('Live local development · API Ninjas')).toBeTruthy();
+  expect(screen.queryByText('Live local development · API Ninjas')).toBeNull();
   expect(screen.queryByText('Offline demo · synthetic content')).toBeNull();
   expect(screen.getByRole('button', { name: 'Refresh quote', busy: true, disabled: true })).toBeTruthy();
   expect(screen.getByRole('button', { name: 'Retry fact' })).toBeTruthy();
@@ -352,5 +352,5 @@ test('an obsolete live provider cannot replace newly selected mocks', async () =
   await act(async () => { old.resolve(response(transport.mock.calls[0][0])); });
   expect(screen.getByText('“Small steps can open new paths.”')).toBeTruthy();
   expect(screen.queryByText('Synthetic quote.')).toBeNull();
-  expect(screen.getByText('Offline demo · synthetic content')).toBeTruthy();
+  expect(screen.queryByText('Offline demo · synthetic content')).toBeNull();
 });

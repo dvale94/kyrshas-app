@@ -16,7 +16,11 @@ jest.mock('react-native', () => {
     mockScrollCommands.set(props.testID, command);
     return React.createElement(native.View, props, props.children);
   });
-  return new Proxy(native, { get(target, key) { return key === 'ScrollView' ? MockScroll : target[key]; } });
+  return new Proxy(native, { get(target, key) {
+    if (key === 'ScrollView') return MockScroll;
+    if (key === 'Animated') return { ...native.Animated, ScrollView: MockScroll, event: (_mapping: unknown, config: { listener: unknown }) => config.listener };
+    return target[key];
+  } });
 });
 
 const ids = ['quote', 'trivia', 'fact', 'dad joke', 'bucket list item'] as const;

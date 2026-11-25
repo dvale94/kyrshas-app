@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
-import { AccessibilityInfo, findNodeHandle, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { AccessibilityInfo, Animated, findNodeHandle, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { HOME_CARDS } from './fixtures';
 import type { CardId, ContentProvider } from './content';
 import { ChapterScene } from './ChapterScene';
@@ -18,6 +18,8 @@ export function ChapterPager({ session, revisions, renderChapter }: {
   renderChapter: (id: CardId) => ReactNode;
 }) {
   const pager = useRef<ComponentRef<typeof ScrollView>>(null);
+  const sceneOffset = useRef(new Animated.Value(0)).current;
+  const [screenHeight, setScreenHeight] = useState(0);
   const progress = useRef<ComponentRef<typeof Text>>(null);
   const [height, setHeight] = useState(0);
   const [active, setActive] = useState(0);
@@ -94,8 +96,10 @@ export function ChapterPager({ session, revisions, renderChapter }: {
   const overflow = overflows[HOME_CARDS[active]!.id] !== false;
   const canSwipe = height > 0 && !overflow && !screenReader;
   return (
-    <View style={styles.screen}>
-      <ChapterScene key={active} id={HOME_CARDS[active]!.id} />
+    <View testID="chapter-screen" style={styles.screen} onLayout={event => setScreenHeight(event.nativeEvent.layout.height)}>
+      {height > 0 && screenHeight > 0 && HOME_CARDS.map(({ id }, index) => <Animated.View key={id} pointerEvents="none" style={[styles.scenePage, { height: screenHeight, transform: [{ translateY: Animated.multiply(Animated.subtract(index * height, sceneOffset), screenHeight / height) }] }]}>
+        <ChapterScene id={id} />
+      </Animated.View>)}
       <NativeSafeArea style={styles.safe}>
       <View style={styles.location}>
         <Text
@@ -121,7 +125,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
         </View>
       </View>
       <View testID="chapter-viewport" style={styles.viewport} onLayout={(event) => setHeight(Math.max(0, event.nativeEvent.layout.height))}>
-        <ScrollView
+        <Animated.ScrollView
           ref={pager}
           testID="chapter-pager"
           style={styles.viewport}
@@ -143,11 +147,14 @@ export function ChapterPager({ session, revisions, renderChapter }: {
             if (!canSwipe || drag.current) return;
             drag.current = { origin: settled.current, offset: event.nativeEvent.contentOffset.y, released: false };
           }}
-          onScroll={(event) => {
-            if (!drag.current) return;
-            drag.current.offset = event.nativeEvent.contentOffset.y;
-            if (drag.current.released) scheduleIdle();
-          }}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: sceneOffset } } }], {
+            useNativeDriver: true,
+            listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+              if (!drag.current) return;
+              drag.current.offset = event.nativeEvent.contentOffset.y;
+              if (drag.current.released) scheduleIdle();
+            },
+          })}
           onScrollEndDrag={(event) => {
             if (!drag.current) return;
             drag.current.offset = event.nativeEvent.contentOffset.y;
@@ -174,7 +181,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
               </ChapterReading>
             </View>
           ))}
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
       <View testID="chapter-navigation" style={[styles.navigation, fontScale > 1.5 && styles.stackedNavigation]}>
         {([-1, 1] as const).map((direction) => {
@@ -204,6 +211,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
   viewport: { flex: 1, minHeight: 0 },
+  scenePage: { position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' },
   safe: { flex: 1 },
   location: { paddingTop: 22, paddingBottom: 17, alignItems: 'center' },
   position: { position: 'absolute', width: 160, height: 24, color: 'transparent', textAlign: 'center' },

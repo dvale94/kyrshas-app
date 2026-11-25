@@ -20,7 +20,14 @@ The app SHALL preserve settled five-chapter paging, mounted state and existing s
 
 #### Scenario: Content grows
 - **WHEN** a long body, attribution, title or revealed answer exceeds the reading area, including at large text sizes
-- **THEN** reading can scroll independently over a protected background, the active chapter is retained, and labeled navigation remains reachable outside the reader.
+- **THEN** measured text and available geometry determine progressively smaller body and line heights down to approximately 18 points, retaining complete content and navigation, with protected scrolling only when it still cannot fit.
+
+### Requirement: Synchronized scenery and quiet quote
+The app SHALL move each mounted chapter artwork with its content during swipes and taps and SHALL omit the visible Quote app and development-mode footer while preserving provider selection.
+
+#### Scenario: Swipe between chapters
+- **WHEN** the user swipes in either direction, including rapid successive swipes and revisits
+- **THEN** outgoing and incoming artwork travels with its respective chapter, without a settled-index delay or per-frame React state updates.
 
 ### Requirement: Interaction states respect content ownership
 The app SHALL keep last-good text and answer visibility on pending or failed refresh while exposing clear loading, retry and answer controls.

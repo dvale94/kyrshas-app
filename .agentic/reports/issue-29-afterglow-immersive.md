@@ -4,6 +4,14 @@ Implementation `81b4ce06875438773e833e15e94132f9b86dc7e7`, based on main `3f28da
 
 The presentation places dynamic content over chapter artwork with a localized contrast scrim and protected overflow reader, category-specific controls, finite progress, compact navigation and trivia reveal. Existing content and paging logic remain in place. The [visual evidence](../../docs/design/afterglow/evidence/issue-29/README.md) includes actual screenshots on compact and standard simulators, comparisons to both owner boards and known differences. Owner approval remains outstanding.
 
+## Owner-requested refinements
+
+The Quote development footer is removed while the source-selection interface remains. The five scenes are mounted and their translation follows the native scroll offset. Reading size responds to measured content and viewport geometry, reaching a minimum 18-point body before retaining overflow scrolling. Changes in content, trivia disclosure, status and viewport reset fitting.
+
+The compact and standard iPhones passed normal-size traversal. Compact default mock, trivia revisit, long reading and retry passed. The previously failing largest-text overflow test passed on the standard iPhone, reaching the complete fact attribution and navigation after fitting. Full verify passed 140 Jest tests and all other checks. [Refinement screenshots and video](../../docs/design/afterglow/evidence/issue-29/README.md) are available for owner review.
+
+The swipe recording shows a remaining geometry difference. Full-display artwork and the shorter safe-area content viewport move over different physical distances. Their boundaries do not coincide exactly during transitions. This needs review against the owner's synchronization requirement before acceptance. The normal screenshot states do not demonstrate absence of visual fitting changes during every possible asynchronous status transition.
+
 ## Verification
 
 - PASS — strict validation of this change and all 13 active changes before source edits. Full pinned Node 22.23.4/npm 10.9.9 `CI=1 npm run verify` with dotenv disabled passed after final implementation, including TypeScript, 139 Jest tests, Expo configuration, dependency check, Doctor 20/20 and 38 policy checks.

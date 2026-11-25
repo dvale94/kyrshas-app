@@ -56,11 +56,11 @@ function refreshingProvider(complete: (id: CardId) => Promise<void>): ContentPro
 
 test('renders the branded normal-day feed in exact legacy order with conditional images and author', async () => {
   await renderLoaded();
-  expect(screen.getByRole('header', { name: "Kyrsha's App" })).toBeTruthy();
-  expect(screen.getByText('Offline demo · synthetic content')).toBeTruthy();
+  expect(screen.queryByText("Kyrsha's App")).toBeNull();
+  expect(screen.queryByText('Offline demo · synthetic content')).toBeNull();
   expect(cardIds()).toEqual(expectedIds);
   expect(screen.getAllByRole('header').map((node) => node.props.children)).toEqual([
-    'Quote', "Kyrsha's App", 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item',
+    'Quote', 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item',
   ]);
   for (const id of ['quote', 'fact', 'bucket list item']) expect(within(screen.getByTestId(`card-${id}`)).getByRole('image')).toBeTruthy();
   for (const id of ['trivia', 'dad joke']) expect(within(screen.getByTestId(`card-${id}`)).queryByRole('image')).toBeNull();

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ReadingFit } from './ReadingFit';
 import type { CardId } from './content';
 import { chapters, colors, radius, space, touch, type } from './tokens';
 
@@ -11,23 +12,27 @@ export function CardText({ text, author, answer, id = 'fact', feedback = false }
   feedback?: boolean;
 }) {
   const [answerVisible, setAnswerVisible] = useState(false);
+  const { scale, reset } = useContext(ReadingFit);
+  useEffect(() => { reset(); }, [text, author, answer, feedback, answerVisible, reset]);
   const [bodyHeight, setBodyHeight] = useState(0);
   const { height, width, fontScale } = useWindowDimensions();
   const dense = fontScale > 1.4 || text.length > 150 || text.split('\n').length > 4;
   const quote = id === 'quote';
   const proportion = quote ? 0.104 : id === 'dad joke' ? 0.086 : 0.094;
-  const size = dense ? 26 : Math.min(42, Math.round(width * proportion));
+  const defaultSize = dense ? 26 : Math.min(42, Math.round(width * proportion));
+  const size = Math.max(18, Math.round(defaultSize * scale));
+  const answerSize = Math.max(18, Math.round((answer && answer.length > 140 ? 26 : 36) * scale));
   return <View style={styles.composition}>
     <View style={[styles.reading, { marginTop: feedback || dense ? 4 : Math.min(48, height * 0.043) }, dense && styles.protected]}>
       {!dense && (feedback || bodyHeight > height * 0.34) && <View pointerEvents="none" accessible={false} style={styles.textShade} />}
       {quote && !dense && !/^[“"‘«]/.test(text.trimStart()) && <Text accessible={false} accessibilityElementsHidden style={styles.quoteMark}>“</Text>}
       <Text onLayout={event => setBodyHeight(event.nativeEvent.layout.height)} style={[styles.body, quote && !dense && styles.quote, { fontSize: size, lineHeight: Math.ceil(size * 1.18) }]}>{text}</Text>
-      {!!author?.trim() && <Text style={[styles.author, quote && !dense && styles.credit]}>- {author}</Text>}
+      {!!author?.trim() && <Text style={[styles.author, quote && !dense && styles.credit, scale < 1 && { fontSize: Math.max(12, Math.round(17 * scale)), lineHeight: Math.max(16, Math.round(25 * scale)) }]}>- {author}</Text>}
     </View>
     {!!answer?.trim() && <View style={styles.trivia}>
       {answerVisible && <View style={styles.answer}>
         <Text style={styles.answerLabel}>Answer</Text>
-        <Text accessibilityLiveRegion="polite" style={[styles.answerText, answer.length > 140 && styles.longAnswer]}>{answer}</Text>
+        <Text accessibilityLiveRegion="polite" style={[styles.answerText, answer.length > 140 && styles.longAnswer, { fontSize: answerSize, lineHeight: scale === 1 ? (answer.length > 140 ? 35 : 43) : Math.ceil(answerSize * 1.2) }]}>{answer}</Text>
       </View>}
       <Pressable accessibilityRole="button" accessibilityLabel={answerVisible ? 'Hide Answer' : 'Show Answer'}
         accessibilityState={{ expanded: answerVisible }}

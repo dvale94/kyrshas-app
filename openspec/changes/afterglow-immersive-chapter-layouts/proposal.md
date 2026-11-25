@@ -5,7 +5,7 @@ The five owner-approved illustrations and two concept boards now establish the v
 ## What Changes
 
 - Compose each chapter against its bundled illustration with safe-area chrome, system serif reading text, illuminated category and refresh controls, slim location segments and a quiet swipe cue.
-- Preserve explicit navigation, measured overflow reading, mock/live-local mode disclosure, independent refresh and revision-scoped trivia disclosure.
+- Preserve explicit navigation, independent refresh and revision-scoped trivia disclosure. Remove the Quote footer while preserving source selection. Synchronize each scene with native page motion and fit reading text to measured available space, using scrolling only when minimum readable type cannot fit.
 - Preserve the seven supplied PNGs byte-for-byte. Bundle only optimized local derivatives. Compare actual compact and standard iPhone captures with the boards.
 
 ## Capabilities
