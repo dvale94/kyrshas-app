@@ -7,6 +7,8 @@ import { CardText } from '../src/home/CardText';
 import { HOME_CARDS } from '../src/home/fixtures';
 import { createMockContentProvider, normalizeContent, type CardId, type ContentProvider } from '../src/home/content';
 
+jest.mock('react-native-safe-area-context', () => require('react-native-safe-area-context/jest/mock').default);
+
 let network: jest.SpyInstance;
 let xhr: jest.Mock;
 const originalXhr = Object.getOwnPropertyDescriptor(globalThis, 'XMLHttpRequest');

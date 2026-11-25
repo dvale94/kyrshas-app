@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
-import { AccessibilityInfo, Animated, findNodeHandle, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
+import { AccessibilityInfo, Animated, findNodeHandle, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { HOME_CARDS } from './fixtures';
 import type { CardId, ContentProvider } from './content';
 import { ChapterScene } from './ChapterScene';
 import { ChapterReading } from './ChapterReading';
 import { chapters, colors, radius, space, touch, type } from './tokens';
 
-// Resolve the built-in primitive once; no third-party safe-area dependency is adopted.
-const NativeSafeArea = SafeAreaView;
+import { SafeAreaView } from 'react-native-safe-area-context';
 const names = ['Quote', 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item'];
 const bound = (index: number) => Math.max(0, Math.min(4, index));
 type Drag = { origin: number; offset: number; released: boolean };
@@ -100,7 +99,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
       {height > 0 && screenHeight > 0 && HOME_CARDS.map(({ id }, index) => <Animated.View key={id} pointerEvents="none" style={[styles.scenePage, { height: screenHeight, transform: [{ translateY: Animated.multiply(Animated.subtract(index * height, sceneOffset), screenHeight / height) }] }]}>
         <ChapterScene id={id} />
       </Animated.View>)}
-      <NativeSafeArea style={styles.safe}>
+      <SafeAreaView style={styles.safe}>
       <View style={styles.location}>
         <Text
           ref={progress}
@@ -203,7 +202,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
           </>}</Pressable>;
         })}
       </View>
-      </NativeSafeArea>
+      </SafeAreaView>
     </View>
   );
 }

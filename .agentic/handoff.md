@@ -1,5 +1,11 @@
 # Agent handoff
 
+## Issue #31 — safe-area migration in progress
+
+The modern app now uses Expo-selected `react-native-safe-area-context` 5.11.1 with a root provider and the existing inset boundary; full-bleed scenes remain outside it. Existing behavioral tests use the library Jest mock. See [delivery report](reports/issue-31-safe-area-migration.md) and [OpenSpec tasks](../openspec/changes/closeout-safe-area-migration/tasks.md).
+
+Pinned full verification passed with network access (140 Jest tests, Expo Doctor 20/20, 38 policy checks); strict OpenSpec and root harness passed. Actual compact/notched Expo Go runtime, warning and native-module behavior remain unverified. Expo Go was absent from the checked booted simulator; do not reuse the old unsigned Debug app as evidence. Physical Expo Go testing remains with the owner. Draft PR and hosted CI status are outstanding until independently observed.
+
 ## Issue #29 — Afterglow immersive chapters
 
 The owner tested the latest implementation on a physical iPhone and explicitly approved its appearance, swipe transitions, adaptive typography and overall experience. Documentation-only closeout passed strict OpenSpec validation for all 13 active changes, the documentation-scope check and `git diff --check`. The Quote footer is removed and measured text fitting was added. Both standard-size simulator traversals, compact overflow/trivia and the previously failing largest-text overflow scenario passed. The owner accepted the physical travel-distance difference between full-display artwork and the shorter content viewport. Full verify passed 140 tests, and hosted CI and Expo baseline passed on `0656fb5`. See [refinement evidence](../docs/design/afterglow/evidence/issue-29/README.md).
