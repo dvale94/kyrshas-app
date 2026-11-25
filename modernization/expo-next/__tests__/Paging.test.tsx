@@ -81,7 +81,7 @@ test('five mounted measured pages have exact order, selected location and active
   expect(screen.queryByRole('button', { name: 'Show Answer' })).toBeNull();
   expect(screen.getByTestId('chapter-progress')).toHaveAccessibilityValue({ min: 1, max: 5, now: 1 });
   expect(screen.getByTestId('chapter-progress')).toHaveProp('accessibilityLabel', 'Quote, chapter 1 of 5');
-  expect(screen.getByTestId('progress-quote', hidden)).toHaveStyle({ width: 36, height: 8 });
+  expect(screen.getByTestId('progress-quote', hidden)).toHaveStyle({ width: 27, height: 5 });
   for (const id of ids) expect(screen.getByTestId(`chapter-${id}`, hidden)).toHaveStyle({ height: 600 });
   for (const id of ['previous-chapter', 'next-chapter']) {
     const style = StyleSheet.flatten(screen.getByTestId(id).props.style);

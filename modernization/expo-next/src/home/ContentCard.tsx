@@ -3,8 +3,9 @@ import { AccessibilityInfo, ActivityIndicator, Platform, Pressable, StyleSheet, 
 import type { CardId } from './content';
 import type { CardState } from './useHomeContent';
 import { CardText } from './CardText';
-import { ImagePlaceholder } from './ImagePlaceholder';
 import { chapters, colors, radius, space, touch, type } from './tokens';
+
+const icons: Record<CardId, string> = { quote: '❝', trivia: '?', fact: '', 'dad joke': '☺', 'bucket list item': '◭' };
 
 export function ContentCard({ card, state, onLoad }: {
   card: Readonly<{ id: CardId; title: string }>;
@@ -35,7 +36,11 @@ export function ContentCard({ card, state, onLoad }: {
   return (
     <View testID={`card-${card.id}`} style={styles.card}>
       <View style={styles.headingRow}>
-        <View style={styles.pill}>
+        <View style={[styles.pill, { borderColor: chapter.accent, shadowColor: chapter.accent }]}>
+          {card.id === 'fact' ? <View accessible={false} accessibilityElementsHidden style={styles.bulb}>
+            <View style={[styles.bulbGlass, { borderColor: chapter.accent }]} />
+            <View style={[styles.bulbBase, { backgroundColor: chapter.accent }]} />
+          </View> : <Text accessible={false} accessibilityElementsHidden style={[styles.icon, { color: chapter.accent }]}>{icons[card.id]}</Text>}
           <Text accessibilityRole="header" style={[styles.heading, { color: chapter.accent }]}>{chapter.label}</Text>
         </View>
         <Pressable
@@ -56,6 +61,9 @@ export function ContentCard({ card, state, onLoad }: {
         </Pressable>
       </View>
       {!!suppliedTitle && <Text style={styles.suppliedTitle}>{suppliedTitle}</Text>}
+      {busy && !content && <View accessible={false} accessibilityElementsHidden style={styles.skeleton}>
+        {[70, 92, 79, 55].map(width => <View key={width} style={[styles.skeletonLine, { width: `${width}%`, borderColor: chapter.accent }]} />)}
+      </View>}
       {busy && (
         <Text testID={`status-${card.id}`} accessibilityLiveRegion="polite" style={styles.status}>
           {message}
@@ -66,38 +74,39 @@ export function ContentCard({ card, state, onLoad }: {
           {message}
         </Text>
       )}
-      {content && <View style={content.image ? styles.imageSurface : styles.textSurface}>
-        {content.image && <ImagePlaceholder image={content.image} />}
+      {content && <View style={styles.textSurface}>
+        {content.image && <View accessible accessibilityRole="image" accessibilityLabel={content.image.label} style={styles.metadata} />}
         <CardText
           key={revision}
           text={content.text}
           author={content.author}
           answer={content.id === 'trivia' ? content.answer : undefined}
-          overlay={!!content.image}
+          id={card.id}
         />
       </View>}
-      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={styles.quiet}>
-        <View style={[styles.accentLine, { backgroundColor: chapter.accent }]} />
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { paddingTop: space.xl, paddingBottom: space.sm, gap: space.lg },
+  card: { flexGrow: 1, paddingTop: space.sm, paddingBottom: space.sm, gap: space.md },
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
-  pill: { flexShrink: 1, backgroundColor: colors.surface, borderRadius: radius.pill, paddingHorizontal: space.lg, paddingVertical: space.sm },
-  heading: { ...type.label, flexShrink: 1, fontWeight: '600' },
-  refresh: { flexShrink: 0, minWidth: touch, minHeight: touch, padding: space.sm, borderRadius: radius.control, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 10, flexShrink: 1, backgroundColor: '#1B1435D9', borderWidth: 1.3, borderRadius: radius.pill, paddingHorizontal: 15, paddingVertical: 4, shadowOpacity: 0.45, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } },
+  icon: { fontSize: 25, lineHeight: 29, fontWeight: '700' },
+  bulb: { width: 20, height: 29, alignItems: 'center', justifyContent: 'center' },
+  bulbGlass: { width: 16, height: 18, borderWidth: 2, borderRadius: 9 },
+  bulbBase: { width: 8, height: 4, borderBottomLeftRadius: 3, borderBottomRightRadius: 3 },
+  heading: { fontSize: 14, letterSpacing: 2.2, textTransform: 'uppercase', flexShrink: 1, fontWeight: '600' },
+  refresh: { flexShrink: 0, minWidth: touch, minHeight: touch, paddingHorizontal: 7, borderWidth: 1, borderColor: '#AFABD28A', borderRadius: radius.pill, backgroundColor: '#211F47CC', alignItems: 'center', justifyContent: 'center' },
   refreshText: { fontSize: 30, lineHeight: 34 },
   retry: { borderWidth: 1, borderColor: colors.error, paddingHorizontal: space.md },
   retryText: { ...type.button, fontWeight: '600' },
   pressed: { backgroundColor: colors.pressed },
-  imageSurface: { paddingBottom: space.xl, borderRadius: radius.panel, overflow: 'hidden' },
-  textSurface: { width: '100%' },
+  metadata: { position: 'absolute', width: 1, height: 1 },
+  textSurface: { flexGrow: 1, width: '100%' },
+  skeleton: { gap: 10, paddingHorizontal: space.md, paddingVertical: space.xl },
+  skeletonLine: { height: 12, borderRadius: 6, backgroundColor: '#57738ECC', borderWidth: 1 },
   suppliedTitle: { ...type.secondary, color: colors.secondary },
   status: { ...type.secondary, color: colors.secondary, paddingHorizontal: space.sm },
-  error: { ...type.secondary, color: colors.error, backgroundColor: colors.surface, borderRadius: radius.status, padding: space.lg },
-  quiet: { paddingTop: space.lg, paddingBottom: space.sm, alignItems: 'center' },
-  accentLine: { width: 40, height: 2, borderRadius: 2, opacity: 0.5 },
+  error: { ...type.secondary, color: colors.error, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.error, borderRadius: radius.status, padding: space.md },
 });

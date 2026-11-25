@@ -19,7 +19,7 @@ export const chapters: Record<CardId, { label: string; accent: string }> = {
   trivia: { label: 'Trivia', accent: '#F3A6FF' },
   fact: { label: 'Fact', accent: '#6EE7EF' },
   'dad joke': { label: 'Dad Joke', accent: '#FFAF9E' },
-  'bucket list item': { label: 'Bucket List Item', accent: '#FFD18A' },
+  'bucket list item': { label: 'Bucket List Item', accent: '#DCBCFF' },
 };
 
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, quiet: 48 } as const;

@@ -37,7 +37,8 @@ export function ChapterReading({ id, active, height, revision, session, onOverfl
     <ScrollView
       ref={reader}
       testID={`reading-${id}`}
-      style={styles.reader}
+      style={[styles.reader, overflow && contentHeight !== null && styles.protected]}
+      contentContainerStyle={styles.fill}
       contentInsetAdjustmentBehavior="never"
       automaticallyAdjustContentInsets={false}
       scrollEnabled={active && overflow}
@@ -55,6 +56,8 @@ export function ChapterReading({ id, active, height, revision, session, onOverfl
 }
 
 const styles = StyleSheet.create({
-  reader: { flex: 1, minHeight: 0, backgroundColor: colors.canvas },
-  content: { width: '100%', maxWidth: 568, alignSelf: 'center', paddingHorizontal: space.lg, paddingBottom: space.xl },
+  reader: { flex: 1, minHeight: 0 },
+  protected: { backgroundColor: colors.canvas },
+  fill: { flexGrow: 1 },
+  content: { flexGrow: 1, width: '100%', maxWidth: 568, alignSelf: 'center', paddingHorizontal: space.xl, paddingBottom: space.sm },
 });

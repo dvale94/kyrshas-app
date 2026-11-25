@@ -60,7 +60,7 @@ test('renders the branded normal-day feed in exact legacy order with conditional
   expect(screen.getByText('Offline demo · synthetic content')).toBeTruthy();
   expect(cardIds()).toEqual(expectedIds);
   expect(screen.getAllByRole('header').map((node) => node.props.children)).toEqual([
-    "Kyrsha's App", 'Quote', 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item',
+    'Quote', "Kyrsha's App", 'Trivia', 'Fact', 'Dad Joke', 'Bucket List Item',
   ]);
   for (const id of ['quote', 'fact', 'bucket list item']) expect(within(screen.getByTestId(`card-${id}`)).getByRole('image')).toBeTruthy();
   for (const id of ['trivia', 'dad joke']) expect(within(screen.getByTestId(`card-${id}`)).queryByRole('image')).toBeNull();
