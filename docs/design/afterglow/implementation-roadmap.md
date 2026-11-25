@@ -4,7 +4,7 @@ Phase 04A delivers a design contract, not authorization to execute the pilots be
 
 ## Phase 04D scope update
 
-[Issue #29](https://github.com/dvale94/kyrshas-app/issues/29) brings the five owner-supplied illustrations into the chapter layout pilot. The two local boards now govern normal reading surfaces, accent and icon treatment, refresh, disclosure and navigation placement. Short content reads directly over the scene. Overflow keeps a protected reader and explicit navigation. The original sequence below records the 04A plan. [Current change](../../../openspec/changes/afterglow-immersive-chapter-layouts/proposal.md) · [Simulator comparisons](evidence/issue-29/README.md)
+[Issue #29](https://github.com/dvale94/kyrshas-app/issues/29) brings the five owner-supplied illustrations into the chapter layout pilot. The two local boards now govern normal reading surfaces, accent and icon treatment, refresh, disclosure and navigation placement. Short content reads directly over the scene. Overflow keeps a protected reader and explicit navigation. The original sequence below records the 04A plan. [Current change](../../../openspec/changes/afterglow-immersive-chapter-layouts/proposal.md) · [Simulator evidence](evidence/issue-29/README.md)
 
 ## Recommended next pilot: 04B vertical chapter navigation
 
