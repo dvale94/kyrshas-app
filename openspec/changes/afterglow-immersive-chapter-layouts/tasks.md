@@ -9,9 +9,9 @@
 
 ## 4. Owner refinements
 - [x] 4.1 Strictly validate refined scope before application edits.
-- [ ] 4.2 Remove Quote footer and synchronize mounted scenes with native scrolling.
-- [ ] 4.3 Fit measured body, attribution and trivia content to available space with an 18pt minimum and exceptional scroll fallback.
-- [ ] 4.4 Verify simulator swipes, fit states and largest-text failure, then update PR, report and handoff.
+- [x] 4.2 Remove Quote footer and synchronize mounted scenes with native scrolling.
+- [x] 4.3 Fit measured body, attribution and trivia content to available space with an 18pt minimum and exceptional scroll fallback.
+- [x] 4.4 Verify simulator swipes, fit states and largest-text failure, then update PR, report and handoff.
 
 ## 3. Verify and deliver
 - [x] 3.1 Run the unchanged pinned verification contract, policy tests, harness and strict OpenSpec checks.

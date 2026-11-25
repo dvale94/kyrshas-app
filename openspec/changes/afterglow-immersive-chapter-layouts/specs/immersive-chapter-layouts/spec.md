@@ -27,7 +27,8 @@ The app SHALL move each mounted chapter artwork with its content during swipes a
 
 #### Scenario: Swipe between chapters
 - **WHEN** the user swipes in either direction, including rapid successive swipes and revisits
-- **THEN** outgoing and incoming artwork travels with its respective chapter, without a settled-index delay or per-frame React state updates.
+- **THEN** outgoing and incoming artwork moves with the native pager offset, without a settled-index delay or per-frame React state updates
+- **AND** full-display artwork and safe-area content may travel different physical distances, an implementation tradeoff accepted by the owner after physical iPhone testing.
 
 ### Requirement: Interaction states respect content ownership
 The app SHALL keep last-good text and answer visibility on pending or failed refresh while exposing clear loading, retry and answer controls.

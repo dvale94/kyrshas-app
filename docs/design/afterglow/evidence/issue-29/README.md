@@ -2,7 +2,7 @@
 
 ## Owner refinements
 
-The November 24 simulator run used the refined working tree on the existing issue branch. [Swipe recording](refined-swipes.mov) shows compact iPhone SE 3 upward and downward traversal and revisits. The artwork and content both move during the gesture. Because the artwork travels across the full display while the content pager occupies the safe-area viewport, their moving boundaries do not coincide exactly. Owner review of this difference remains open.
+The November 24 simulator run used the refined working tree on the existing issue branch. [Swipe recording](refined-swipes.mov) shows compact iPhone SE 3 upward and downward traversal and revisits. The artwork and content both move during the gesture. Because the artwork travels across the full display while the content pager occupies the safe-area viewport, their moving boundaries do not coincide exactly. The owner accepted this implementation tradeoff after physical iPhone testing and approved the visual appearance, swipe transitions, adaptive typography and overall experience.
 
 [Short quote](refined-01-quote.jpg), [medium fact](refined-03-fact.jpg), [revealed trivia](refined-07-answer.jpg), [long reading](refined-10-long-reading.jpg), and [largest-text attribution](refined-overflow-05-complete-body-attribution.jpg) are actual simulator captures. The standard-sized concept captures used the synthetic `ConceptFixture`. The largest-text capture used `PagingFixture` on iPhone 17, iOS 27.2. The long fixture still scrolls after reaching the minimum body size.
 
