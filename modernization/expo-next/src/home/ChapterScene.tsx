@@ -11,16 +11,20 @@ export const artwork: Record<CardId, ImageSourcePropType> = {
   'bucket list item': require('../../assets/afterglow/bucket-list.jpg'),
 };
 
+// Frame each horizon below the reading area. A taller image plane crops only
+// the scene's lower margin and keeps sky behind the status bar on either phone.
+const sceneHeight = { quote: '105%', trivia: '110%', fact: '108%', 'dad joke': '114%', 'bucket list item': '102%' } as const;
+
 export function ChapterScene({ id }: { id: CardId }) {
   const [failed, setFailed] = useState(false);
   return <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.canvas}>
-    {!failed && <Image testID={`scene-${id}`} accessible={false} source={artwork[id]} resizeMode="cover" onError={() => setFailed(true)} style={styles.image} />}
+    {!failed && <Image testID={`scene-${id}`} accessible={false} source={artwork[id]} resizeMode="cover" onError={() => setFailed(true)} style={[styles.image, { height: sceneHeight[id] }]} />}
     <View style={styles.shade} />
   </View>;
 }
 
 const styles = StyleSheet.create({
-  canvas: { ...StyleSheet.absoluteFill, backgroundColor: colors.canvas },
+  canvas: { ...StyleSheet.absoluteFill, backgroundColor: colors.canvas, overflow: 'hidden' },
   shade: { ...StyleSheet.absoluteFill, backgroundImage: 'linear-gradient(180deg, rgba(11,10,38,0.18) 0%, rgba(11,10,38,0.30) 34%, rgba(11,10,38,0.09) 52%, transparent 65%, transparent 85%, rgba(11,10,38,0.50) 100%)' },
   image: { width: '100%', height: '100%' },
 });

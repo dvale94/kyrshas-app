@@ -15,9 +15,11 @@ export function CardText({ text, author, answer, id = 'fact', feedback = false }
   const { height, width, fontScale } = useWindowDimensions();
   const dense = fontScale > 1.4 || text.length > 150 || text.split('\n').length > 4;
   const quote = id === 'quote';
-  const size = dense ? 26 : Math.min(42, Math.round(width * (quote ? 0.104 : 0.094)));
+  const proportion = quote ? 0.104 : id === 'dad joke' ? 0.086 : 0.094;
+  const size = dense ? 26 : Math.min(42, Math.round(width * proportion));
   return <View style={styles.composition}>
-    <View style={[styles.reading, { marginTop: feedback || dense ? 4 : Math.min(48, height * 0.043) }, dense && styles.protected, !dense && bodyHeight > height * 0.34 && styles.textShade]}>
+    <View style={[styles.reading, { marginTop: feedback || dense ? 4 : Math.min(48, height * 0.043) }, dense && styles.protected]}>
+      {!dense && (feedback || bodyHeight > height * 0.34) && <View pointerEvents="none" accessible={false} style={styles.textShade} />}
       {quote && !dense && !/^[“"‘«]/.test(text.trimStart()) && <Text accessible={false} accessibilityElementsHidden style={styles.quoteMark}>“</Text>}
       <Text onLayout={event => setBodyHeight(event.nativeEvent.layout.height)} style={[styles.body, quote && !dense && styles.quote, { fontSize: size, lineHeight: Math.ceil(size * 1.18) }]}>{text}</Text>
       {!!author?.trim() && <Text style={[styles.author, quote && !dense && styles.credit]}>- {author}</Text>}
@@ -41,7 +43,7 @@ export function CardText({ text, author, answer, id = 'fact', feedback = false }
 const styles = StyleSheet.create({
   composition: { flexGrow: 1 },
   reading: { paddingHorizontal: 13, gap: 18 },
-  textShade: { backgroundColor: '#151431DB', borderRadius: radius.status },
+  textShade: { position: 'absolute', top: -16, bottom: -16, left: -24, right: -24, backgroundImage: 'linear-gradient(180deg, transparent 0%, rgba(18,15,43,0.42) 15%, rgba(18,15,43,0.56) 82%, transparent 100%)' },
   protected: { backgroundColor: colors.surface, padding: space.lg, borderRadius: radius.status },
   body: { ...type.body, color: colors.primary, textShadowColor: '#100D28', textShadowRadius: 5, textShadowOffset: { width: 0, height: 1 } },
   quote: { fontStyle: 'italic', paddingHorizontal: 8 },
@@ -49,11 +51,11 @@ const styles = StyleSheet.create({
   author: { ...type.secondary, color: colors.secondary },
   credit: { fontSize: 12, lineHeight: 20, letterSpacing: 2.2, textTransform: 'uppercase', textAlign: 'center' },
   trivia: { flexGrow: 1, justifyContent: 'flex-end', gap: 12, paddingTop: space.md, paddingBottom: 5 },
-  answer: { backgroundColor: '#281B49F2', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#D47CFF', shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.8, shadowRadius: 8, borderRadius: radius.status, padding: space.md, gap: 4 },
+  answer: { backgroundColor: '#281B49F2', backgroundImage: 'linear-gradient(180deg, rgba(159,71,199,0.36), transparent 37%, transparent 70%, rgba(159,71,199,0.34))', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#D47CFF', shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.8, shadowRadius: 8, borderRadius: radius.status, padding: space.md, gap: 4 },
   answerLabel: { color: chapters.trivia.accent, textTransform: 'uppercase', letterSpacing: 4, textAlign: 'center', fontSize: 12, fontWeight: '600' },
-  answerText: { ...type.answer, color: colors.primary, fontStyle: 'italic', textAlign: 'center' },
-  longAnswer: { textAlign: 'left', fontStyle: 'normal' },
-  button: { width: '70%', alignSelf: 'center', flexDirection: 'row', gap: 9, alignItems: 'center', minHeight: touch, minWidth: touch, justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 6, borderRadius: radius.pill, backgroundColor: '#281B49F2', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#E59BFF', shadowOpacity: 0.65, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
+  answerText: { ...type.answer, fontSize: 36, lineHeight: 43, color: colors.primary, fontStyle: 'italic', textAlign: 'center' },
+  longAnswer: { ...type.answer, textAlign: 'left', fontStyle: 'normal' },
+  button: { width: '70%', alignSelf: 'center', backgroundImage: 'linear-gradient(180deg, rgba(169,84,218,0.42), transparent 45%, rgba(169,84,218,0.24))', flexDirection: 'row', gap: 9, alignItems: 'center', minHeight: touch, minWidth: touch, justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 6, borderRadius: radius.pill, backgroundColor: '#281B49F2', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#E59BFF', shadowOpacity: 0.65, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
   buttonText: { ...type.button, flexShrink: 1, color: colors.primary, fontWeight: '600' },
   arrow: { fontSize: 21, color: colors.primary },
   pressed: { backgroundColor: colors.pressed },
