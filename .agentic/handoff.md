@@ -1,5 +1,10 @@
 # Agent handoff
 
+## Issue #29 — Afterglow immersive chapters
+
+Implementation and two-size simulator comparisons are in [the delivery report](reports/issue-29-afterglow-immersive.md) and [visual evidence](../docs/design/afterglow/evidence/issue-29/README.md). The isolated checkout is `/private/tmp/kyrshas-issue29/source`, branch `feat/issue-29-afterglow-immersive-chapters`. Original main and all seven supplied inputs were preserved. Full pinned verify passed 139 Jest tests, TypeScript, Expo checks and 38 policy tests. Compact paging and overflow XCTest passed. Owner visual approval is required. The OpenSpec change remains active and unarchived.
+
+
 ## Current task — issue #27: Afterglow Phase 04C visual foundation
 
 **Local functional, real compact/standard iPhone and preservation acceptance PASS.** Issue #27, branch `feat/issue-27-afterglow-visual-foundation`, fetched main `e0ba950d3566e27c874ecb0a94c043f1dfb4bedb`/merged PR26. Isolated worktree `/private/tmp/kyrshas-issue27/source`; owner's original clean main and index preserved. Complete [OpenSpec](../openspec/changes/afterglow-visual-foundation/proposal.md) strictly validated before source; all12 active changes pass. [Detailed report](reports/issue-27-afterglow-visual-foundation.md), [guide/contrast/reproduction](../docs/migration/afterglow-visual-foundation.md), [12 actual simulator screenshots](../docs/design/afterglow/evidence/issue-27/README.md). Draft [PR #28](https://github.com/dvale94/kyrshas-app/pull/28) targets main; implementation `2b89e07fe8165092ca00976c4957975cf4478f17`. All7 tasks complete and unarchived. Final documentation-head hosted workflow status is recorded separately in the PR description.
