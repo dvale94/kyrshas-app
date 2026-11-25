@@ -3,21 +3,23 @@ import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-na
 import type { CardId } from './content';
 import { chapters, colors, radius, space, touch, type } from './tokens';
 
-export function CardText({ text, author, answer, id = 'fact' }: {
+export function CardText({ text, author, answer, id = 'fact', feedback = false }: {
   text: string;
   author?: string;
   answer?: string;
   id?: CardId;
+  feedback?: boolean;
 }) {
   const [answerVisible, setAnswerVisible] = useState(false);
+  const [bodyHeight, setBodyHeight] = useState(0);
   const { height, width, fontScale } = useWindowDimensions();
   const dense = fontScale > 1.4 || text.length > 150 || text.split('\n').length > 4;
   const quote = id === 'quote';
-  const size = dense ? 26 : Math.min(40, Math.round(width * (quote ? 0.097 : 0.086)));
+  const size = dense ? 26 : Math.min(42, Math.round(width * (quote ? 0.104 : 0.094)));
   return <View style={styles.composition}>
-    <View style={[styles.reading, { marginTop: dense ? 8 : Math.min(48, height * 0.043) }, dense && styles.protected]}>
+    <View style={[styles.reading, { marginTop: feedback || dense ? 4 : Math.min(48, height * 0.043) }, dense && styles.protected, !dense && bodyHeight > height * 0.34 && styles.textShade]}>
       {quote && !dense && !/^[“"‘«]/.test(text.trimStart()) && <Text accessible={false} accessibilityElementsHidden style={styles.quoteMark}>“</Text>}
-      <Text style={[styles.body, quote && !dense && styles.quote, { fontSize: size, lineHeight: Math.ceil(size * 1.18) }]}>{text}</Text>
+      <Text onLayout={event => setBodyHeight(event.nativeEvent.layout.height)} style={[styles.body, quote && !dense && styles.quote, { fontSize: size, lineHeight: Math.ceil(size * 1.18) }]}>{text}</Text>
       {!!author?.trim() && <Text style={[styles.author, quote && !dense && styles.credit]}>- {author}</Text>}
     </View>
     {!!answer?.trim() && <View style={styles.trivia}>
@@ -39,6 +41,7 @@ export function CardText({ text, author, answer, id = 'fact' }: {
 const styles = StyleSheet.create({
   composition: { flexGrow: 1 },
   reading: { paddingHorizontal: 13, gap: 18 },
+  textShade: { backgroundColor: '#151431DB', borderRadius: radius.status },
   protected: { backgroundColor: colors.surface, padding: space.lg, borderRadius: radius.status },
   body: { ...type.body, color: colors.primary, textShadowColor: '#100D28', textShadowRadius: 5, textShadowOffset: { width: 0, height: 1 } },
   quote: { fontStyle: 'italic', paddingHorizontal: 8 },
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
   answerLabel: { color: chapters.trivia.accent, textTransform: 'uppercase', letterSpacing: 4, textAlign: 'center', fontSize: 12, fontWeight: '600' },
   answerText: { ...type.answer, color: colors.primary, fontStyle: 'italic', textAlign: 'center' },
   longAnswer: { textAlign: 'left', fontStyle: 'normal' },
-  button: { alignSelf: 'center', flexDirection: 'row', gap: 9, alignItems: 'center', minHeight: touch, minWidth: touch, justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 6, borderRadius: radius.pill, backgroundColor: '#281B49F2', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#E59BFF', shadowOpacity: 0.65, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
+  button: { width: '70%', alignSelf: 'center', flexDirection: 'row', gap: 9, alignItems: 'center', minHeight: touch, minWidth: touch, justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 6, borderRadius: radius.pill, backgroundColor: '#281B49F2', borderWidth: 1.5, borderColor: chapters.trivia.accent, shadowColor: '#E59BFF', shadowOpacity: 0.65, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
   buttonText: { ...type.button, flexShrink: 1, color: colors.primary, fontWeight: '600' },
   arrow: { fontSize: 21, color: colors.primary },
   pressed: { backgroundColor: colors.pressed },

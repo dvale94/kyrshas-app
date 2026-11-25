@@ -21,6 +21,7 @@ afterEach(() => {
 });
 
 test('canonical chapter framing stays separate from complete natural-case provider titles', async () => {
+  jest.spyOn(Native, 'useWindowDimensions').mockReturnValue({ width: 390, height: 844, scale: 3, fontScale: 1 });
   const title = 'A supplied title 🌌\nwith Unicode and ' + 'long wrapping text '.repeat(20);
   await render(<ContentCard card={HOME_CARDS[2]} state={{ status: 'ready', revision: 1, content: { id: 'fact', title, text: 'A complete thought.' } }} onLoad={jest.fn()} />);
   expect(screen.getByRole('header', { name: 'Fact' })).toHaveStyle({ color: chapters.fact.accent });
@@ -35,9 +36,9 @@ test('every selected location uses its category accent and shape without recolor
   await fireEvent(screen.getByTestId('chapter-viewport'), 'layout', { nativeEvent: { layout: { width: 375, height: 470, x: 0, y: 0 } } });
   for (const [index, card] of HOME_CARDS.entries()) {
     expect(screen.getByTestId('chapter-progress')).toHaveAccessibilityValue({ now: index + 1 });
-    expect(screen.getByTestId(`progress-${card.id}`, hidden)).toHaveStyle({ backgroundColor: chapters[card.id].accent, width: 27, height: 5 });
+    expect(screen.getByTestId(`progress-${card.id}`, hidden)).toHaveStyle({ backgroundColor: chapters[card.id].accent, width: 31, height: 5 });
     for (const other of HOME_CARDS.filter(({ id }) => id !== card.id)) {
-      expect(screen.getByTestId(`progress-${other.id}`, hidden)).toHaveStyle({ backgroundColor: colors.inactive, width: 20, height: 4 });
+      expect(screen.getByTestId(`progress-${other.id}`, hidden)).toHaveStyle({ backgroundColor: colors.inactive, width: 26, height: 4 });
     }
     expect(screen.getByTestId(`scene-${card.id}`, hidden)).toHaveProp('source', artwork[card.id]);
     const slot = within(screen.getByTestId(`card-${card.id}`));

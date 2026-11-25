@@ -1,5 +1,5 @@
 import { HomeScreen } from '../../src/home/HomeScreen';
-import type { CardContent, CardId, ContentProvider } from '../../src/home/content';
+import { normalizeContent, type CardContent, type CardId, type ContentProvider } from '../../src/home/content';
 
 // External simulator entry only. The production provider never imports board copy.
 const copy: Record<CardId, Omit<CardContent, 'id' | 'title'>> = {
@@ -19,7 +19,7 @@ const provider: ContentProvider = { async load(id, { revision }) {
   }
   const item = { id, title: id, ...copy[id] };
   if (id === 'fact' && revision > 0) item.text = 'An extended synthetic field note about the reef. '.repeat(26) + 'End of field note.';
-  return item;
+  return normalizeContent(id, item);
 } };
 
 export default function ConceptFixture() { return <HomeScreen provider={provider} />; }

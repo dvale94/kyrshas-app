@@ -15,10 +15,12 @@ export function ChapterScene({ id }: { id: CardId }) {
   const [failed, setFailed] = useState(false);
   return <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.canvas}>
     {!failed && <Image testID={`scene-${id}`} accessible={false} source={artwork[id]} resizeMode="cover" onError={() => setFailed(true)} style={styles.image} />}
+    <View style={styles.shade} />
   </View>;
 }
 
 const styles = StyleSheet.create({
-  canvas: { ...StyleSheet.absoluteFillObject, backgroundColor: colors.canvas },
+  canvas: { ...StyleSheet.absoluteFill, backgroundColor: colors.canvas },
+  shade: { ...StyleSheet.absoluteFill, backgroundImage: 'linear-gradient(180deg, rgba(11,10,38,0.18) 0%, rgba(11,10,38,0.30) 34%, rgba(11,10,38,0.09) 52%, transparent 65%, transparent 85%, rgba(11,10,38,0.50) 100%)' },
   image: { width: '100%', height: '100%' },
 });
