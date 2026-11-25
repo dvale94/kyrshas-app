@@ -2,7 +2,7 @@
 
 ## Issue #29 — Afterglow immersive chapters
 
-Implementation and two-size simulator comparisons are in [the delivery report](reports/issue-29-afterglow-immersive.md) and [visual evidence](../docs/design/afterglow/evidence/issue-29/README.md). The isolated checkout is `/private/tmp/kyrshas-issue29/source`, branch `feat/issue-29-afterglow-immersive-chapters`. Original main and all seven supplied inputs were preserved. Full pinned verify passed 139 Jest tests, TypeScript, Expo checks and 38 policy tests. Compact paging and overflow XCTest passed. Owner visual approval is required. The OpenSpec change remains active and unarchived.
+Implementation and two-size simulator comparisons are in [the delivery report](reports/issue-29-afterglow-immersive.md) and [visual evidence](../docs/design/afterglow/evidence/issue-29/README.md). The isolated checkout is `/private/tmp/kyrshas-issue29/source`, branch `feat/issue-29-afterglow-immersive-chapters`. Original main and all seven supplied inputs were preserved. Full pinned verify passed 139 Jest tests, TypeScript, Expo checks and 38 policy tests. Compact paging and overflow XCTest passed. Owner visual approval is required. Largest Dynamic Type XCTest failed after the 45-swipe limit while seeking the long fact attribution, so its complete reachability needs investigation. Hosted CI and Expo baseline passed on `69145b0`. The OpenSpec change remains active and unarchived.
 
 
 ## Current task — issue #27: Afterglow Phase 04C visual foundation

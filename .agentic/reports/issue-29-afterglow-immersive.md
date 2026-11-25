@@ -9,6 +9,8 @@ The presentation places dynamic content over chapter artwork with a localized co
 - PASS — strict validation of this change and all 13 active changes before source edits. Full pinned Node 22.23.4/npm 10.9.9 `CI=1 npm run verify` with dotenv disabled passed after final implementation, including TypeScript, 139 Jest tests, Expo configuration, dependency check, Doctor 20/20 and 38 policy checks.
 - PASS — 51 policy tests, root doctor, Python syntax, `git diff --check`, protected-path diff and all seven original-byte comparisons.
 - PASS — actual iPhone SE 3 and iPhone 17 screenshots of five chapters, hidden/revealed trivia, refresh, loading, error and long content. Standard production mock and trivia revisit passed. Compact real swipe boundaries, overflow reading, offset retention, failed retry and identical successful trivia reset passed through the standalone XCTest runner.
+- FAIL — standard simulator at the largest Dynamic Type setting. The existing overflow XCTest reached trivia answer, revisit, failed refresh and successful reset, then could not reach the long fact attribution within its 45-swipe limit. Complete access to that attribution at this setting remains unverified and requires investigation before acceptance.
+- PASS — hosted CI and Expo next baseline workflows on `69145b0`.
 - NOT RUN — dedicated assistive technology audit and formal memory profiling, consistent with the requested scope. Decoded footprint is an estimate.
 - An initial standard XCTest launch timed out terminating a previous app instance. Restarting the task-only simulator and repeating the final run passed. Earlier incomplete dependency copies caused failed preliminary verification; the clean pinned offline install and final full verification passed.
 
