@@ -2,6 +2,10 @@
 
 Phase 04A delivers a design contract, not authorization to execute the pilots below. Owner-approved direction comes from [issue #23](https://github.com/dvale94/kyrshas-app/issues/23); [audit](../../migration/afterglow-design-audit.md), [visual specification](visual-specification.md), [interaction model](interaction-model.md), [feasibility/accessibility](feasibility-accessibility.md). Each pilot needs its own complete bounded OpenSpec artifacts, strict validation before implementation, owner-approved scope, report/handoff and draft PR. Do not archive 04A or merge automatically.
 
+## Phase 04D scope update
+
+[Issue #29](https://github.com/dvale94/kyrshas-app/issues/29) brings the five owner-supplied illustrations into the chapter layout pilot. The two local boards now govern normal reading surfaces, accent and icon treatment, refresh, disclosure and navigation placement. Short content reads directly over the scene. Overflow keeps a protected reader and explicit navigation. The original sequence below records the 04A plan. [Current change](../../../openspec/changes/afterglow-immersive-chapter-layouts/proposal.md) · [Simulator evidence](evidence/issue-29/README.md)
+
 ## Recommended next pilot: 04B vertical chapter navigation
 
 Propose **`afterglow-vertical-chapter-paging`** next. Build only the five-position paging shell around the existing synthetic content and typed provider/hook seam, with stable mounted slots, settled progress, explicit Previous/Next and overflow reading mode. Use neutral readable surfaces/current placeholders; exclude final typography/art, rich motion, new packages, native/config/provider changes and production calls.

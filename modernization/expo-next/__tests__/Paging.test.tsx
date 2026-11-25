@@ -16,7 +16,11 @@ jest.mock('react-native', () => {
     mockScrollCommands.set(props.testID, command);
     return React.createElement(native.View, props, props.children);
   });
-  return new Proxy(native, { get(target, key) { return key === 'ScrollView' ? MockScroll : target[key]; } });
+  return new Proxy(native, { get(target, key) {
+    if (key === 'ScrollView') return MockScroll;
+    if (key === 'Animated') return { ...native.Animated, ScrollView: MockScroll, event: (_mapping: unknown, config: { listener: unknown }) => config.listener };
+    return target[key];
+  } });
 });
 
 const ids = ['quote', 'trivia', 'fact', 'dad joke', 'bucket list item'] as const;
@@ -81,7 +85,7 @@ test('five mounted measured pages have exact order, selected location and active
   expect(screen.queryByRole('button', { name: 'Show Answer' })).toBeNull();
   expect(screen.getByTestId('chapter-progress')).toHaveAccessibilityValue({ min: 1, max: 5, now: 1 });
   expect(screen.getByTestId('chapter-progress')).toHaveProp('accessibilityLabel', 'Quote, chapter 1 of 5');
-  expect(screen.getByTestId('progress-quote', hidden)).toHaveStyle({ width: 36, height: 8 });
+  expect(screen.getByTestId('progress-quote', hidden)).toHaveStyle({ width: 31, height: 5 });
   for (const id of ids) expect(screen.getByTestId(`chapter-${id}`, hidden)).toHaveStyle({ height: 600 });
   for (const id of ['previous-chapter', 'next-chapter']) {
     const style = StyleSheet.flatten(screen.getByTestId(id).props.style);

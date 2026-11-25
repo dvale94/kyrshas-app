@@ -48,7 +48,7 @@ final class SmokeTests: XCTestCase {
   func testDefaultMock() {
     launch()
     XCTAssertTrue(app.staticTexts["“Small steps can open new paths.”"].waitForExistence(timeout: 10))
-    XCTAssertTrue(app.staticTexts["Offline demo · synthetic content"].exists)
+    XCTAssertFalse(app.staticTexts["Offline demo · synthetic content"].exists)
     XCTAssertFalse(previous.isEnabled)
     next.tap(); expect(2)
     let show = app.buttons["Show Answer"]
@@ -60,6 +60,41 @@ final class SmokeTests: XCTestCase {
     capture("default-mock-trivia-revisit")
     XCTAssertGreaterThanOrEqual(next.frame.height, 48)
     XCTAssertGreaterThanOrEqual(previous.frame.height, 48)
+  }
+
+  /// Use only with the isolated ConceptFixture entry and default text size.
+  func testConceptChapters() {
+    launch()
+    XCTAssertTrue(app.staticTexts["“The best adventures often begin with curiosity.”"].exists)
+    capture("01-quote")
+    app.buttons["Refresh quote"].tap()
+    XCTAssertTrue(app.staticTexts["Refreshing quote…"].exists)
+    capture("06-refresh")
+    next.tap(); expect(2)
+    capture("02-trivia")
+    app.buttons["Show Answer"].tap()
+    XCTAssertTrue(app.staticTexts["Mars"].exists)
+    capture("07-answer")
+    next.tap(); expect(3)
+    let fact = app.staticTexts["Octopuses have three hearts, nine brains, and blue blood."]
+    if app.staticTexts["Loading fact…"].exists { capture("08-loading") }
+    XCTAssertTrue(fact.waitForExistence(timeout: 25))
+    capture("03-fact")
+    next.tap(); expect(4)
+    capture("04-dad-joke")
+    app.buttons["Refresh dad joke"].tap()
+    XCTAssertTrue(app.buttons["Retry dad joke"].waitForExistence(timeout: 5))
+    capture("09-error")
+    app.buttons["Retry dad joke"].tap()
+    next.tap(); expect(5)
+    capture("05-bucket-list")
+    XCTAssertFalse(next.isEnabled)
+    previous.tap(); expect(4)
+    previous.tap(); expect(3)
+    app.buttons["Refresh fact"].tap()
+    reading("fact").swipeUp(); expect(3)
+    capture("10-long-reading")
+    XCTAssertTrue(next.isHittable)
   }
 
   /// Default type only; synthetic no-image short chapters permit swipe navigation.
@@ -88,6 +123,18 @@ final class SmokeTests: XCTestCase {
     previous.tap(); expect(1)
     XCTAssertFalse(previous.isEnabled)
     capture("short-04-returned-first-boundary")
+  }
+
+  /// Exercise consecutive opposite-direction gestures and a revisit on short pages.
+  func testRapidSwipeRevisits() {
+    launch()
+    reading("quote").swipeUp(velocity: .fast); expect(2)
+    reading("trivia").swipeDown(velocity: .fast); expect(1)
+    reading("quote").swipeUp(velocity: .fast); expect(2)
+    reading("trivia").swipeUp(velocity: .fast); expect(3)
+    previous.tap(); expect(2)
+    previous.tap(); expect(1)
+    capture("rapid-swipe-revisited-quote")
   }
 
   /// Supplemental largest-type layout check for every canonical chapter label.

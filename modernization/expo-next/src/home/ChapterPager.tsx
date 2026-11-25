@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
-import { AccessibilityInfo, findNodeHandle, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { AccessibilityInfo, Animated, findNodeHandle, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, useWindowDimensions, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { HOME_CARDS } from './fixtures';
 import type { CardId, ContentProvider } from './content';
+import { ChapterScene } from './ChapterScene';
 import { ChapterReading } from './ChapterReading';
 import { chapters, colors, radius, space, touch, type } from './tokens';
 
@@ -17,6 +18,8 @@ export function ChapterPager({ session, revisions, renderChapter }: {
   renderChapter: (id: CardId) => ReactNode;
 }) {
   const pager = useRef<ComponentRef<typeof ScrollView>>(null);
+  const sceneOffset = useRef(new Animated.Value(0)).current;
+  const [screenHeight, setScreenHeight] = useState(0);
   const progress = useRef<ComponentRef<typeof Text>>(null);
   const [height, setHeight] = useState(0);
   const [active, setActive] = useState(0);
@@ -93,7 +96,11 @@ export function ChapterPager({ session, revisions, renderChapter }: {
   const overflow = overflows[HOME_CARDS[active]!.id] !== false;
   const canSwipe = height > 0 && !overflow && !screenReader;
   return (
-    <NativeSafeArea style={styles.screen}>
+    <View testID="chapter-screen" style={styles.screen} onLayout={event => setScreenHeight(event.nativeEvent.layout.height)}>
+      {height > 0 && screenHeight > 0 && HOME_CARDS.map(({ id }, index) => <Animated.View key={id} pointerEvents="none" style={[styles.scenePage, { height: screenHeight, transform: [{ translateY: Animated.multiply(Animated.subtract(index * height, sceneOffset), screenHeight / height) }] }]}>
+        <ChapterScene id={id} />
+      </Animated.View>)}
+      <NativeSafeArea style={styles.safe}>
       <View style={styles.location}>
         <Text
           ref={progress}
@@ -118,7 +125,7 @@ export function ChapterPager({ session, revisions, renderChapter }: {
         </View>
       </View>
       <View testID="chapter-viewport" style={styles.viewport} onLayout={(event) => setHeight(Math.max(0, event.nativeEvent.layout.height))}>
-        <ScrollView
+        <Animated.ScrollView
           ref={pager}
           testID="chapter-pager"
           style={styles.viewport}
@@ -140,11 +147,14 @@ export function ChapterPager({ session, revisions, renderChapter }: {
             if (!canSwipe || drag.current) return;
             drag.current = { origin: settled.current, offset: event.nativeEvent.contentOffset.y, released: false };
           }}
-          onScroll={(event) => {
-            if (!drag.current) return;
-            drag.current.offset = event.nativeEvent.contentOffset.y;
-            if (drag.current.released) scheduleIdle();
-          }}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: sceneOffset } } }], {
+            useNativeDriver: true,
+            listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+              if (!drag.current) return;
+              drag.current.offset = event.nativeEvent.contentOffset.y;
+              if (drag.current.released) scheduleIdle();
+            },
+          })}
           onScrollEndDrag={(event) => {
             if (!drag.current) return;
             drag.current.offset = event.nativeEvent.contentOffset.y;
@@ -168,11 +178,10 @@ export function ChapterPager({ session, revisions, renderChapter }: {
             >
               <ChapterReading id={id} active={index === active} height={height} revision={revisions[id]} session={session} onOverflow={onOverflow}>
                 {renderChapter(id)}
-                <Text style={styles.cue}>{index === 4 ? 'Last chapter · Previous to return' : overflows[id] !== false || screenReader ? 'Scroll to read · Navigate below' : 'Swipe for more · Or use Next'}</Text>
               </ChapterReading>
             </View>
           ))}
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
       <View testID="chapter-navigation" style={[styles.navigation, fontScale > 1.5 && styles.stackedNavigation]}>
         {([-1, 1] as const).map((direction) => {
@@ -187,28 +196,39 @@ export function ChapterPager({ session, revisions, renderChapter }: {
             accessibilityState={{ disabled: unavailable }}
             disabled={unavailable}
             onPress={() => navigate(direction)}
-            style={({ pressed }) => [styles.button, fontScale > 1.5 && styles.stackedButton, unavailable && styles.disabled, pressed && !unavailable && styles.pressed]}
-          ><Text style={styles.buttonText}>{action}</Text></Pressable>;
+            style={({ pressed }) => [styles.button, canSwipe && ((direction === -1 && active !== 4) || (direction === 1 && active === 4)) && styles.edgeButton, (overflow || screenReader) && styles.readButton, fontScale > 1.5 && styles.stackedButton, unavailable && (canSwipe ? styles.boundary : styles.disabled), pressed && !unavailable && styles.pressed]}
+          >{overflow || screenReader ? <Text style={styles.buttonText}>{action}</Text> : <>
+            <View style={[styles.chevron, direction === -1 && styles.up]} />
+            <Text style={styles.cue}>{direction === -1 ? active === 4 ? 'LAST CHAPTER · BACK' : 'BACK' : 'SWIPE FOR MORE'}</Text>
+          </>}</Pressable>;
         })}
       </View>
-    </NativeSafeArea>
+      </NativeSafeArea>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
   viewport: { flex: 1, minHeight: 0 },
-  location: { paddingHorizontal: space.lg, paddingTop: space.md, paddingBottom: space.sm, gap: space.sm },
-  position: { ...type.label, color: colors.secondary, textAlign: 'center' },
+  scenePage: { position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' },
+  safe: { flex: 1 },
+  location: { paddingTop: 22, paddingBottom: 17, alignItems: 'center' },
+  position: { position: 'absolute', width: 160, height: 24, color: 'transparent', textAlign: 'center' },
   segments: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.sm, height: 8 },
-  segment: { width: 20, height: 4, backgroundColor: colors.inactive, borderRadius: 4 },
-  selected: { width: 36, height: 8 },
-  cue: { ...type.label, color: colors.secondary, paddingTop: space.sm, textAlign: 'center' },
-  navigation: { flexDirection: 'row', gap: space.md, paddingHorizontal: space.lg, paddingTop: space.sm, paddingBottom: space.md },
-  button: { flex: 1, minWidth: touch, minHeight: touch, padding: space.md, justifyContent: 'center', borderWidth: 1, borderColor: colors.stroke, borderRadius: radius.control, backgroundColor: colors.surface },
-  stackedNavigation: { flexDirection: 'column' },
+  segment: { width: 26, height: 4, backgroundColor: colors.inactive, borderRadius: 4 },
+  selected: { width: 31, height: 5 },
+  cue: { color: colors.primary, fontSize: 10, fontWeight: '600', letterSpacing: 2, textShadowColor: colors.canvas, textShadowRadius: 4 },
+  navigation: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.md, paddingHorizontal: space.lg, paddingBottom: 4 },
+  button: { minWidth: touch, minHeight: touch, gap: 5, paddingHorizontal: 8, justifyContent: 'center', alignItems: 'center' },
+  edgeButton: { position: 'absolute', left: space.lg },
+  boundary: { opacity: 0.05 },
+  readButton: { flex: 1, padding: 5, borderRadius: radius.control, backgroundColor: colors.surface },
+  chevron: { width: 17, height: 17, borderRightWidth: 2, borderBottomWidth: 2, borderColor: colors.primary, transform: [{ rotate: '45deg' }], marginBottom: 3 },
+  up: { transform: [{ rotate: '225deg' }] },
+  stackedNavigation: { flexDirection: 'column', alignItems: 'stretch' },
   stackedButton: { flex: 0 },
-  disabled: { borderColor: colors.inactive, backgroundColor: colors.canvas },
+  disabled: { opacity: 0.28 },
   pressed: { backgroundColor: colors.pressed },
   buttonText: { ...type.button, color: colors.secondary, textAlign: 'center', fontWeight: '600' },
 });
