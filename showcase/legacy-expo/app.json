@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Kyrsha's Legacy Showcase",
+    "slug": "kyrshas-legacy-showcase",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true }
+  }
+}
