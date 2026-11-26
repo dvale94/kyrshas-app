@@ -23,4 +23,9 @@ Expo 49 and its native dependencies cannot be assumed to run in a current Expo G
 - PASS: legacy and modern Metro servers ran concurrently on localhost ports 8082 and 8081 respectively, and each returned `packager-status:running`. This verifies server coexistence, not app runtime.
 - Gortex impact was reviewed and the covering tests passed. Its contract still reports a high-risk warning and incomplete test-coverage edges; no guard rules are configured. This warning is not a runtime result.
 - BLOCKED: the sandboxed simulator service was unavailable. Host access allowed a new isolated iPhone 17/iOS 27.2 simulator and official Expo Go 58.0.7 installation. Opening the local project stopped at iOS's “Open in Expo Go?” confirmation; Simulator.app was unavailable to interact with it. Expo Go launch of the showcase, UI interactions and product screenshots were therefore not verified. Temporary prompt screenshots are not product evidence. The dedicated simulator was shut down; existing simulators were not changed. No owner legacy visual approval is claimed.
-- NOT RUN: hosted CI, final native preservation comparison, physical iPhone runtime. No native projects were generated. Original and modern tracked runtime files have not been modified.
+- NOT RUN: final native preservation comparison and physical iPhone runtime. No native projects were generated. Original and modern tracked runtime files have not been modified.
+- HOSTED: [CI run 45732981570](https://github.com/dvale94/kyrshas-app/actions/runs/45732981570) passed on implementation commit `1776e85`; it does not establish physical runtime or the status of a later documentation commit.
+
+## Delivery
+
+[Draft PR #33](https://github.com/dvale94/kyrshas-app/pull/33) targets `main` from `feat/issue-32-legacy-expo-showcase`. Issue #31 was closed after its owner confirmation and delivery history were reconciled; its unchecked OpenSpec tasks continue to record checks not established. Issue #32 stays open, its OpenSpec change remains unarchived, and owner visual approval remains pending.
