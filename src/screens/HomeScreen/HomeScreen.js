@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import {
   FlatList,
   StyleSheet,
-  SafeAreaView,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { useHomeScreen } from './useHomescreen';

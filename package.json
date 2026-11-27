@@ -1,32 +1,36 @@
 {
   "name": "kyrshas-app",
   "version": "1.0.0",
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
+  "packageManager": "npm@10.9.9",
+  "engines": { "node": "22.23.4", "npm": "10.9.9" },
   "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web"
+    "start": "EXPO_NO_TELEMETRY=1 expo start --port 8082",
+    "test": "EXPO_NO_DOTENV=1 jest --ci --runInBand --watchman=false",
+    "check:expo": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo install --check",
+    "doctor": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo-doctor",
+    "export:ios": "EXPO_NO_DOTENV=1 EXPO_NO_TELEMETRY=1 expo export --platform ios --output-dir /private/tmp/kyrshas-legacy-root-export"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.19.3",
-    "@react-navigation/native": "^6.1.7",
-    "@react-navigation/native-stack": "^6.9.13",
-    "@react-navigation/stack": "^6.3.17",
-    "@rneui/base": "^4.0.0-rc.8",
-    "@rneui/themed": "^4.0.0-rc.8",
-    "axios": "^1.5.0",
-    "expo": "~49.0.11",
-    "expo-splash-screen": "^0.22.0",
-    "expo-status-bar": "~1.6.0",
-    "react": "18.2.0",
-    "react-native": "0.72.4",
-    "react-native-gesture-handler": "^2.13.1",
-    "react-native-safe-area-context": "4.6.3",
-    "react-native-screens": "~3.22.0"
+    "@expo/vector-icons": "^15.0.2",
+    "@react-navigation/native": "7.5.2",
+    "@react-navigation/stack": "7.12.2",
+    "expo": "~58.1.0",
+    "expo-font": "~58.0.12",
+    "expo-splash-screen": "~58.0.15",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-safe-area-context": "~5.11.1",
+    "react-native-screens": "~4.30.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@testing-library/react-native": "14.1.0",
+    "expo-doctor": "1.21.6",
+    "jest": "^30.0.0",
+    "jest-expo": "~58.0.16",
+    "test-renderer": "1.3.0"
   },
-  "private": true
+  "jest": { "preset": "jest-expo/ios", "testMatch": ["<rootDir>/__tests__/**/*.test.js"], "testPathIgnorePatterns": ["/node_modules/", "/modernization/", "/showcase/"] }
 }

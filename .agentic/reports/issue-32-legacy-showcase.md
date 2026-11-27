@@ -1,0 +1,63 @@
+# Issue #32 — legacy Expo showcase (in progress)
+
+## Owner-directed root-app revision (in progress)
+
+The owner directed that only two versions remain: the original app at repository root and Afterglow under `modernization/expo-next`. Root source and dependencies may be adapted to run safely; the separate showcase will be removed after its required assets and tests are retained. The original implementation remains in Git history. Previous showcase verification below describes the earlier approach, not the unfinished root migration. The owner subsequently authorized live unfiltered API Ninjas images using a new local Expo public key, while retaining synthetic text. Category and dimension parameters are omitted because the owner has no premium access. The Expo public key is client-readable. The owner supplied the root lockfile; clean `npm ci --ignore-scripts`, four root Jest tests and an iOS JavaScript export passed with dotenv disabled. The separate showcase's tracked files and, later at the owner's request, its remaining generated directory were removed. The owner confirmed the app and images work on the phone; detailed visual-fidelity checks were not recorded. Expo Doctor reports 19/20 because online SDK metadata recommends newer Expo, splash and Jest Expo versions. The unchanged modern full verify also stopped at that same SDK drift after its 140 tests passed. The original splash settings now use the Expo splash plugin; the original icon, identity and native trees remain in place. Root Yarn lock was removed in favor of npm's lockfile.
+
+## Owner-directed live content follow-up
+
+After correcting the local API key, the owner confirmed images work and requested live text rather than fixtures. The owner subsequently reported that the live experience is good on the phone. The root app now requests current free-tier API Ninjas quote, trivia, fact, dad joke and bucket-list endpoints independently; random quotes use the v2 random endpoint and trivia omits premium-only filters. The original image request remains. Tests use synthetic responses and never load the owner's key. The owner reports the live experience is good; separate detailed refresh and visual-fidelity checks were not recorded. The Expo public key remains readable in the client bundle. No modern application changes were made.
+
+## Current delivery, security and evidence limits
+
+The final structure is the original application at the repository root and Afterglow at `modernization/expo-next`; no separate showcase application remains. The owner reported the legacy app and live content working on a physical iPhone before the subsequent Expo dependency alignment. No post-alignment physical-device acceptance or detailed visual and refresh verification has been explicitly recorded. Final native preservation comparison, generated Xcode target, built plist, signing, runtime links and device behavior after alignment were not verified; no native regeneration was performed.
+
+The root app uses `EXPO_PUBLIC_API_KEY` for direct API Ninjas calls. Expo public variables are embedded in client code and the key is visible to users and in requests; an ignored `.env` prevents accidental local-file commits but does not make that credential secret in the app. Use a restricted demonstration key and do not treat this design as a production secret boundary.
+
+A pattern-based scan of added text in the committed PR diff found no credential-shaped literals; it did not inspect historical credentials or prove that every possible secret format is absent. No root `.env` file is tracked; the tracked modern `.env.example` is a template. On the latest npm audit, each app reported 22 moderate vulnerabilities and zero high or critical vulnerabilities. No dependency remediation was performed in this documentation closeout. Earlier failures and successful later checks are retained below with their historical context.
+
+## Expo dependency alignment follow-up
+
+The owner approved updating Expo in both apps. Both now specify Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`. Clean installs passed; the root suite passed 5 tests and Expo Doctor passed 20/20 checks. The modern verification passed 140 app tests, 38 development policy tests, type checking, configuration, Expo dependency validation, and Expo Doctor 20/20. Strict OpenSpec validation passed all 15 changes. The owner's iPhone confirmation predates this dependency update; a new device check remains outstanding.
+
+## Review readiness after owner confirmation
+
+The owner reported the root app, live images and content are good on the phone. The remaining generated showcase directory was removed at the owner's request. Root Jest passed 5 tests and the root harness and strict OpenSpec validation passed. Hosted CI passed on `dd63bcc`. Root Expo Doctor failed 1 of 20 checks because current SDK metadata recommends Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`. The unchanged modern full verify passed TypeScript, 140 Jest tests and config, then failed on the same version recommendations. Root npm audit reports 22 moderate, zero high and zero critical findings. Final native preservation comparison and detailed visual-fidelity checks remain unverified. The owner's existing root package, lockfile and TypeScript configuration changes were not included in this PR.
+
+## Baseline and assessment
+
+The baseline is `e3babc05ee077da1f95439353fe9e2b4184f260b`; the last commit touching the inspected legacy entry, home screen and provider paths is `5a6dc07e5caca78495128253df8c1e69229aedea`. The original app uses an Expo 49 JavaScript stack, a green header, a vertically scrolling FlatList, and five cards in quote, trivia, fact, dad joke and bucket-list order. Original content includes per-card refresh, attribution and trivia answer toggling. Quote, fact and bucket-list images came from a remote provider. Birthday data is excluded by issue #32.
+
+Expo 49 and its native dependencies cannot be assumed to run in a current Expo Go client. The showcase aligns Expo 58, React 19.3 and React Native 0.88 with the modern workspace; Expo Go must match its SDK. See [Expo SDK reference](https://docs.expo.dev/versions/v58.0.0/) and [Expo Go version mismatch guidance](https://docs.expo.dev/troubleshooting/expo-go-version-mismatch/). The original JavaScript stack navigator is retained, but its navigation packages are being upgraded from version 6 to version 7 because the version 6 card calls React Native's removed InteractionManager API. Expo's bundled native module map supplies gesture-handler 3.3, screens 4.30, safe-area context 5.11 and font 58.0.12. Node 22.23.4/npm 10.9.9 are pinned. The original `@rneui/themed` image/icon use is replaced with a native view and Expo FontAwesome; PropTypes and original Axios/provider transport are omitted. The old root manifest and configuration are not copied.
+
+## Known differences and incomplete work
+
+- Safe synthetic fixture pairs replace random provider text, attribution and answers; refresh advances deterministically, independently for each card. No provider requests or credentials are used.
+- The three remote image cards use bundled Afterglow quote, fact and bucket-list artwork, copied byte-for-byte from the existing modern workspace. These substitutes have different content and composition from the original randomly fetched photos; historical image fidelity is not claimed.
+- The birthday path is excluded. Native safe-area context replaces the deprecated React Native safe-area view. Refresh clears its spinner even on an error. Accessibility labels were added to refresh controls. Display name and slug distinguish the showcase; historical splash and icon configuration are not copied.
+- The original JavaScript stack is retained but its packages require version 7 for React Native 0.88 compatibility; the owner reported the version 6 InteractionManager startup crash on an iPhone. The original splash/icon configuration is not copied. Physical Expo Go behavior after this change and owner visual approval remain outstanding; a bundle alone does not establish them.
+
+## Historical showcase verification (superseded where noted)
+
+The following results describe the earlier separate-showcase implementation and should not be read as current root-app results. Its device and preservation limitations describe the point in time when those checks were attempted.
+
+- PASS: strict OpenSpec validation of the new change and all 15 active changes before showcase implementation.
+- PASS: clean locked `npm ci --no-audit --no-fund`, three showcase component/fixture tests, public Expo config, online SDK dependency check, Expo Doctor 20/20 and iOS JavaScript export including all three local images. The tests cover card order, independent refresh, trivia toggle and image-backed rendering; these checks do not establish actual device behavior. No standalone JavaScript typecheck is configured.
+- Earlier Doctor attempts failed on a missing lockfile and missing direct `expo-font` peer, then only the lockfile; both were addressed before the passing run. The new image test initially failed due to Jest loading an ancestor Expo dependency and then due to an unsupported query; mocking the icon and correcting the query yielded the passing tests.
+- PASS: unchanged modern full `npm run verify` using Node 22.23.4 with network access: 140 Jest tests, Expo Doctor 20/20 and 38 policy tests. The initial sandboxed run failed two Doctor network checks; the network-enabled rerun passed.
+- PASS: root `python3 scripts/doctor.py` and Python syntax check.
+- PASS: legacy and modern Metro servers ran concurrently on localhost ports 8082 and 8081 respectively, and each returned `packager-status:running`. This verifies server coexistence, not app runtime.
+- Gortex impact was reviewed and the covering tests passed. Its contract still reports a high-risk warning and incomplete test-coverage edges; no guard rules are configured. This warning is not a runtime result.
+- BLOCKED: the sandboxed simulator service was unavailable. Host access allowed a new isolated iPhone 17/iOS 27.2 simulator and official Expo Go 58.0.7 installation. Opening the local project stopped at iOS's “Open in Expo Go?” confirmation; Simulator.app was unavailable to interact with it. Expo Go launch of the showcase, UI interactions and product screenshots were therefore not verified. Temporary prompt screenshots are not product evidence. The dedicated simulator was shut down; existing simulators were not changed. No owner legacy visual approval is claimed.
+- NOT RUN: final native preservation comparison and physical iPhone runtime. No native projects were generated. Original and modern tracked runtime files have not been modified.
+- HOSTED: [CI run 45732981570](https://github.com/dvale94/kyrshas-app/actions/runs/45732981570) passed on implementation commit `1776e85`; it does not establish physical runtime or the status of a later documentation commit.
+
+## Startup-crash follow-up
+
+The owner reported an Expo Go startup exception for the removed React Native `InteractionManager`. React Navigation 6's stack card calls that removed API. A scoped manifest change upgrades the JavaScript stack to `@react-navigation/native` 7.5.2 and `@react-navigation/stack` 7.12.2. A startup regression test simulating the throwing React Native getter fails with the original version 6 packages and passes with version 7; all four tests and an iOS bundle export passed using a temporary unlocked install. The owner regenerated the lockfile. A clean `npm ci --ignore-scripts` and all four tests passed against it. Physical Expo Go retest remains outstanding.
+
+The original lockfile's npm audit reported 22 moderate and six high findings; the six high findings are in the navigation 6 dependency chain. The regenerated lockfile's audit reports 22 moderate and zero high findings. The online Expo dependency check now recommends Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`; the check failed and Expo Doctor passed 19/20. No unrelated SDK update was made.
+
+## Delivery
+
+[Draft PR #33](https://github.com/dvale94/kyrshas-app/pull/33) targets `main` from `feat/issue-32-legacy-expo-showcase`. Issue #31 was closed after its owner confirmation and delivery history were reconciled; its unchecked OpenSpec tasks continue to record checks not established. Issue #32 stays open, its OpenSpec change remains unarchived, and owner visual approval remains pending.

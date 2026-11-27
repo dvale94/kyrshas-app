@@ -6,11 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
+    "plugins": [["expo-splash-screen", {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#38761d"
-    },
+    }]],
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -25,7 +25,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/icon.png.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {

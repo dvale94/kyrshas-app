@@ -1,10 +1,20 @@
 # Agent handoff
 
-## Issue #31 — safe-area migration in progress
+## Issue #32 — two-app delivery for review
 
-The modern app now uses Expo-selected `react-native-safe-area-context` 5.11.1 with a root provider and the existing inset boundary; full-bleed scenes remain outside it. Existing behavioral tests use the library Jest mock. See [delivery report](reports/issue-31-safe-area-migration.md) and [OpenSpec tasks](../openspec/changes/closeout-safe-area-migration/tasks.md).
+The original app runs from the repository root and Afterglow from `modernization/expo-next`; the separate showcase was removed. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images. The owner reported the live experience working on an iPhone after correcting the key, before the later Expo dependency alignment; no post-alignment physical-device acceptance or detailed refresh/fidelity review was explicitly recorded.
 
-Pinned full verification passed with network access (140 Jest tests, Expo Doctor 20/20, 38 policy checks); strict OpenSpec and root harness passed. Actual compact/notched Expo Go runtime, warning and native-module behavior remain unverified. Expo Go was absent from the checked booted simulator; do not reuse the old unsigned Debug app as evidence. Physical Expo Go testing remains with the owner. Draft PR and hosted CI status are outstanding until independently observed.
+Both apps now use Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`. Clean installs and Expo Doctor 20/20 passed in both; root tests passed 5, modern verification passed 140 app tests and 38 policy tests, and strict OpenSpec passed 15 changes. Earlier Expo version drift and Doctor failures are historical, not current results. Final native preservation comparison and post-update device checks were not run. The root public Expo API key is visible in the client bundle and requests; it is suitable only as a limited demonstration credential. npm audit reported 22 moderate vulnerabilities and no high or critical findings in each app. See the [delivery report](reports/issue-32-legacy-showcase.md).
+
+### Previous showcase delivery (superseded)
+
+Branch `feat/issue-32-legacy-expo-showcase` contains the isolated port, an unarchived OpenSpec change and the [assessment and verification report](reports/issue-32-legacy-showcase.md). Strict planning validation passed before code. The original screen and interactions use offline fixtures and bundled Afterglow artwork as documented replacements for the original random remote photos. The owner generated the lockfile and copied the image assets. Clean installation, three legacy tests, SDK check, Expo Doctor 20/20 and iOS export pass; modern full verify also passes. [Draft PR #33](https://github.com/dvale94/kyrshas-app/pull/33) is open; [hosted CI](https://github.com/dvale94/kyrshas-app/actions/runs/45732981570) passed on implementation commit `1776e85`. The dedicated simulator reached an iOS Expo Go confirmation prompt that could not be operated here. Physical runtime and owner visual approval are outstanding.
+
+## Issue #31 — safe-area migration closeout
+
+The modern app uses `react-native-safe-area-context` 5.11.1 with a root provider. The owner confirmed on a physical iPhone in Expo Go that the warning is gone and the appearance is unchanged. Other device scenarios, final native preservation comparison and hosted CI for `e3babc0` remain unverified. See the [delivery report](reports/issue-31-safe-area-migration.md) and [OpenSpec tasks](../openspec/changes/closeout-safe-area-migration/tasks.md).
+
+Pinned full verification previously passed with network access (140 Jest tests, Expo Doctor 20/20, 38 policy checks); strict OpenSpec and root harness passed. Commit `e3babc0` was created on `fix/issue-31-safe-area-migration`. Automatic security approval blocked remote push because destination trust could not be established, after which the owner manually pushed to `main`. This was a security safeguard and human intervention, not a branching failure. No retrospective PR was created. Issue #31 is closed; its unperformed checks remain identified in the report and OpenSpec tasks.
 
 ## Issue #29 — Afterglow immersive chapters
 
