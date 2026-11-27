@@ -1,5 +1,7 @@
 # Afterglow implementation roadmap
 
+> **Closeout context:** This is the historical 04A roadmap, not a current instruction to start 04B. Paging, visual foundation and immersive chapters were subsequently delivered in [PR #26](https://github.com/dvale94/kyrshas-app/pull/26), [PR #28](https://github.com/dvale94/kyrshas-app/pull/28) and [PR #30](https://github.com/dvale94/kyrshas-app/pull/30). The owner chose a portfolio closeout rather than further visual phases or release. The [closeout status](../../portfolio/closeout-status.md) records remaining evidence, production and accessibility limitations; the historical rows and gates below remain as planning evidence.
+
 Phase 04A delivers a design contract, not authorization to execute the pilots below. Owner-approved direction comes from [issue #23](https://github.com/dvale94/kyrshas-app/issues/23); [audit](../../migration/afterglow-design-audit.md), [visual specification](visual-specification.md), [interaction model](interaction-model.md), [feasibility/accessibility](feasibility-accessibility.md). Each pilot needs its own complete bounded OpenSpec artifacts, strict validation before implementation, owner-approved scope, report/handoff and draft PR. Do not archive 04A or merge automatically.
 
 ## Phase 04D scope update
