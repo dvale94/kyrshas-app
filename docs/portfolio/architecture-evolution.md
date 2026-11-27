@@ -1,0 +1,12 @@
+# Architecture evolution — working draft
+
+Kyrsha's App began as an Expo 49 JavaScript app with stack navigation and a feed of cards for a friend's daily inspiration. The original history is preserved in Git; today's root app is a compatibility-updated version rather than an untouched historical checkout. The root now uses SDK 58 and live API Ninjas text and unfiltered images. See [PR #33](https://github.com/dvale94/kyrshas-app/pull/33) and the [legacy delivery report](../../.agentic/reports/issue-32-legacy-showcase.md) for the owner-directed restoration, differences and unverified checks.
+
+| Stage | Evidence | Architectural change |
+| --- | --- | --- |
+| Audit and preservation | [Issue #1](https://github.com/dvale94/kyrshas-app/issues/1), [native inventory #3](https://github.com/dvale94/kyrshas-app/issues/3) | Understand the existing app and native assets before modernization. |
+| Isolated modernization | [Scaffold PR #6](https://github.com/dvale94/kyrshas-app/pull/6), [content orchestration PR #14](https://github.com/dvale94/kyrshas-app/pull/14) | A separate TypeScript Expo project and a provider seam support synthetic content and independent asynchronous card loading. |
+| Afterglow | [Design PR #24](https://github.com/dvale94/kyrshas-app/pull/24), [paging PR #26](https://github.com/dvale94/kyrshas-app/pull/26), [visual foundation PR #28](https://github.com/dvale94/kyrshas-app/pull/28), [immersive chapters PR #30](https://github.com/dvale94/kyrshas-app/pull/30) | A bounded sequence introduced vertical chapters, artwork, transitions and adaptive typography. The [visual evidence](../design/afterglow/evidence/issue-29/README.md) documents actual captures and accepted differences from the boards. |
+| Closeout and restoration | [Issue #31](https://github.com/dvale94/kyrshas-app/issues/31), [PR #33](https://github.com/dvale94/kyrshas-app/pull/33) | Safe-area migration preceded the owner's decision to retain two runnable apps and restore the original experience at the root. |
+
+Afterglow defaults to mock content; its [live-local experiment](../migration/expo-next-local-content.md) is explicitly gated and does not make a public client key secret. A production content service remains a separate, deferred architecture decision. The last reported application test counts and the device, CI, dependency and native preservation limits are recorded in the [closeout status](closeout-status.md). The [retrospective](agentic-retrospective.md) explains the human and agent roles and corrections during delivery.

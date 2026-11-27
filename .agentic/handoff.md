@@ -1,5 +1,11 @@
 # Agent handoff
 
+## Issue #34 — portfolio closeout in progress
+
+The owner supplied and reviewed quote, trivia and fact comparisons. The [README](../README.md), [architecture evolution](../docs/portfolio/architecture-evolution.md), [retrospective](../docs/portfolio/agentic-retrospective.md) and [closeout inventory](../docs/portfolio/closeout-status.md) document the two-app portfolio and remaining limitations. The design roadmap retains historical planning with a closeout note. All 16 active OpenSpec changes passed strict validation in this work; the root doctor passed without running app tests. The supplied images matched their original copies, and their README paths resolved. The last reported app test counts and earlier hosted CI remain historical evidence, not new results.
+
+Issue #34 is documentation-only; do not merge, deploy, publish or archive. Preserve unverified post-alignment device, native preservation, accessibility and performance evidence as such. Draft PR and remote push require the normal delivery process and must not bypass security approval. The sections below are historical handoffs, not current work instructions.
+
 ## Issue #32 — two-app delivery for review
 
 The original app runs from the repository root and Afterglow from `modernization/expo-next`; the separate showcase was removed. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images. The owner reported the live experience working on an iPhone after correcting the key, before the later Expo dependency alignment; no post-alignment physical-device acceptance or detailed refresh/fidelity review was explicitly recorded.
