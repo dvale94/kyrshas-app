@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { PropTypes } from "prop-types";
 import { StyleSheet } from 'react-native';
 
 export function TextContainer (props) {
@@ -29,11 +28,6 @@ export function TextContainer (props) {
         }
     </View>
   );
-};
-
-TextContainer.propTypes = {
-    style: PropTypes.object,
-    text: PropTypes.string,
 };
 
 const style = StyleSheet.create({

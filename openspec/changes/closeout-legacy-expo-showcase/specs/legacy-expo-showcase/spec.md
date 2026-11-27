@@ -2,34 +2,38 @@
 
 ## Purpose
 
-Enable an independently runnable, safe comparison of the original experience with the approved modern application.
+Enable independently runnable original and modern applications for an owner-reviewed comparison.
 
 ## ADDED Requirements
 
-### Requirement: Faithful legacy showcase
-The showcase SHALL preserve the original experience's visual identity, content structure, navigation and representative interactions, subject to documented compatibility and synthetic-data differences. It SHALL exclude the historical birthday feature.
+### Requirement: Faithful legacy experience
+The original root app SHALL retain its visual identity, content structure, navigation and representative interactions, subject to documented compatibility and synthetic-data differences. It SHALL exclude the historical birthday feature.
 
-#### Scenario: Reviewer explores the showcase
-- **WHEN** a reviewer opens and interacts with the showcase
+#### Scenario: Reviewer explores the original app
+- **WHEN** a reviewer opens and interacts with the root app
 - **THEN** the presentation and interactions reflect the documented historical source baseline and deviations are disclosed
 
-### Requirement: Safe deterministic content
-The showcase SHALL use safe deterministic local content without historical credentials, live provider calls or remote photo downloads by default.
+### Requirement: Local text and live images
+The root app SHALL use synthetic local text and retrieve random images from the original image provider using the owner's locally configured key. It SHALL not use historical credentials.
 
-#### Scenario: Showcase starts offline
-- **WHEN** the showcase starts without network access to content providers
-- **THEN** its representative content is available from local synthetic fixtures
+#### Scenario: Image cards load
+- **WHEN** the app displays an image-backed card with a configured key and an available provider
+- **THEN** it requests a random image from the provider while keeping card text local
+
+#### Scenario: Image provider unavailable
+- **WHEN** an image cannot be retrieved
+- **THEN** the app remains usable without exposing the key or provider error details
 
 ### Requirement: Independent local operation
-The legacy showcase and modern application SHALL be independently runnable in compatible Expo Go clients, with documented clean-install and launch commands and distinct Metro ports when run concurrently.
+The root legacy app and modern application SHALL be independently runnable in compatible Expo Go clients with documented clean-install commands and distinct Metro ports when concurrent.
 
 #### Scenario: Both applications are started
 - **WHEN** a developer follows the documented commands for both applications
 - **THEN** each application uses its own workspace and Metro port
 
 ### Requirement: Preservation and evidence
-The historical and modern application source SHALL remain unchanged by this showcase, and the delivery SHALL distinguish verified results from unavailable runtime or hosted checks.
+The modern application and existing native projects SHALL remain unchanged, and delivery SHALL distinguish verified results from unavailable runtime or hosted checks.
 
 #### Scenario: Reviewer evaluates delivery
 - **WHEN** the reviewer inspects the report
-- **THEN** it identifies the historical source baseline, differences, verification outcomes and pending owner visual approval
+- **THEN** it identifies the historical baseline, differences, verification outcomes and pending owner visual approval

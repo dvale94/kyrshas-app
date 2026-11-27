@@ -1,12 +1,14 @@
-import { useCallback, useState } from 'react';
-import { Image, Icon } from '@rneui/themed';
-import { PropTypes } from "prop-types";
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { TextContainer } from './TextContainer';
 
 export function ContentContainer (props) {
   const [isrefreshing, setIsRefreshing]= useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
+  useEffect(() => { setImageFailed(false); }, [props.image?.revision]);
+  const hasImage = Boolean(props.image && !imageFailed);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -20,43 +22,23 @@ export function ContentContainer (props) {
         <Text style={style.title}>{props.title.toUpperCase()}</Text>
         <Pressable style={style.pressContainer} onPress={handleRefresh}>
           {!isrefreshing ? (
-            <Icon
-              name='refresh'
-              type='font-awesome'
-              color='#38761d'
-            />
+            <FontAwesome name='refresh' size={24} color='#38761d' />
           ):(
             <ActivityIndicator color='#38761d'/>
           )}
         </Pressable>
       </View>
-      <View style={props.image ? style.imageContainer : style.imageContainerAlt}>
-        {props.image && <Image
-          containerStyle={style.image}
-          {...(
-            props.title === 'happy birthday!!!' ? {
-              source: props.image
-            } : {
-              src: `data:image/jpeg;base64,${props.image}`
-            }
-          )}
-          // src={`data:image/jpeg;base64,${props.image}`}
-        />}
+      <View style={hasImage ? style.imageContainer : style.imageContainerAlt}>
+        {hasImage && <Image testID='legacy-card-image' key={props.image.revision} source={props.image.source} style={style.image} resizeMode='contain' onError={() => setImageFailed(true)} />}
         <TextContainer
           author={props.author}
           answer={props.answer}
-          style={props.image ? style.textContainer : style.textContainerAlt}
+          style={hasImage ? style.textContainer : style.textContainerAlt}
           text={props.text}
         />
       </View>
     </View>
   );
-};
-
-ContentContainer.propTypes = {
-  image: PropTypes.string,
-  text: PropTypes.string,
-  title: PropTypes.string
 };
 
 const style = StyleSheet.create({
@@ -77,6 +59,7 @@ const style = StyleSheet.create({
     width: '100%',
   },
   image: {
+    width: '100%',
     aspectRatio: 1,
     borderRadius: 16,
     objectFit: 'contain',

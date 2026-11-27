@@ -1,6 +1,10 @@
 # Agent handoff
 
-## Issue #32 — legacy showcase in progress
+## Issue #32 — root legacy app migration in progress
+
+The owner replaced the separate-showcase approach with a runnable original root app plus unchanged Afterglow. Tracked showcase files were removed; ignored generated files remain. Root uses Navigation 7 and owner-authorized unfiltered live API Ninjas images with synthetic text; root `.env` was not read by the agent. Root clean install, four tests and iOS bundle pass with dotenv disabled. Expo compatibility metadata now expects newer SDK versions; both root Doctor and the modern full verify report that drift. Actual live image/phone behavior and owner visual review remain unverified. See the [current report](reports/issue-32-legacy-showcase.md).
+
+### Previous showcase delivery (superseded)
 
 Branch `feat/issue-32-legacy-expo-showcase` contains the isolated port, an unarchived OpenSpec change and the [assessment and verification report](reports/issue-32-legacy-showcase.md). Strict planning validation passed before code. The original screen and interactions use offline fixtures and bundled Afterglow artwork as documented replacements for the original random remote photos. The owner generated the lockfile and copied the image assets. Clean installation, three legacy tests, SDK check, Expo Doctor 20/20 and iOS export pass; modern full verify also passes. [Draft PR #33](https://github.com/dvale94/kyrshas-app/pull/33) is open; [hosted CI](https://github.com/dvale94/kyrshas-app/actions/runs/45732981570) passed on implementation commit `1776e85`. The dedicated simulator reached an iOS Expo Go confirmation prompt that could not be operated here. Physical runtime and owner visual approval are outstanding.
 

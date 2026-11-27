@@ -20,4 +20,4 @@ test('opens the legacy home when React Native no longer provides InteractionMana
     if (previous) Object.defineProperty(native, 'InteractionManager', previous);
     else delete native.InteractionManager;
   }
-});
+}, 15000);

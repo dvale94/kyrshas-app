@@ -2,20 +2,20 @@
 
 ## Why
 
-The owner approved Afterglow and wants a runnable before-and-after portfolio comparison. The original Expo 49 application cannot be assumed compatible with a current Expo Go client, and its live content configuration must not be reused.
+The owner wants two runnable experiences, with the original app at the repository root and Afterglow in its existing workspace. The original SDK 49 requires compatibility changes. The owner wants the original live image provider with a locally configured key, while keeping card text synthetic.
 
 ## What Changes
 
-- Create a separately runnable legacy Expo Go showcase grounded in the original source and assets, using safe deterministic content and documented compatibility changes.
-- Keep the original and modern application source unchanged, exclude the historical birthday feature, and provide independent launch instructions.
-- Reconcile issue #31 evidence, including the owner's iPhone confirmation and the security-review block followed by the owner's manual push.
-- Validate both workspaces and document actual runtime and hosted-check limitations; seek owner visual approval before merge.
+- Adapt the original root application for Expo Go with synthetic local text and owner-authorized live random images, retaining its visual identity and interactions.
+- Remove the separate legacy showcase after moving necessary compatibility work into the root app.
+- Preserve the modern workspace and native trees; historical root source remains available in Git history.
+- Document compatibility differences, launch instructions and actual verification; owner retains final visual approval.
 
 ## Capabilities
 
 ### New Capabilities
 
-- `legacy-expo-showcase`: A safe, independently runnable and historically grounded legacy experience alongside Afterglow.
+- `legacy-expo-showcase`: Independently runnable legacy and modern experiences.
 
 ### Modified Capabilities
 
@@ -23,4 +23,4 @@ None.
 
 ## Impact
 
-Adds an isolated workspace and its dependencies, lockfile, tests, documentation, and evidence. Does not change root or modern runtime code, native projects, production services, or credentials. Final dependency and compatibility decisions require direct source and installed-toolchain assessment before implementation.
+Root legacy runtime, configuration, dependencies, lockfile, tests and documentation; removal of the redundant showcase. No modern app changes, native regeneration, historical credential use or release.

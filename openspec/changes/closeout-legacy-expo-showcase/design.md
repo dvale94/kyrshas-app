@@ -2,24 +2,23 @@
 
 ## Context
 
-The historical source at baseline `e3babc05ee077da1f95439353fe9e2b4184f260b` uses Expo 49, React Navigation's JavaScript stack, RNEUI images/icons and a FlatList with five content types. The last commit touching the examined legacy entry, screen or provider files is `5a6dc07e5caca78495128253df8c1e69229aedea`. The provider downloads random images and text; the birthday data path is excluded. The existing audit documents native package mismatches and the risk of historical configuration. The modern workspace uses SDK 58 and Node 22.23.4.
+The owner explicitly authorizes compatibility changes to the original root app and removal of the separate showcase. Baseline `e3babc05ee077da1f95439353fe9e2b4184f260b` preserves the historical implementation in Git. The root app uses a stack navigator, five cards and a remote provider. Birthday content remains excluded.
 
 ## Goals / Non-Goals
 
-**Goals:** Retain the original component structure, styling and interactions in a self-contained workspace with safe fixtures, and record every necessary deviation.
+**Goals:** Run the original root app in compatible Expo Go alongside unchanged Afterglow, retaining its presentation and interactions with synthetic text and live random images.
 
-**Non-Goals:** Production data, account access, native regeneration, birthday content, release, or changes to either existing app.
+**Non-Goals:** Native regeneration, deployment, historical credential reuse, modern application changes, or redesign.
 
 ## Decisions
 
-- Copy the original entry and home component implementation into an isolated workspace and adapt only what SDK compatibility and offline deterministic data require. This avoids the fidelity risk of a visual reimplementation. Keep the original files unchanged.
-- Replace the provider and birthday path with deterministic local records preserving IDs, ordering, attribution, answer toggles and refresh callbacks. Use safe bundled imagery with documented substitutions; no provider requests or historical configuration. Retaining live endpoints would require credentials and network availability.
-- Align Expo, React and React Native with the established SDK 58 modern workspace where compatible; use an independent lockfile and verify navigation/UI library compatibility. Expo Go requires a matching SDK; an SDK 49 bundle cannot be assumed runnable on a current iPhone. Retain original navigation and UI libraries if compatible; document any necessary substitute.
-- Keep separate Metro ports, 8082 for legacy and 8081 for modern. Disable dotenv loading in scripts. Verification must distinguish package checks, bundles, simulator/device observations, and owner visual acceptance.
+- Adapt original root components in place and retain their visual styles, rather than maintaining a third workspace. Preserve native trees and app identity configuration.
+- Keep text in deterministic fixtures and restore API Ninjas random image requests using the owner's local Expo public environment key. The key is client-readable in Expo bundles and must not be reused from historical configuration or printed. Keep the app usable if images fail; the owner selected unfiltered requests because category and dimension parameters require a paid tier.
+- Align root Expo and native packages with a compatible SDK and use the verified Navigation 7 stack. Maintain an independent root lockfile and use port 8082; Afterglow remains on 8081.
+- Remove the redundant showcase only after its needed behavior, tests and assets are available at root. Preserve prior source in Git history and record intentional differences.
 
 ## Risks / Trade-offs
 
-- [SDK and third-party compatibility] → run Expo compatibility and doctor checks, test navigation and rendering, and document unresolved runtime limitations.
-- [Random remote images cannot be reproduced] → bundle safe substitutes and disclose their source and visual differences.
-- [Expo Go runtime not available] → record blocked status and provide physical-iPhone instructions; do not claim visual fidelity.
-- [Historic native state and credentials] → leave original files and native trees untouched; do not inspect private environments or import legacy configuration.
+- [Root compatibility updates affect historical working files] → preserve historical baseline in Git and restrict changes to the authorized runnable legacy scope.
+- [Native trees and app identity] → never prebuild, regenerate, delete or alter existing native trees; document unknown installed-user compatibility.
+- [Runtime and visual fidelity] → verify in Expo Go when available and leave owner approval pending otherwise.

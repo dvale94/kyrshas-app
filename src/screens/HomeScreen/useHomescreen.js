@@ -1,52 +1,44 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ApiProvider } from '../../api/ApiProvider';
-import { getBirthdayData } from './birthdayData/data';
+// Text stays local; each image card requests an unfiltered image from API Ninjas.
+const fixtures = [
+  { key: 'quoteContent', id: 'quote', title: 'quote', hasImage: true, values: [
+    { text: '"A small step can start a great journey."', author: 'A Friend' },
+    { text: '"Every day has room for a little wonder."', author: 'A Friend' }
+  ] },
+  { key: 'triviaContent', id: 'trivia', title: 'trivia', values: [
+    { text: 'Which planet is known as the Red Planet?', answer: 'Mars' },
+    { text: 'How many sides does a hexagon have?', answer: 'Six' }
+  ] },
+  { key: 'factContent', id: 'fact', title: 'fact', hasImage: true, values: [
+    { text: 'Octopuses have three hearts.' }, { text: 'Honeybees communicate through movement.' }
+  ] },
+  { key: 'dadJokeContent', id: 'dad joke', title: 'dad joke', values: [
+    { text: 'Why did the bicycle take a nap? It was two-tired.' },
+    { text: 'What do you call a sleeping bull? A bulldozer.' }
+  ] },
+  { key: 'bucketListContent', id: 'bucket list item', title: 'bucket list item', hasImage: true, values: [
+    { text: 'Watch a sunrise from a new place.' }, { text: 'Try a new recipe with a friend.' }
+  ] }
+];
 
-export function useHomeScreen () {
-  const [data, setData] = useState({});
-  const date = useMemo(() => new Date());
-
+export function useHomeScreen() {
+  const [revisions, setRevisions] = useState({});
+  const [data, setData] = useState([]);
   useEffect(() => {
-    async function fetchData() {
-      const month = date.getMonth();
-      const day = date.getDate();
-      const apiCalls = [];
-      const order = [];
-      const responses = {};
-
-      if (month === 9 && day === 3) {
-        order.push('birthdayContent');
-        apiCalls.push(getBirthdayData(setData));
-      }
-
-      const apiFunctions = [
-        { name: 'quoteContent', func: ApiProvider.getQuoteData },
-        { name: 'triviaContent', func: ApiProvider.getTriviaData },
-        { name: 'factContent', func: ApiProvider.getFactData },
-        { name: 'dadJokeContent', func: ApiProvider.getDadJokeData },
-        { name: 'bucketListContent', func: ApiProvider.getBucketListData }
-      ];
-
-      for (const { name, func } of apiFunctions) {
-        order.push(name);
-        apiCalls.push(func(setData));
-      }
-
-      const results = await Promise.all(apiCalls);
-
-      for (let i = 0; i < order.length; i++) {
-        responses[order[i]] = results[i];
-      }
-
-      setData(responses);
-      
-    };
-
-    fetchData().catch(console.error)
-  },[])
-
-  return {
-    data: Object.values(data)
-  }
+    const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+    setData(fixtures.map(({ key, values, hasImage, ...card }) => {
+      const revision = revisions[key] || 0;
+      return {
+        ...card,
+        ...values[revision % values.length],
+        image: hasImage && apiKey ? {
+          revision,
+          source: { uri: 'https://api.api-ninjas.com/v1/randomimage', headers: { 'X-Api-Key': apiKey, Accept: 'image/jpg' }, cache: 'reload' }
+        } : null,
+        onRefresh: async () => setRevisions(previous => ({ ...previous, [key]: (previous[key] || 0) + 1 }))
+      };
+    }));
+  }, [revisions]);
+  return { data };
 }
