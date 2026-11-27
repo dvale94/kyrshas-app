@@ -2,11 +2,11 @@
 
 ## Why
 
-The owner wants two runnable experiences, with the original app at the repository root and Afterglow in its existing workspace. The original SDK 49 requires compatibility changes. The owner wants the original live image provider with a locally configured key, while keeping card text synthetic.
+The owner wants two runnable experiences, with the original app at the repository root and Afterglow in its existing workspace. The original SDK 49 requires compatibility changes. The owner wants the original live content and image provider with a locally configured key.
 
 ## What Changes
 
-- Adapt the original root application for Expo Go with synthetic local text and owner-authorized live random images, retaining its visual identity and interactions.
+- Adapt the original root application for Expo Go with owner-authorized live random content and images, retaining its visual identity and interactions.
 - Remove the separate legacy showcase after moving necessary compatibility work into the root app.
 - Preserve the modern workspace and native trees; historical root source remains available in Git history.
 - Document compatibility differences, launch instructions and actual verification; owner retains final visual approval.

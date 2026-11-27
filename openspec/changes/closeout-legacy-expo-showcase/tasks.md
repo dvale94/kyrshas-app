@@ -7,7 +7,7 @@
 
 ## 2. Root legacy application
 
-- [ ] 2.1 Adapt original root dependencies and runtime for compatible Expo Go with local text and owner-authorized live images; verify clean installation, Expo config and compatibility.
+- [ ] 2.1 Adapt original root dependencies and runtime for compatible Expo Go with owner-authorized live text and images; verify clean installation, Expo config and compatibility.
 - [ ] 2.2 Preserve original card layouts, navigation, refresh and trivia interactions; verify representative tests and document differences.
 - [x] 2.3 Remove the redundant showcase after required assets and tests are retained, and document independent root and modern launch commands.
 

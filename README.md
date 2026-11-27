@@ -12,7 +12,7 @@ npm ci
 npm start
 ```
 
-The original app serves Metro on port 8082. Its card text is synthetic; random images use the root `.env` variable `EXPO_PUBLIC_API_KEY` for API Ninjas. Expo public environment variables are included in the app bundle and must not be treated as private. The free-tier image requests are unfiltered. If the key or network is unavailable, cards remain usable without images.
+The original app serves Metro on port 8082. Its card text and random images use the root `.env` variable `EXPO_PUBLIC_API_KEY` for API Ninjas. Expo public environment variables are included in the app bundle and must not be treated as private. The free-tier image requests are unfiltered. If the key or network is unavailable, cards show an unavailable message and can be retried.
 
 Run Afterglow independently in a separate terminal:
 

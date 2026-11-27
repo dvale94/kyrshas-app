@@ -13,12 +13,12 @@ The original root app SHALL retain its visual identity, content structure, navig
 - **WHEN** a reviewer opens and interacts with the root app
 - **THEN** the presentation and interactions reflect the documented historical source baseline and deviations are disclosed
 
-### Requirement: Local text and live images
-The root app SHALL use synthetic local text and retrieve random images from the original image provider using the owner's locally configured key. It SHALL not use historical credentials.
+### Requirement: Live content and images
+The root app SHALL retrieve random card text and images from API Ninjas using the owner's locally configured key. It SHALL not use historical credentials.
 
 #### Scenario: Image cards load
 - **WHEN** the app displays an image-backed card with a configured key and an available provider
-- **THEN** it requests a random image from the provider while keeping card text local
+- **THEN** it requests random content and images from the provider
 
 #### Scenario: Image provider unavailable
 - **WHEN** an image cannot be retrieved
