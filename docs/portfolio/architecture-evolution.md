@@ -1,4 +1,4 @@
-# Architecture evolution — working draft
+# Architecture evolution
 
 Kyrsha's App began as an Expo 49 JavaScript app with stack navigation and a feed of cards for a friend's daily inspiration. The original history is preserved in Git; today's root app is a compatibility-updated version rather than an untouched historical checkout. The root now uses SDK 58 and live API Ninjas text and unfiltered images. See [PR #33](https://github.com/dvale94/kyrshas-app/pull/33) and the [legacy delivery report](../../.agentic/reports/issue-32-legacy-showcase.md) for the owner-directed restoration, differences and unverified checks.
 

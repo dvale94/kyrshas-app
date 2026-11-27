@@ -1,6 +1,6 @@
 # Agentic development retrospective
 
-This is a working draft for owner review. It describes a human-directed sequence of bounded pilots; it does not assert that the project was implemented autonomously or that every proposed check was completed.
+This retrospective describes a human-directed sequence of bounded pilots. It does not assert that the project was implemented autonomously or that every proposed check was completed.
 
 ## Roles and decisions
 
