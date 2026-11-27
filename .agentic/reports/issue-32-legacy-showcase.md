@@ -8,6 +8,14 @@ The owner directed that only two versions remain: the original app at repository
 
 After correcting the local API key, the owner confirmed images work and requested live text rather than fixtures. The owner subsequently reported that the live experience is good on the phone. The root app now requests current free-tier API Ninjas quote, trivia, fact, dad joke and bucket-list endpoints independently; random quotes use the v2 random endpoint and trivia omits premium-only filters. The original image request remains. Tests use synthetic responses and never load the owner's key. The owner reports the live experience is good; separate detailed refresh and visual-fidelity checks were not recorded. The Expo public key remains readable in the client bundle. No modern application changes were made.
 
+## Current delivery, security and evidence limits
+
+The final structure is the original application at the repository root and Afterglow at `modernization/expo-next`; no separate showcase application remains. The owner reported the legacy app and live content working on a physical iPhone before the subsequent Expo dependency alignment. No post-alignment physical-device acceptance or detailed visual and refresh verification has been explicitly recorded. Final native preservation comparison, generated Xcode target, built plist, signing, runtime links and device behavior after alignment were not verified; no native regeneration was performed.
+
+The root app uses `EXPO_PUBLIC_API_KEY` for direct API Ninjas calls. Expo public variables are embedded in client code and the key is visible to users and in requests; an ignored `.env` prevents accidental local-file commits but does not make that credential secret in the app. Use a restricted demonstration key and do not treat this design as a production secret boundary.
+
+A pattern-based scan of added text in the committed PR diff found no credential-shaped literals; it did not inspect historical credentials or prove that every possible secret format is absent. No root `.env` file is tracked; the tracked modern `.env.example` is a template. On the latest npm audit, each app reported 22 moderate vulnerabilities and zero high or critical vulnerabilities. No dependency remediation was performed in this documentation closeout. Earlier failures and successful later checks are retained below with their historical context.
+
 ## Expo dependency alignment follow-up
 
 The owner approved updating Expo in both apps. Both now specify Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`. Clean installs passed; the root suite passed 5 tests and Expo Doctor passed 20/20 checks. The modern verification passed 140 app tests, 38 development policy tests, type checking, configuration, Expo dependency validation, and Expo Doctor 20/20. Strict OpenSpec validation passed all 15 changes. The owner's iPhone confirmation predates this dependency update; a new device check remains outstanding.
@@ -29,7 +37,9 @@ Expo 49 and its native dependencies cannot be assumed to run in a current Expo G
 - The birthday path is excluded. Native safe-area context replaces the deprecated React Native safe-area view. Refresh clears its spinner even on an error. Accessibility labels were added to refresh controls. Display name and slug distinguish the showcase; historical splash and icon configuration are not copied.
 - The original JavaScript stack is retained but its packages require version 7 for React Native 0.88 compatibility; the owner reported the version 6 InteractionManager startup crash on an iPhone. The original splash/icon configuration is not copied. Physical Expo Go behavior after this change and owner visual approval remain outstanding; a bundle alone does not establish them.
 
-## Verification so far
+## Historical showcase verification (superseded where noted)
+
+The following results describe the earlier separate-showcase implementation and should not be read as current root-app results. Its device and preservation limitations describe the point in time when those checks were attempted.
 
 - PASS: strict OpenSpec validation of the new change and all 15 active changes before showcase implementation.
 - PASS: clean locked `npm ci --no-audit --no-fund`, three showcase component/fixture tests, public Expo config, online SDK dependency check, Expo Doctor 20/20 and iOS JavaScript export including all three local images. The tests cover card order, independent refresh, trivia toggle and image-backed rendering; these checks do not establish actual device behavior. No standalone JavaScript typecheck is configured.

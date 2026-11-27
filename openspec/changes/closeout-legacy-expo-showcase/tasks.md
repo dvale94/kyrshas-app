@@ -14,5 +14,5 @@
 ## 3. Integration and delivery
 
 - [x] 3.1 Run legacy tests and bundle, unchanged modern verification, strict OpenSpec and root harness; record actual results.
-- [ ] 3.2 Attempt Expo Go runtime verification and retain representative evidence only; record blockers and owner visual approval status.
-- [ ] 3.3 Review scope and preservation, update report and handoff, and update the draft PR with actual hosted-check status.
+- [x] 3.2 Attempt Expo Go runtime verification and record evidence and limitations: owner reported root live content working on an iPhone before Expo alignment; post-alignment device acceptance and detailed visual review remain unconfirmed.
+- [x] 3.3 Review scope and preservation and update report, handoff and draft PR; record hosted checks only when verified. Final native preservation comparison remains unverified.

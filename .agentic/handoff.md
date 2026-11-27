@@ -1,8 +1,10 @@
 # Agent handoff
 
-## Issue #32 — root legacy app migration in progress
+## Issue #32 — two-app delivery for review
 
-The owner replaced the separate-showcase approach with a runnable original root app plus unchanged Afterglow. Tracked showcase files and the remaining generated directory were removed at the owner's request. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images; root `.env` was not read by the agent. The owner reports the live experience is good on the phone after correcting the key; separate detailed refresh and visual-fidelity checks were not recorded. Root clean install, four tests and iOS bundle pass with dotenv disabled. Expo compatibility metadata now expects newer SDK versions; both root Doctor and the modern full verify report that drift. Actual live image/phone behavior and owner visual review remain unverified. See the [current report](reports/issue-32-legacy-showcase.md).
+The original app runs from the repository root and Afterglow from `modernization/expo-next`; the separate showcase was removed. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images. The owner reported the live experience working on an iPhone after correcting the key, before the later Expo dependency alignment; no post-alignment physical-device acceptance or detailed refresh/fidelity review was explicitly recorded.
+
+Both apps now use Expo `~58.1.0`, expo-splash-screen `~58.0.15`, and jest-expo `~58.0.16`. Clean installs and Expo Doctor 20/20 passed in both; root tests passed 5, modern verification passed 140 app tests and 38 policy tests, and strict OpenSpec passed 15 changes. Earlier Expo version drift and Doctor failures are historical, not current results. Final native preservation comparison and post-update device checks were not run. The root public Expo API key is visible in the client bundle and requests; it is suitable only as a limited demonstration credential. npm audit reported 22 moderate vulnerabilities and no high or critical findings in each app. See the [delivery report](reports/issue-32-legacy-showcase.md).
 
 ### Previous showcase delivery (superseded)
 
