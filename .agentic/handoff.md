@@ -2,7 +2,7 @@
 
 ## Issue #32 — root legacy app migration in progress
 
-The owner replaced the separate-showcase approach with a runnable original root app plus unchanged Afterglow. Tracked showcase files were removed; ignored generated files remain. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images; root `.env` was not read by the agent. The owner confirmed images work after correcting the key; live text still needs device verification. Root clean install, four tests and iOS bundle pass with dotenv disabled. Expo compatibility metadata now expects newer SDK versions; both root Doctor and the modern full verify report that drift. Actual live image/phone behavior and owner visual review remain unverified. See the [current report](reports/issue-32-legacy-showcase.md).
+The owner replaced the separate-showcase approach with a runnable original root app plus unchanged Afterglow. Tracked showcase files and the remaining generated directory were removed at the owner's request. Root uses Navigation 7 and owner-authorized live API Ninjas text and unfiltered images; root `.env` was not read by the agent. The owner reports the live experience is good on the phone after correcting the key; separate detailed refresh and visual-fidelity checks were not recorded. Root clean install, four tests and iOS bundle pass with dotenv disabled. Expo compatibility metadata now expects newer SDK versions; both root Doctor and the modern full verify report that drift. Actual live image/phone behavior and owner visual review remain unverified. See the [current report](reports/issue-32-legacy-showcase.md).
 
 ### Previous showcase delivery (superseded)
 
